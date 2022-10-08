@@ -10,18 +10,18 @@ import jssf.random.ICRandom;
 import jssf.random.TCJava48BitLcg;
 
 /**
- * CR-FM-NES‚ğ3sÀs‚·‚é‚½‚ß‚ÌƒvƒƒOƒ‰ƒ€D
- * Šes‚É‚¨‚¢‚ÄCW’c’†‚ÌÅ—Ç•]‰¿’l‚Ì„ˆÚ‚ÌƒƒMƒ“ƒO‚ğs‚Á‚Ä‚¢‚éD
- * ƒƒOƒtƒ@ƒCƒ‹‚ÍCSVƒtƒH[ƒ}ƒbƒg‚Åo—Í‚³‚ê‚éD
- * ÀŒ±İ’è‚ÍˆÈ‰º‚Ì’Ê‚èF
- * ƒxƒ“ƒ`ƒ}[ƒNŠÖ”Fk-tablet (k=n/4)C
- * ŸŒ³”Fn=20C
- * ‰Šú‰»—ÌˆæF[+1,+5]^nC
+ * CR-FM-NESã‚’3è©¦è¡Œå®Ÿè¡Œã™ã‚‹ãŸã‚ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ï¼
+ * å„è©¦è¡Œã«ãŠã„ã¦ï¼Œé›†å›£ä¸­ã®æœ€è‰¯è©•ä¾¡å€¤ã®æ¨ç§»ã®ãƒ­ã‚®ãƒ³ã‚°ã‚’è¡Œã£ã¦ã„ã‚‹ï¼
+ * ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã¯CSVãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã§å‡ºåŠ›ã•ã‚Œã‚‹ï¼
+ * å®Ÿé¨“è¨­å®šã¯ä»¥ä¸‹ã®é€šã‚Šï¼š
+ * ãƒ™ãƒ³ãƒãƒãƒ¼ã‚¯é–¢æ•°ï¼šk-tablet (k=n/4)ï¼Œ
+ * æ¬¡å…ƒæ•°ï¼šn=20ï¼Œ
+ * åˆæœŸåŒ–é ˜åŸŸï¼š[+1,+5]^nï¼Œ
  * => m = [3,...,3]^T, sigma = 1
- * ƒTƒ“ƒvƒ‹ƒTƒCƒYFnC
- * ‘Å‚¿Ø‚è•]‰¿‰ñ”Fn ~ 1e5C
- * ‘Å‚¿Ø‚è•]‰¿’lF1.0 ~ 1e-7D
- * ƒƒOƒtƒ@ƒCƒ‹–¼FRexJggOffsetKTabletP14K5.csv
+ * ã‚µãƒ³ãƒ—ãƒ«ã‚µã‚¤ã‚ºï¼šnï¼Œ
+ * æ‰“ã¡åˆ‡ã‚Šè©•ä¾¡å›æ•°ï¼šn Ã— 1e5ï¼Œ
+ * æ‰“ã¡åˆ‡ã‚Šè©•ä¾¡å€¤ï¼š1.0 Ã— 1e-7ï¼
+ * ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åï¼šRexJggOffsetKTabletP14K5.csv
  *
  * @author isao
  *
@@ -29,14 +29,14 @@ import jssf.random.TCJava48BitLcg;
 public class TCrFmNesM {
 
 	/**
-	 * k-tabletŠÖ” (k=n/4)
-	 * @param s ŒÂ‘Ì
+	 * k-tableté–¢æ•° (k=n/4)
+	 * @param s å€‹ä½“
 	 */
 	private static double ktablet(TCMatrix x) {
 		int k = (int)((double)x.getDimension() /4.0); //k=n/4
-		double result = 0.0; //•]‰¿’l‚ğ‰Šú‰»
+		double result = 0.0; //è©•ä¾¡å€¤ã‚’åˆæœŸåŒ–
 		for (int i = 0; i < x.getDimension(); ++i) {
-			double xi = x.getValue(i); //i”Ô–Ú‚ÌŸŒ³‚Ì—v‘f
+			double xi = x.getValue(i); //iç•ªç›®ã®æ¬¡å…ƒã®è¦ç´ 
 			if (i < k) {
 				result += xi * xi;
 			} else {
@@ -54,13 +54,13 @@ public class TCrFmNesM {
 	}
 
 	/**
-	 * Å—Ç•]‰¿’l‚ğƒƒOƒe[ƒuƒ‹‚É‹L˜^‚·‚éD
-	 * @param log ƒƒOƒe[ƒuƒ‹
-	 * @param trialName s–¼DƒƒOƒe[ƒuƒ‹‚Ìƒ‰ƒxƒ‹‚Ég‚í‚ê‚éD
-	 * @param trialNo s”Ô†DƒƒOƒe[ƒuƒ‹‚Ìƒ‰ƒxƒ‹‚Ég‚í‚ê‚éD
-	 * @param index s”‚Ì“Yš
-	 * @param noOfEvals •]‰¿‰ñ”
-	 * @param bestEvaluationValue Å—Ç•]‰¿’l
+	 * æœ€è‰¯è©•ä¾¡å€¤ã‚’ãƒ­ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«ã«è¨˜éŒ²ã™ã‚‹ï¼
+	 * @param log ãƒ­ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«
+	 * @param trialName è©¦è¡Œåï¼ãƒ­ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«ã®ãƒ©ãƒ™ãƒ«ã«ä½¿ã‚ã‚Œã‚‹ï¼
+	 * @param trialNo è©¦è¡Œç•ªå·ï¼ãƒ­ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«ã®ãƒ©ãƒ™ãƒ«ã«ä½¿ã‚ã‚Œã‚‹ï¼
+	 * @param index è¡Œæ•°ã®æ·»å­—
+	 * @param noOfEvals è©•ä¾¡å›æ•°
+	 * @param bestEvaluationValue æœ€è‰¯è©•ä¾¡å€¤
 	 */
 	private static void putLogData(TCTable log, String trialName, int trialNo, int index, long noOfEvals, double bestEvaluationValue) {
 		log.putData(index, "NoOfEvals", noOfEvals);
@@ -68,63 +68,63 @@ public class TCrFmNesM {
 	}
 
 	/**
-	 * 1s‚ğÀs‚·‚éD
+	 * 1è©¦è¡Œã‚’å®Ÿè¡Œã™ã‚‹ï¼
 	 * @param ga GA
-	 * @param maxEvals ‘Å‚¿Ø‚è•]‰¿‰ñ”
-	 * @param log ƒƒOƒe[ƒuƒ‹
-	 * @param trialName s–¼DƒƒOƒe[ƒuƒ‹‚Ìƒ‰ƒxƒ‹‚Ég‚í‚ê‚éD
-	 * @param trialNo s”Ô†DƒƒOƒe[ƒuƒ‹‚Ìƒ‰ƒxƒ‹‚Ég‚í‚ê‚éD
+	 * @param maxEvals æ‰“ã¡åˆ‡ã‚Šè©•ä¾¡å›æ•°
+	 * @param log ãƒ­ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«
+	 * @param trialName è©¦è¡Œåï¼ãƒ­ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«ã®ãƒ©ãƒ™ãƒ«ã«ä½¿ã‚ã‚Œã‚‹ï¼
+	 * @param trialNo è©¦è¡Œç•ªå·ï¼ãƒ­ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«ã®ãƒ©ãƒ™ãƒ«ã«ä½¿ã‚ã‚Œã‚‹ï¼
 	 */
 	private static void executeOneTrial(TCrFmNes crfmnes, long maxEvals, TCTable log, String trialName, int trialNo) {
-		long noOfEvals = 0; //•]‰¿‰ñ”‚ğ‰Šú‰»D
-		double best = Double.MAX_VALUE; //Å—Ç•]‰¿’l
-		int logIndex = 0; //ƒƒOƒe[ƒuƒ‹‚Ìs‚Ì“Yš‚ğ‰Šú‰»D
-		int loopCount = 0; //ƒ‹[ƒvƒJƒEƒ“ƒ^‚ğ‰Šú‰»‚·‚éD
+		long noOfEvals = 0; //è©•ä¾¡å›æ•°ã‚’åˆæœŸåŒ–ï¼
+		double best = Double.MAX_VALUE; //æœ€è‰¯è©•ä¾¡å€¤
+		int logIndex = 0; //ãƒ­ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«ã®è¡Œã®æ·»å­—ã‚’åˆæœŸåŒ–ï¼
+		int loopCount = 0; //ãƒ«ãƒ¼ãƒ—ã‚«ã‚¦ãƒ³ã‚¿ã‚’åˆæœŸåŒ–ã™ã‚‹ï¼
     double start = System.currentTimeMillis();
-		while (best > 1e-7 && noOfEvals < maxEvals) { //I—¹ğŒDÅ—Ç’l‚ª10^-7ˆÈ‰ºC‚à‚µ‚­‚ÍC•]‰¿‰ñ”‚ª‘Å‚¿Ø‚è•]‰¿‰ñ”‚ğ’´‚¦‚½‚Æ‚«D
+		while (best > 1e-7 && noOfEvals < maxEvals) { //çµ‚äº†æ¡ä»¶ï¼æœ€è‰¯å€¤ãŒ10^-7ä»¥ä¸‹ï¼Œã‚‚ã—ãã¯ï¼Œè©•ä¾¡å›æ•°ãŒæ‰“ã¡åˆ‡ã‚Šè©•ä¾¡å›æ•°ã‚’è¶…ãˆãŸã¨ãï¼
       TIndividual[] pop = crfmnes.samplePopulation();
       evaluate(pop);
       noOfEvals += pop.length;
       crfmnes.sort();
       best = crfmnes.getBestEvaluationValue();
       crfmnes.nextGeneration();
-			if (loopCount % 10 == 0) { //ƒ‹[ƒvƒJƒEƒ“ƒ^‚ª10‚Ì”{”‚Ì‚Æ‚«‚ÉƒƒO‚ğ‚Æ‚éD
+			if (loopCount % 10 == 0) { //ãƒ«ãƒ¼ãƒ—ã‚«ã‚¦ãƒ³ã‚¿ãŒ10ã®å€æ•°ã®ã¨ãã«ãƒ­ã‚°ã‚’ã¨ã‚‹ï¼
 				putLogData(log, trialName, trialNo, logIndex, noOfEvals, best);
-				++logIndex; //ƒƒOƒe[ƒuƒ‹‚Ìs‚Ì“Yš‚ğ‚Pi‚ß‚éD
+				++logIndex; //ãƒ­ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«ã®è¡Œã®æ·»å­—ã‚’ï¼‘é€²ã‚ã‚‹ï¼
 			}
-			++loopCount; //ƒ‹[ƒvƒJƒEƒ“ƒg‚ğ‚Pi‚ß‚éD
+			++loopCount; //ãƒ«ãƒ¼ãƒ—ã‚«ã‚¦ãƒ³ãƒˆã‚’ï¼‘é€²ã‚ã‚‹ï¼
 		}
     double time = System.currentTimeMillis() - start;
-		System.out.println("TrialNo:" + trialNo + ", NoOfEvals:" + noOfEvals + ", Best:" + best + ", Time:" + time + "[msec]"); //‰æ–Ê‚És”C•]‰¿‰ñ”CÅ—Ç•]‰¿’lCÀsŠÔ‚ğ•\¦D
-		putLogData(log, trialName, trialNo, logIndex, noOfEvals, best); //ÅI¢‘ã‚ÌƒƒO‚ğ‚Æ‚éD
+		System.out.println("TrialNo:" + trialNo + ", NoOfEvals:" + noOfEvals + ", Best:" + best + ", Time:" + time + "[msec]"); //ç”»é¢ã«è©¦è¡Œæ•°ï¼Œè©•ä¾¡å›æ•°ï¼Œæœ€è‰¯è©•ä¾¡å€¤ï¼Œå®Ÿè¡Œæ™‚é–“ã‚’è¡¨ç¤ºï¼
+		putLogData(log, trialName, trialNo, logIndex, noOfEvals, best); //æœ€çµ‚ä¸–ä»£ã®ãƒ­ã‚°ã‚’ã¨ã‚‹ï¼
 	}
 
 
 	/**
-	 * ƒƒCƒ“ƒƒ\ƒbƒh
+	 * ãƒ¡ã‚¤ãƒ³ãƒ¡ã‚½ãƒƒãƒ‰
 	 * @param args
 	 * @throws IOException
 	 */
   public static void main(String[] args) throws IOException {
-    int dim = 20; //ŸŒ³”
-		String trialName = "CrFmNesOffsetKTabletS1"; //s–¼
-		String logFilename = trialName + ".csv"; //ƒƒOƒtƒ@ƒCƒ‹–¼
-    int sampleSize = dim; //ƒTƒ“ƒvƒ‹ƒTƒCƒY
-		int maxTrials = 3; //s”
-		long maxEvals = (long)(4 * dim * 1e4); //‘Å‚¿Ø‚è•]‰¿‰ñ”
+    int dim = 20; //æ¬¡å…ƒæ•°
+		String trialName = "CrFmNesOffsetKTabletS1"; //è©¦è¡Œå
+		String logFilename = trialName + ".csv"; //ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
+    int sampleSize = dim; //ã‚µãƒ³ãƒ—ãƒ«ã‚µã‚¤ã‚º
+		int maxTrials = 3; //è©¦è¡Œæ•°
+		long maxEvals = (long)(4 * dim * 1e4); //æ‰“ã¡åˆ‡ã‚Šè©•ä¾¡å›æ•°
 		ICRandom random = new TCJava48BitLcg();
-    TCMatrix m = new TCMatrix(dim).fill(3.0); //•½‹ÏƒxƒNƒgƒ‹‚Ì‰Šú’l
-    double sigma = 1.0; //•W€•Î·‚Ì‰Šú’l
-    TCMatrix D = new TCMatrix(dim).fill(1.0); //‘ÎŠps—ñ‚Ì‰Šú’l
+    TCMatrix m = new TCMatrix(dim).fill(3.0); //å¹³å‡ãƒ™ã‚¯ãƒˆãƒ«ã®åˆæœŸå€¤
+    double sigma = 1.0; //æ¨™æº–åå·®ã®åˆæœŸå€¤
+    TCMatrix D = new TCMatrix(dim).fill(1.0); //å¯¾è§’è¡Œåˆ—ã®åˆæœŸå€¤
     TCMatrix v = new TCMatrix(dim);
     for (int i = 0; i < dim; ++i) {
       v.setValue(i, random.nextGaussian() / dim);
     }
-		TCTable log = new TCTable(); //ƒƒOƒe[ƒuƒ‹
+		TCTable log = new TCTable(); //ãƒ­ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«
 		for (int trial = 0; trial < maxTrials; ++trial) {
 	    TCrFmNes crfmnes = new TCrFmNes(dim, sampleSize, m, sigma, D, v, random);
-			executeOneTrial(crfmnes, maxEvals, log, trialName, trial); //1sÀs
+			executeOneTrial(crfmnes, maxEvals, log, trialName, trial); //1è©¦è¡Œå®Ÿè¡Œ
 		}
-		log.writeTo(logFilename); //3s•ª‚ÌƒƒO‚ğƒtƒ@ƒCƒ‹‚Éo—ÍD
+		log.writeTo(logFilename); //3è©¦è¡Œåˆ†ã®ãƒ­ã‚°ã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã«å‡ºåŠ›ï¼
   }
 }
