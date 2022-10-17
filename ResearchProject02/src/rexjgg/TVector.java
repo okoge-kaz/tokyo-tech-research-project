@@ -37,7 +37,7 @@ public class TVector {
 		}
 	}
 
-	/*
+	/**
 	 * copy constructor
 	 * 
 	 * @param array
