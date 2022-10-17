@@ -114,7 +114,10 @@ public class RexJgg {
 
     for (int i = 0; i < selectedParents.size(); ++i) {
       Random random = new Random();
-      double sigma = random.nextGaussian(0, Math.sqrt(1.0 / n));
+      double sigma = random.nextGaussian() * Math.sqrt(1.0 / n);
+      // nextGaussian()は標準正規分布に従う乱数を生成する
+      // Returns the next pseudorandom, Gaussian ("normally") distributed double value with mean 0.0 and standard deviation 1.0 from this random number generator's sequence.
+      // https://docs.oracle.com/javase/8/docs/api/java/util/Random.html#nextGaussian--
       diffVector = diffVector.add(selectedParents.get(i).getVector().subtract(meanVector).scalarProduct(sigma));
     }
     return diffVector;
