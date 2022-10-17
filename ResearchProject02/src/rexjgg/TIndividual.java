@@ -35,6 +35,17 @@ public class TIndividual {
 		fVector = new TVector(src.fVector);
 	}
 
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param vector
+	 *                 ベクトル
+	 */
+	public TIndividual(TVector vector) {
+		fEvaluationvalue = Double.NaN;
+		fVector = new TVector(vector);
+	}
+
 	/*
 	 * (非 Javadoc)
 	 * 
