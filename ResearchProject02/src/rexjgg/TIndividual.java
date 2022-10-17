@@ -106,4 +106,14 @@ public class TIndividual {
 		return fVector;
 	}
 
+	/**
+	 * ベクトルを設定する．
+	 * 
+	 * @param vec
+	 *              ベクトル
+	 */
+	public void setVector(TVector vec) {
+		fVector = vec;
+	}
+
 }
