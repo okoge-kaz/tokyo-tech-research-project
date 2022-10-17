@@ -36,6 +36,28 @@ public class TVector {
 		}
 	}
 
+	/*
+	 * copy constructor
+	 * 
+	 * @param array
+	 */
+	public TVector(ArrayList<Double> array) {
+		fData = new double[array.size()];
+		for (int i = 0; i < fData.length; ++i) {
+			fData[i] = array.get(i);
+		}
+	}
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param size
+	 *               サイズ
+	 */
+	public TVector(int size) {
+		fData = new double[size];
+	}
+
 	/**
 	 * 自分自身へコピーする．
 	 * 
