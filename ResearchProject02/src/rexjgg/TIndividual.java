@@ -8,7 +8,7 @@ import java.io.PrintWriter;
  * 個体クラス
  *
  */
-public class TIndividual {
+public class TIndividual implements Comparable<TIndividual> {
 
 	/** 評価値 */
 	private double fEvaluationvalue;
@@ -142,4 +142,17 @@ public class TIndividual {
 		fVector = vec;
 	}
 
+	/*
+	 * 評価値をもとにソートする．
+	 */
+	@Override
+	public int compareTo(TIndividual o) {
+		if (fEvaluationvalue < o.fEvaluationvalue) {
+			return -1;
+		} else if (fEvaluationvalue > o.fEvaluationvalue) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
 }
