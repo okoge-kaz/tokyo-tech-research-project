@@ -1,4 +1,5 @@
 package rexjgg;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,7 +26,9 @@ public class TIndividual {
 
 	/**
 	 * コピーコンストラクタ
-	 * @param src コピー元
+	 * 
+	 * @param src
+	 *              コピー元
 	 */
 	public TIndividual(TIndividual src) {
 		fEvaluationvalue = src.fEvaluationvalue;
@@ -34,6 +37,7 @@ public class TIndividual {
 
 	/*
 	 * (非 Javadoc)
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
@@ -43,7 +47,9 @@ public class TIndividual {
 
 	/**
 	 * コピーする．
-	 * @param src コピー元
+	 * 
+	 * @param src
+	 *              コピー元
 	 * @return 自分自身
 	 */
 	public TIndividual copyFrom(TIndividual src) {
@@ -54,7 +60,9 @@ public class TIndividual {
 
 	/**
 	 * ストリームへ書き出す．
-	 * @param pw 出力ストリーム
+	 * 
+	 * @param pw
+	 *             出力ストリーム
 	 */
 	public void writeTo(PrintWriter pw) {
 		pw.println(fEvaluationvalue);
@@ -63,7 +71,9 @@ public class TIndividual {
 
 	/**
 	 * ストリームから読み込む
-	 * @param br 入力ストリーム
+	 * 
+	 * @param br
+	 *             入力ストリーム
 	 * @throws IOException
 	 */
 	public void readFrom(BufferedReader br) throws IOException {
@@ -73,6 +83,7 @@ public class TIndividual {
 
 	/*
 	 * (非 Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -84,6 +95,7 @@ public class TIndividual {
 
 	/**
 	 * 評価値を返す．
+	 * 
 	 * @return 評価値
 	 */
 	public double getEvaluationValue() {
@@ -92,7 +104,9 @@ public class TIndividual {
 
 	/**
 	 * 評価値を設定する．
-	 * @param eval 評価値
+	 * 
+	 * @param eval
+	 *               評価値
 	 */
 	public void setEvaluationValue(double eval) {
 		fEvaluationvalue = eval;
@@ -100,6 +114,7 @@ public class TIndividual {
 
 	/**
 	 * ベクトルを返す．
+	 * 
 	 * @return ベクトル
 	 */
 	public TVector getVector() {
