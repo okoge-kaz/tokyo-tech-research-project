@@ -156,13 +156,14 @@ public class RexJgg {
   /*
    * best evaluation value <= 1.0 * 10^(-7)
    */
-  private static boolean isTerminated(ArrayList<TIndividual> population) {
+  private static boolean isTerminated(ArrayList<TIndividual> population, Double bestScore) {
     // TODO ここの無駄な処理はどうにかしたい
     ArrayList<TIndividual> sortedPopulation = new ArrayList<TIndividual>(population);
     Collections.sort(sortedPopulation);
 
     // 評価値順になっているならばこれでよい
     double bestEvaluationValue = sortedPopulation.get(0).getEvaluationValue();
+    bestScore = bestEvaluationValue;
     if (bestEvaluationValue <= 1.0 * Math.pow(10, -7)) {
       return true;
     }
@@ -190,10 +191,15 @@ public class RexJgg {
       for (int i = 0; i < n + 1; ++i) {
         population.set(i, children.get(i));
       }
+      Double bestScore = 0.0;
 
       // step 6
-      if (isTerminated(population)) {
+      if (isTerminated(population, bestScore)) {
+        System.out.println("best score: " + bestScore);
         break;
+      }
+      if (evaluationCount % 10000 == 0) {
+        System.out.println("Number Of Evaluation:" + evaluationCount + ", Best:" + bestScore.doubleValue()); // 画面に評価回数，最良評価値を表示．
       }
     }
 
