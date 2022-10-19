@@ -171,8 +171,6 @@ public class RexJgg {
   }
 
   public static void main(String[] args) {
-    System.out.println("Hello World!");
-
     // step 1
     int n = 20;
     int populationSize = 14 * n;// 14n
@@ -195,7 +193,7 @@ public class RexJgg {
 
       // step 6
       if (isTerminated(population, bestScore)) {
-        System.out.println("best score: " + bestScore);
+        System.out.println(evaluationCount + "回の評価で終了");
         break;
       }
       if (evaluationCount % 10000 == 0) {
