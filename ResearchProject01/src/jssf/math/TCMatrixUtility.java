@@ -3,55 +3,58 @@ package jssf.math;
 import java.util.ArrayList;
 
 /**
- * å‚És—ñ‰‰ZŒn‚Ìƒ†[ƒeƒBƒŠƒeƒBD
+ * ä¸»ã«è¡Œåˆ—æ¼”ç®—ç³»ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ï¼
  * 
  * @author uemura
  *
  */
 public class TCMatrixUtility {
-	
+
 	/**
-	 * n-by-1s—ñiƒxƒNƒgƒ‹j‚Ì•W€“àÏ‚ÌŒvZ
+	 * n-by-1è¡Œåˆ—ï¼ˆãƒ™ã‚¯ãƒˆãƒ«ï¼‰ã®æ¨™æº–å†…ç©ã®è¨ˆç®—
+	 * 
 	 * @param v1 n-by-1 matrix
 	 * @param v2 n-by-1 matrix
-	 * @return 
+	 * @return
 	 */
 	public static double innerProduct(TCMatrix v1, TCMatrix v2) {
-		if(v1.getColumnDimension() != 1 || v2.getColumnDimension() != 1 || v1.getRowDimension() != v2.getRowDimension()) {
+		if (v1.getColumnDimension() != 1 || v2.getColumnDimension() != 1 || v1.getRowDimension() != v2.getRowDimension()) {
 			throw new IllegalArgumentException("Dimensions are incorrect.");
 		}
 		int d = v1.getRowDimension();
 		double p = 0.0;
-		for(int i=0; i<d; i++) {
+		for (int i = 0; i < d; i++) {
 			p += v1.getValue(i, 0) * v2.getValue(i, 0);
 		}
 		return p;
 	}
-	
+
 	/**
-	 * ‹æŠÔ[min, max]‚ğn•ªŠ„‚µ‚½À•W‚ğ—v‘f‚Æ‚·‚énŸŒ³‚ÌsƒxƒNƒgƒ‹ (1~ns—ñj‚ğ¶¬‚µ‚Ä•Ô‚·D
-	 * @param min Å¬’l
-	 * @param max Å‘å’l
-	 * @param n •ªŠ„”
-	 * @return nŸŒ³‚ÌsƒxƒNƒgƒ‹ (1~ns—ñj
-	 * 	 
+	 * åŒºé–“[min, max]ã‚’nåˆ†å‰²ã—ãŸåº§æ¨™ã‚’è¦ç´ ã¨ã™ã‚‹næ¬¡å…ƒã®è¡Œãƒ™ã‚¯ãƒˆãƒ« (1Ã—nè¡Œåˆ—ï¼‰ã‚’ç”Ÿæˆã—ã¦è¿”ã™ï¼
+	 * 
+	 * @param min æœ€å°å€¤
+	 * @param max æœ€å¤§å€¤
+	 * @param n   åˆ†å‰²æ•°
+	 * @return næ¬¡å…ƒã®è¡Œãƒ™ã‚¯ãƒˆãƒ« (1Ã—nè¡Œåˆ—ï¼‰
+	 * 
 	 * @author isao
 	 */
 	public static TCMatrix linspace(double min, double max, int n) {
-		double delta = (max - min) / (double)(n - 1);
+		double delta = (max - min) / (double) (n - 1);
 		TCMatrix result = new TCMatrix(1, n);
 		for (int i = 0; i < n - 1; ++i) {
-			result.setValue(0, i, min + delta * (double)i);
+			result.setValue(0, i, min + delta * (double) i);
 		}
 		result.setValue(0, n - 1, max);
 		return result;
 	}
-	
+
 	/**
-	 * X¬•ª‚ÌƒƒbƒVƒ…ƒOƒŠƒbƒhs—ñ‚ğ¶¬‚µ‚Ä•Ô‚·Då‚É3ŸŒ³ƒf[ƒ^ƒvƒƒbƒg‚É—˜—p‚³‚ê‚éD
-	 * @param x ƒƒbƒVƒ…‚ÌŒğ“_‚ÌXÀ•W‚ğ—v‘f‚Æ‚·‚éNxŸŒ³‚ÌsƒxƒNƒgƒ‹
-	 * @param y ƒƒbƒVƒ…‚ÌŒğ“_‚ÌYÀ•W‚ğ—v‘f‚Æ‚·‚éNyŸŒ³‚ÌsƒxƒNƒgƒ‹
-	 * @return NysNx—ñ‚ÌX¬•ªƒƒbƒVƒ…ƒOƒŠƒbƒhs—ñ
+	 * Xæˆåˆ†ã®ãƒ¡ãƒƒã‚·ãƒ¥ã‚°ãƒªãƒƒãƒ‰è¡Œåˆ—ã‚’ç”Ÿæˆã—ã¦è¿”ã™ï¼ä¸»ã«3æ¬¡å…ƒãƒ‡ãƒ¼ã‚¿ãƒ—ãƒ­ãƒƒãƒˆã«åˆ©ç”¨ã•ã‚Œã‚‹ï¼
+	 * 
+	 * @param x ãƒ¡ãƒƒã‚·ãƒ¥ã®äº¤ç‚¹ã®Xåº§æ¨™ã‚’è¦ç´ ã¨ã™ã‚‹Nxæ¬¡å…ƒã®è¡Œãƒ™ã‚¯ãƒˆãƒ«
+	 * @param y ãƒ¡ãƒƒã‚·ãƒ¥ã®äº¤ç‚¹ã®Yåº§æ¨™ã‚’è¦ç´ ã¨ã™ã‚‹Nyæ¬¡å…ƒã®è¡Œãƒ™ã‚¯ãƒˆãƒ«
+	 * @return Nyè¡ŒNxåˆ—ã®Xæˆåˆ†ãƒ¡ãƒƒã‚·ãƒ¥ã‚°ãƒªãƒƒãƒ‰è¡Œåˆ—
 	 * 
 	 * @author isao
 	 */
@@ -66,10 +69,11 @@ public class TCMatrixUtility {
 	}
 
 	/**
-	 * Y¬•ª‚ÌƒƒbƒVƒ…ƒOƒŠƒbƒhs—ñ‚ğ¶¬‚µ‚Ä•Ô‚·Då‚É3ŸŒ³ƒf[ƒ^ƒvƒƒbƒg‚É—˜—p‚³‚ê‚éD
-	 * @param x ƒƒbƒVƒ…‚ÌŒğ“_‚ÌXÀ•W‚ğ—v‘f‚Æ‚·‚éNxŸŒ³‚ÌsƒxƒNƒgƒ‹
-	 * @param y ƒƒbƒVƒ…‚ÌŒğ“_‚ÌYÀ•W‚ğ—v‘f‚Æ‚·‚éNyŸŒ³‚ÌsƒxƒNƒgƒ‹
-	 * @return NysNx—ñ‚ÌY¬•ªƒƒbƒVƒ…ƒOƒŠƒbƒhs—ñ
+	 * Yæˆåˆ†ã®ãƒ¡ãƒƒã‚·ãƒ¥ã‚°ãƒªãƒƒãƒ‰è¡Œåˆ—ã‚’ç”Ÿæˆã—ã¦è¿”ã™ï¼ä¸»ã«3æ¬¡å…ƒãƒ‡ãƒ¼ã‚¿ãƒ—ãƒ­ãƒƒãƒˆã«åˆ©ç”¨ã•ã‚Œã‚‹ï¼
+	 * 
+	 * @param x ãƒ¡ãƒƒã‚·ãƒ¥ã®äº¤ç‚¹ã®Xåº§æ¨™ã‚’è¦ç´ ã¨ã™ã‚‹Nxæ¬¡å…ƒã®è¡Œãƒ™ã‚¯ãƒˆãƒ«
+	 * @param y ãƒ¡ãƒƒã‚·ãƒ¥ã®äº¤ç‚¹ã®Yåº§æ¨™ã‚’è¦ç´ ã¨ã™ã‚‹Nyæ¬¡å…ƒã®è¡Œãƒ™ã‚¯ãƒˆãƒ«
+	 * @return Nyè¡ŒNxåˆ—ã®Yæˆåˆ†ãƒ¡ãƒƒã‚·ãƒ¥ã‚°ãƒªãƒƒãƒ‰è¡Œåˆ—
 	 * 
 	 * @author isao
 	 */
@@ -82,42 +86,44 @@ public class TCMatrixUtility {
 		}
 		return yy;
 	}
-	
+
 	/**
-	 * ƒTƒ“ƒvƒ‹“_i—ñƒxƒNƒgƒ‹j‚ÌƒŠƒXƒg‚ÆƒTƒ“ƒvƒ‹“_‚ÌdSƒxƒNƒgƒ‹‚©‚ç•ªU‹¤•ªUs—ñ‚ğŒvZ‚µ‚Ä•Ô‚·D
-	 * @param samples ƒTƒ“ƒvƒ‹“_i—ñƒxƒNƒgƒ‹j‚ÌƒŠƒXƒg
-	 * @return •ªU‹¤•ªUs—ñ
+	 * ã‚µãƒ³ãƒ—ãƒ«ç‚¹ï¼ˆåˆ—ãƒ™ã‚¯ãƒˆãƒ«ï¼‰ã®ãƒªã‚¹ãƒˆã¨ã‚µãƒ³ãƒ—ãƒ«ç‚¹ã®é‡å¿ƒãƒ™ã‚¯ãƒˆãƒ«ã‹ã‚‰åˆ†æ•£å…±åˆ†æ•£è¡Œåˆ—ã‚’è¨ˆç®—ã—ã¦è¿”ã™ï¼
+	 * 
+	 * @param samples ã‚µãƒ³ãƒ—ãƒ«ç‚¹ï¼ˆåˆ—ãƒ™ã‚¯ãƒˆãƒ«ï¼‰ã®ãƒªã‚¹ãƒˆ
+	 * @return åˆ†æ•£å…±åˆ†æ•£è¡Œåˆ—
 	 */
 	public static TCMatrix calculateCovarianceMatrix(ArrayList<TCMatrix> samples) {
 		int dim = samples.get(0).getDimension();
 		TCMatrix mean = calculateMeanVector(samples);
 		TCMatrix cov = new TCMatrix(dim, dim);
-		for (TCMatrix x: samples) {
+		for (TCMatrix x : samples) {
 			for (int i = 0; i < dim; ++i) {
 				for (int j = 0; j < dim; ++j) {
-					double newValue = cov.getValue(i, j) + (x.getValue(i) - mean.getValue(i)) * (x.getValue(j) - mean.getValue(i));
+					double newValue = cov.getValue(i, j)
+							+ (x.getValue(i) - mean.getValue(i)) * (x.getValue(j) - mean.getValue(i));
 					cov.setValue(i, j, newValue);
 				}
 			}
 		}
-		cov.div((double)samples.size());
+		cov.div((double) samples.size());
 		return cov;
 	}
-	
+
 	/**
-	 * ƒTƒ“ƒvƒ‹“_i—ñƒxƒNƒgƒ‹j‚ÌƒŠƒXƒg‚©‚çdSƒxƒNƒgƒ‹‚ğŒvZ‚µ‚Ä•Ô‚·D
-	 * @param samples ƒTƒ“ƒvƒ‹“_i—ñƒxƒNƒgƒ‹j‚ÌƒŠƒXƒg
-	 * @return dSƒxƒNƒgƒ‹
+	 * ã‚µãƒ³ãƒ—ãƒ«ç‚¹ï¼ˆåˆ—ãƒ™ã‚¯ãƒˆãƒ«ï¼‰ã®ãƒªã‚¹ãƒˆã‹ã‚‰é‡å¿ƒãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—ã—ã¦è¿”ã™ï¼
+	 * 
+	 * @param samples ã‚µãƒ³ãƒ—ãƒ«ç‚¹ï¼ˆåˆ—ãƒ™ã‚¯ãƒˆãƒ«ï¼‰ã®ãƒªã‚¹ãƒˆ
+	 * @return é‡å¿ƒãƒ™ã‚¯ãƒˆãƒ«
 	 */
 	public static TCMatrix calculateMeanVector(ArrayList<TCMatrix> samples) {
 		int dim = samples.get(0).getDimension();
 		TCMatrix mean = new TCMatrix(dim);
-		for (TCMatrix x: samples) {
+		for (TCMatrix x : samples) {
 			mean.add(x);
 		}
-		mean.div((double)samples.size());
+		mean.div((double) samples.size());
 		return mean;
 	}
 
 }
-

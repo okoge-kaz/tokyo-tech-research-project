@@ -4,8 +4,10 @@ import java.io.Serializable;
 
 /**
  * Represents the common features of solutions as the root interface.
- * Solutions express all possible answers for the problem to be solved, having either valid or invalid decision variables.
- * They support several fundamental operations, that is, to look up/be assigned feasibility, input/output with streams
+ * Solutions express all possible answers for the problem to be solved, having
+ * either valid or invalid decision variables.
+ * They support several fundamental operations, that is, to look up/be assigned
+ * feasibility, input/output with streams
  * and copy themselves.
  *
  * @since 2
@@ -20,26 +22,37 @@ public interface ICSolution extends Cloneable, Serializable {
 	 * @author hmkz
 	 */
 	public enum Status {
-		/** The flag that indicates this solution is feasible for the problem to be solved */
+		/**
+		 * The flag that indicates this solution is feasible for the problem to be
+		 * solved
+		 */
 		FEASIBLE,
 
-		/** The flag that indicates this solution is infeasible for the problem to be solved */
+		/**
+		 * The flag that indicates this solution is infeasible for the problem to be
+		 * solved
+		 */
 		INFEASIBLE,
 
-		/** The flag that indicates this solution has been not evaluated yet. Should be used as an initial value for the status */
+		/**
+		 * The flag that indicates this solution has been not evaluated yet. Should be
+		 * used as an initial value for the status
+		 */
 		NOT_EVALUATED,
 	}
-	
+
 	/**
-	 * ƒNƒ[ƒ“‚ğì¬‚·‚éD
-	 * @return ƒNƒ[ƒ“
+	 * ã‚¯ãƒ­ãƒ¼ãƒ³ã‚’ä½œæˆã™ã‚‹ï¼
+	 * 
+	 * @return ã‚¯ãƒ­ãƒ¼ãƒ³
 	 */
 	ICSolution clone();
-	
+
 	/**
-	 * ƒRƒs[‘€ì
-	 * @param src ƒRƒs[Œ³
-	 * @return ƒRƒs[Œ³
+	 * ã‚³ãƒ”ãƒ¼æ“ä½œ
+	 * 
+	 * @param src ã‚³ãƒ”ãƒ¼å…ƒ
+	 * @return ã‚³ãƒ”ãƒ¼å…ƒ
 	 */
 	ICSolution copyFrom(ICSolution src);
 
@@ -47,7 +60,7 @@ public interface ICSolution extends Cloneable, Serializable {
 	 * Returns the status of this object.
 	 *
 	 * @return Status.FEASIBLE, Status.INFEASIBLE or Status.NOT_EVALUATED
-	 * when this object is feasible, infeasible or not evaluated
+	 *         when this object is feasible, infeasible or not evaluated
 	 * @since 2 isao
 	 */
 	Status getStatus();

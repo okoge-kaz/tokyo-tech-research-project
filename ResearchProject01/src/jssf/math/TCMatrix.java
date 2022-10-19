@@ -3,6 +3,7 @@ package jssf.math;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import jssf.di.ACParam;
 import jssf.math.decompositions.TCCholeskyDecomposition;
 import jssf.math.decompositions.TCEigenvalueDecomposition;
@@ -14,23 +15,24 @@ import jssf.random.ICRandom;
 
 /**
  * A general m-by-n matrix class.
+ * 
  * @author uemura, isao, fnob, khonda
  *
  */
 public class TCMatrix implements Serializable, Cloneable {
-	
+
 	/** For serialization */
 	private static final long serialVersionUID = 1L;
 
 	/** An elements. */
 	private double[][] fElements;
-	
+
 	/** Row dimension (m). */
 	private int fM;
-	
+
 	/** Column dimension (n). */
 	private int fN;
-	
+
 	/**
 	 * Constructor.
 	 * Creates a matrix with size (0,0).
@@ -38,38 +40,39 @@ public class TCMatrix implements Serializable, Cloneable {
 	public TCMatrix() {
 		this(0, 0);
 	}
-	
+
 	/**
 	 * Constructor.
 	 * Creates a matrix with specified size.
 	 * All elements are initialized with zero.
+	 * 
 	 * @param m
 	 * @param n
 	 */
 	public TCMatrix(
-			@ACParam(key="RowDimension") int m,
-			@ACParam(key="ColumnDimension") int n
-	) {
+			@ACParam(key = "RowDimension") int m,
+			@ACParam(key = "ColumnDimension") int n) {
 		fM = m;
 		fN = n;
 		fElements = new double[fM][fN];
 	}
-	
+
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^D
-	 * mŸŒ³cƒxƒNƒgƒ‹im~1s—ñj‚Æ‚µ‚Ä‰Šú‰»‚·‚éD
-	 * @param m cƒxƒNƒgƒ‹‚ÌŸŒ³”
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ï¼
+	 * mæ¬¡å…ƒç¸¦ãƒ™ã‚¯ãƒˆãƒ«ï¼ˆmÃ—1è¡Œåˆ—ï¼‰ã¨ã—ã¦åˆæœŸåŒ–ã™ã‚‹ï¼
+	 * 
+	 * @param m ç¸¦ãƒ™ã‚¯ãƒˆãƒ«ã®æ¬¡å…ƒæ•°
 	 */
 	public TCMatrix(
-			@ACParam(key="RowDimension") int m
-	) {
+			@ACParam(key = "RowDimension") int m) {
 		this(m, 1);
 	}
-	
+
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^D
-	 * mŸŒ³cƒxƒNƒgƒ‹im~1s—ñj‚Æ‚µ‚Ä‰Šú‰»‚·‚éD
-	 * @param vector mŸŒ³cƒxƒNƒgƒ‹‚Ì—v‘f
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ï¼
+	 * mæ¬¡å…ƒç¸¦ãƒ™ã‚¯ãƒˆãƒ«ï¼ˆmÃ—1è¡Œåˆ—ï¼‰ã¨ã—ã¦åˆæœŸåŒ–ã™ã‚‹ï¼
+	 * 
+	 * @param vector mæ¬¡å…ƒç¸¦ãƒ™ã‚¯ãƒˆãƒ«ã®è¦ç´ 
 	 */
 	public TCMatrix(double[] vector) {
 		this(vector.length, 1);
@@ -77,51 +80,54 @@ public class TCMatrix implements Serializable, Cloneable {
 			fElements[i][0] = vector[i];
 		}
 	}
-	
+
 	/**
 	 * Constructor.
 	 * Creates a matrix with specified elements with deep-copying.
+	 * 
 	 * @param elements
 	 */
 	public TCMatrix(double[][] elements) {
 		fM = elements.length;
-		if(fM != 0) {
+		if (fM != 0) {
 			fN = elements[0].length;
 		} else {
 			fN = 0;
 		}
 		fElements = new double[fM][fN];
-		for(int i=0; i<fM; i++) {
+		for (int i = 0; i < fM; i++) {
 			System.arraycopy(elements[i], 0, fElements[i], 0, fN);
 		}
 	}
-	
+
 	/**
 	 * Constructor.
 	 * Creates a matrix by deep-copying the specified matrix.
+	 * 
 	 * @param src
 	 */
 	public TCMatrix(TCMatrix src) {
 		fM = src.fM;
 		fN = src.fN;
 		fElements = new double[fM][fN];
-		for(int i=0; i<fM; i++) {
+		for (int i = 0; i < fM; i++) {
 			System.arraycopy(src.fElements[i], 0, fElements[i], 0, fN);
 		}
 	}
-	
+
 	/**
 	 * Deep-copies from the specified TCMatrix.
+	 * 
 	 * @param src TCMatrix
 	 * @return this
 	 */
 	public TCMatrix copyFrom(TCMatrix src) {
-		if(fM != src.fM || fN != src.fN) {
+		if (fM != src.fM || fN != src.fN) {
 			fM = src.fM;
 			fN = src.fN;
 			fElements = new double[fM][fN];
 		}
-		for(int i=0; i<fM; i++) {
+		for (int i = 0; i < fM; i++) {
 			System.arraycopy(src.fElements[i], 0, fElements[i], 0, fN);
 		}
 		return this;
@@ -129,31 +135,32 @@ public class TCMatrix implements Serializable, Cloneable {
 
 	/**
 	 * Deep-copies from the transpose of specified TCMatrix.
+	 * 
 	 * @param src TCMatrix
 	 * @return this
 	 */
 	public TCMatrix tcopyFrom(TCMatrix src) {
-		if(fM != src.fN || fN != src.fM) {
+		if (fM != src.fN || fN != src.fM) {
 			fM = src.fN;
 			fN = src.fM;
 			fElements = new double[fM][fN];
 		}
-		for(int i=0; i<fM; i++) {
-			for(int j=0; j<fN; j++){
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < fN; j++) {
 				fElements[i][j] = src.fElements[j][i];
 			}
 		}
 		return this;
 	}
-	
+
 	/**
-	 * •”•ªs—ñ‚ğƒRƒs[‚·‚éD
-	 * s—ñ src ‚Ì src_i0 ‚©‚ç src_i1 sC‚¨‚æ‚Ñ src_j0 ‚©‚ç src_j1 —ñ‚É‘Î‰‚·‚é•”•ªs—ñ‚ğC
-	 * ©g‚Ì dst_i0 sC dst_j0 —ñˆÈ~‚Ì•”•ª‚ÉƒRƒs[‚·‚éD
-	 * ‚à‚µƒRƒs[‘ÎÛ‚Ì•”•ªs—ñ‚ª©g‚Ìs—ñ‚É“ü‚è‚«‚ç‚È‚¢ê‡C©g‚ÌƒTƒCƒY‚ğŠg‘å‚µC
-	 * Šg‘å‚³‚êC‚©‚Â•”•ªs—ñ‚ªƒRƒs[‚³‚ê‚È‚¢—v‘f‚É‚Í0‚ªŠi”[‚³‚ê‚éD
+	 * éƒ¨åˆ†è¡Œåˆ—ã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹ï¼
+	 * è¡Œåˆ— src ã® src_i0 ã‹ã‚‰ src_i1 è¡Œï¼ŒãŠã‚ˆã³ src_j0 ã‹ã‚‰ src_j1 åˆ—ã«å¯¾å¿œã™ã‚‹éƒ¨åˆ†è¡Œåˆ—ã‚’ï¼Œ
+	 * è‡ªèº«ã® dst_i0 è¡Œï¼Œ dst_j0 åˆ—ä»¥é™ã®éƒ¨åˆ†ã«ã‚³ãƒ”ãƒ¼ã™ã‚‹ï¼
+	 * ã‚‚ã—ã‚³ãƒ”ãƒ¼å¯¾è±¡ã®éƒ¨åˆ†è¡Œåˆ—ãŒè‡ªèº«ã®è¡Œåˆ—ã«å…¥ã‚Šãã‚‰ãªã„å ´åˆï¼Œè‡ªèº«ã®ã‚µã‚¤ã‚ºã‚’æ‹¡å¤§ã—ï¼Œ
+	 * æ‹¡å¤§ã•ã‚Œï¼Œã‹ã¤éƒ¨åˆ†è¡Œåˆ—ãŒã‚³ãƒ”ãƒ¼ã•ã‚Œãªã„è¦ç´ ã«ã¯0ãŒæ ¼ç´ã•ã‚Œã‚‹ï¼
 	 * 
-	 * @param src TCMatrix
+	 * @param src    TCMatrix
 	 * @param src_i0 first row index
 	 * @param src_i1 last row index
 	 * @param src_j0 first column index
@@ -162,22 +169,23 @@ public class TCMatrix implements Serializable, Cloneable {
 	 * @param dst_j0 destination (column index)
 	 * @return
 	 */
-	public TCMatrix copySubmatrixFrom(TCMatrix src, int src_i0, int src_i1, int src_j0, int src_j1, int dst_i0, int dst_j0) {
-		if(((fM-dst_i0) < (src_i1-src_i0+1)) || ((fN-dst_j0) < (src_j1-src_j0+1))) {
+	public TCMatrix copySubmatrixFrom(TCMatrix src, int src_i0, int src_i1, int src_j0, int src_j1, int dst_i0,
+			int dst_j0) {
+		if (((fM - dst_i0) < (src_i1 - src_i0 + 1)) || ((fN - dst_j0) < (src_j1 - src_j0 + 1))) {
 			int newM = dst_i0 + src_i1 - src_i0 + 1;
 			int newN = dst_j0 + src_j1 - src_j0 + 1;
 			newM = newM > fM ? newM : fM;
 			newN = newN > fN ? newN : fN;
 			TCMatrix enlarged = new TCMatrix(newM, newN);
-			if(fM!=0 && fN!=0) {
-				enlarged.copySubmatrixFrom(this, 0, fM-1, 0, fN-1, 0, 0);
+			if (fM != 0 && fN != 0) {
+				enlarged.copySubmatrixFrom(this, 0, fM - 1, 0, fN - 1, 0, 0);
 			}
 			this.copyFrom(enlarged);
 		}
 		try {
-			for(int i=src_i0; i<=src_i1; i++) {
-				for(int j=src_j0; j<=src_j1; j++) {
-					fElements[dst_i0+i-src_i0][dst_j0+j-src_j0] = src.fElements[i][j];
+			for (int i = src_i0; i <= src_i1; i++) {
+				for (int j = src_j0; j <= src_j1; j++) {
+					fElements[dst_i0 + i - src_i0][dst_j0 + j - src_j0] = src.fElements[i][j];
 				}
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
@@ -189,55 +197,61 @@ public class TCMatrix implements Serializable, Cloneable {
 	/**
 	 * Changes sizes of a matrix.
 	 * All elements are reinitialized as zero.
+	 * 
 	 * @param m new row dimension
 	 * @param n new column dimension
 	 */
 	public void setDimensions(int m, int n) {
-		if(fM != m || fN != n) {
+		if (fM != m || fN != n) {
 			fM = m;
 			fN = n;
 			fElements = new double[fM][fN];
 		}
 	}
-	
+
 	/**
-	 * mŸŒ³ƒxƒNƒgƒ‹im~1s—ñj‚Éİ’è‚·‚éD
-	 * @param m cƒxƒNƒgƒ‹‚ÌŸŒ³”
+	 * mæ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«ï¼ˆmÃ—1è¡Œåˆ—ï¼‰ã«è¨­å®šã™ã‚‹ï¼
+	 * 
+	 * @param m ç¸¦ãƒ™ã‚¯ãƒˆãƒ«ã®æ¬¡å…ƒæ•°
 	 */
 	public void setDimension(int m) {
 		if (fM != m || fN != 1) {
 			fM = m;
 			fN = 1;
-			fElements = new double [fM][fN];
+			fElements = new double[fM][fN];
 		}
 	}
-	
+
 	/**
 	 * Returns a row dimension, i.e. m.
+	 * 
 	 * @return
 	 */
 	public int getRowDimension() {
 		return fM;
 	}
-	
+
 	/**
 	 * Returns a column dimension, i.e. n.
+	 * 
 	 * @return
 	 */
 	public int getColumnDimension() {
 		return fN;
 	}
-	
+
 	/**
-	 * s”~—ñ”‚ğ•Ô‚·D
-	 * @return s”~—ñ”
+	 * è¡Œæ•°Ã—åˆ—æ•°ã‚’è¿”ã™ï¼
+	 * 
+	 * @return è¡Œæ•°Ã—åˆ—æ•°
 	 */
 	public int getDimension() {
 		return fM * fN;
 	}
-	
+
 	/**
 	 * Sets a value to the specified element.
+	 * 
 	 * @param m
 	 * @param n
 	 * @param value
@@ -246,31 +260,34 @@ public class TCMatrix implements Serializable, Cloneable {
 		fElements[m][n] = value;
 		return this;
 	}
-	
+
 	/**
 	 * Returns a value of the specified element.
+	 * 
 	 * @param m
 	 * @param n
-	 * @return 
+	 * @return
 	 */
 	public double getValue(int m, int n) {
 		return fElements[m][n];
 	}
-	
+
 	/**
 	 * Returns a value of the specified element.
+	 * 
 	 * @param idx
 	 * @return
 	 * @author fnob
 	 */
 	public double getValue(int idx) {
-		return fElements[idx/fN][idx%fN];
+		return fElements[idx / fN][idx % fN];
 	}
 
 	/**
-	 * (0, 0)‚Ì—v‘f‚Ì’l‚ğ•Ô‚·D
-	 * ‚P~‚Ps—ñ‚Ìê‡‚Ì‚İ—LŒøD
-	 * @return (0, 0)‚Ì—v‘f‚Ì’l
+	 * (0, 0)ã®è¦ç´ ã®å€¤ã‚’è¿”ã™ï¼
+	 * ï¼‘Ã—ï¼‘è¡Œåˆ—ã®å ´åˆã®ã¿æœ‰åŠ¹ï¼
+	 * 
+	 * @return (0, 0)ã®è¦ç´ ã®å€¤
 	 */
 	public double getValue() {
 		assert fN == 1 && fM == 1;
@@ -278,32 +295,34 @@ public class TCMatrix implements Serializable, Cloneable {
 	}
 
 	/**
-	 * ’l‚ğƒCƒ“ƒfƒbƒNƒX‚Åw’è‚³‚ê‚½—v‘f‚Öİ’è‚·‚éB
-	 * ‚±‚±‚ÅAm~ns—ñX‚É‚¨‚¢‚ÄAX(i, j)‚É’l‚ğİ’è‚µ‚½‚¢ê‡AƒCƒ“ƒfƒbƒNƒX‚Íi*n+j‚Æ‚È‚éB
-	 * @param idx ƒCƒ“ƒfƒbƒNƒX
+	 * å€¤ã‚’ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã§æŒ‡å®šã•ã‚ŒãŸè¦ç´ ã¸è¨­å®šã™ã‚‹ã€‚
+	 * ã“ã“ã§ã€mÃ—nè¡Œåˆ—Xã«ãŠã„ã¦ã€X(i, j)ã«å€¤ã‚’è¨­å®šã—ãŸã„å ´åˆã€ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã¯i*n+jã¨ãªã‚‹ã€‚
+	 * 
+	 * @param idx ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 	 * @author isao
 	 */
 	public TCMatrix setValue(int idx, double value) {
-		fElements[idx/fN][idx%fN] = value;
+		fElements[idx / fN][idx % fN] = value;
 		return this;
 	}
-		
+
 	/**
 	 * Adds the specified matrix to this matrix.
 	 * Updates this object.
 	 * A = A + B.
+	 * 
 	 * @param b
 	 * @return this matrix
 	 */
 	public TCMatrix add(TCMatrix b) {
-		for(int i=0; i<fM; i++) {
-			for(int j=0; j<fN; j++) {
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < fN; j++) {
 				fElements[i][j] += b.fElements[i][j];
 			}
 		}
 		return this;
 	}
-	
+
 	/**
 	 * Adds the specified scalar value to each element of this matrix.
 	 * Updates this object.
@@ -313,30 +332,31 @@ public class TCMatrix implements Serializable, Cloneable {
 	 * @return this matrix
 	 */
 	public TCMatrix add(double d) {
-		for(int i=0; i<fM; i++) {
-			for(int j=0; j<fN; j++) {
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < fN; j++) {
 				fElements[i][j] += d;
 			}
 		}
 		return this;
 	}
-	
+
 	/**
 	 * Subtructs the specified matrix from this matrix.
 	 * Updates this object.
 	 * A = A - B.
+	 * 
 	 * @param b
 	 * @return this matrix
 	 */
 	public TCMatrix sub(TCMatrix b) {
-		for(int i=0; i<fM; i++) {
-			for(int j=0; j<fN; j++) {
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < fN; j++) {
 				fElements[i][j] -= b.fElements[i][j];
 			}
 		}
 		return this;
 	}
-	
+
 	/**
 	 * Subtracts the specified saclar value from each element of this matrix.
 	 * Updates this object.
@@ -346,90 +366,93 @@ public class TCMatrix implements Serializable, Cloneable {
 	 * @return this matrix
 	 */
 	public TCMatrix sub(double d) {
-		for(int i=0; i<fM; i++) {
-			for(int j=0; j<fN; j++) {
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < fN; j++) {
 				fElements[i][j] -= d;
 			}
 		}
 		return this;
 	}
-	
+
 	/**
 	 * Scalar product.
 	 * Updates this object.
 	 * A = r * A.
+	 * 
 	 * @param r
 	 * @return this
 	 * @deprecated Use {@link #times(double)} instead.
 	 */
 	public TCMatrix scalarProduct(double r) {
-		for(int i=0; i<fM; i++) {
-			for(int j=0; j<fN; j++) {
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < fN; j++) {
 				fElements[i][j] *= r;
 			}
 		}
 		return this;
 	}
-	
+
 	/**
 	 * Times.
 	 * Updates this object.
-	 * 	C = A * B.
+	 * C = A * B.
 	 * Notice that C.times(C, B) or C.times(A, C) isn't allowed to use.
-	 * In those case, you have to use times(TCMatrix b) or timesLeft(TCMatrix b) respectively.
+	 * In those case, you have to use times(TCMatrix b) or timesLeft(TCMatrix b)
+	 * respectively.
 	 * 
-	 * @param src1 s—ñA
-	 * @param src2 s—ñB
-	 * @return this s—ñC
+	 * @param src1 è¡Œåˆ—A
+	 * @param src2 è¡Œåˆ—B
+	 * @return this è¡Œåˆ—C
 	 */
 	public TCMatrix times(TCMatrix src1, TCMatrix src2) {
-		if(fM != src1.fM || src1.fN != src2.fM || fN != src2.fN) {
+		if (fM != src1.fM || src1.fN != src2.fM || fN != src2.fN) {
 			throw new IllegalArgumentException("Matrix dimensions are incorrect.");
 		}
-		for(int i=0; i<src1.fM; i++) {
-			for(int j=0; j<src2.fN; j++) {
+		for (int i = 0; i < src1.fM; i++) {
+			for (int j = 0; j < src2.fN; j++) {
 				fElements[i][j] = 0.0;
-				for(int k=0; k<src1.fN; k++){
-					fElements[i][j] += src1.fElements[i][k] * src2.fElements[k][j]; 
+				for (int k = 0; k < src1.fN; k++) {
+					fElements[i][j] += src1.fElements[i][k] * src2.fElements[k][j];
 				}
 			}
 		}
 		return this;
 	}
-	
+
 	/**
 	 * Times.
 	 * Updates this object.
 	 * A = A * B.
+	 * 
 	 * @param b
 	 * @return this
 	 */
 	public TCMatrix times(TCMatrix b) {
-		if(fN != b.fM) {
+		if (fN != b.fM) {
 			throw new IllegalArgumentException("Dimensions are incorrect.");
 		}
-	
+
 		double[][] result = new double[fM][b.fN];
 		double val;
-		for(int i=0; i<fM; i++) {
-			for(int j=0; j<b.fN; j++) {
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < b.fN; j++) {
 				val = 0.0;
-				for(int k=0; k<fN; k++) {
+				for (int k = 0; k < fN; k++) {
 					val += fElements[i][k] * b.fElements[k][j];
 				}
 				result[i][j] = val;
 			}
 		}
-		if(fN != b.fN) {
+		if (fN != b.fN) {
 			fElements = new double[fM][b.fN];
 			fN = b.fN;
 		}
-		for(int i=0; i<fM; i++) {
+		for (int i = 0; i < fM; i++) {
 			System.arraycopy(result[i], 0, fElements[i], 0, fN);
 		}
 		return this;
 	}
-	
+
 	/**
 	 * Returns a matrix represents this matrix times the specified scaler value.
 	 * Updates this object.
@@ -439,60 +462,62 @@ public class TCMatrix implements Serializable, Cloneable {
 	 * @return this matrix
 	 */
 	public TCMatrix times(double d) {
-		for(int i=0; i<fM; i++) {
-			for(int j=0; j<fN; j++) {
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < fN; j++) {
 				fElements[i][j] *= d;
 			}
 		}
 		return this;
 	}
-	
+
 	/**
 	 * Times from left.
 	 * Updates this object.
 	 * A = B * A.
+	 * 
 	 * @param b
 	 * @return this matrix
 	 */
 	public TCMatrix timesLeft(TCMatrix b) {
-		if(b.fN != fM) {
+		if (b.fN != fM) {
 			throw new IllegalArgumentException("Dimensions are incorrect.");
 		}
 		double[][] result = new double[b.fM][fN];
 		double val;
-		for(int i=0; i<b.fM; i++) {
-			for(int j=0; j<fN; j++) {
+		for (int i = 0; i < b.fM; i++) {
+			for (int j = 0; j < fN; j++) {
 				val = 0.0;
-				for(int k=0; k<b.fN; k++) {
+				for (int k = 0; k < b.fN; k++) {
 					val += b.fElements[i][k] * fElements[k][j];
 				}
 				result[i][j] = val;
 			}
 		}
-		if(fM != b.fM) {
+		if (fM != b.fM) {
 			fElements = new double[b.fM][fN];
 			fM = b.fM;
 		}
-		for(int i=0; i<fM; i++) {
+		for (int i = 0; i < fM; i++) {
 			System.arraycopy(result[i], 0, fElements[i], 0, fN);
 		}
 		return this;
 	}
-	
+
 	/**
 	 * Times each element.
-	 * The elements <i>a<sub>i,j</sub></i> = <i>a<sub>i,j</sub></i> * <i>b<sub>i,j</sub></i>.
+	 * The elements <i>a<sub>i,j</sub></i> = <i>a<sub>i,j</sub></i> *
+	 * <i>b<sub>i,j</sub></i>.
 	 * Updates this object.
 	 * 
 	 * @param b
 	 * @return this matrix
 	 */
 	public TCMatrix timesElement(TCMatrix b) {
-		if(fM != b.fM || fN != b.fN) {
+		if (fM != b.fM || fN != b.fN) {
 			throw new IllegalArgumentException("Dimensions are incorrect.");
 		}
-		for(int i=0; i<fM; i++) {
-			for(int j=0; j<fN; j++) {
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < fN; j++) {
 				fElements[i][j] *= b.fElements[i][j];
 			}
 		}
@@ -500,9 +525,10 @@ public class TCMatrix implements Serializable, Cloneable {
 	}
 
 	/**
-	 * ‘S‚Ä‚Ì—v‘f‚ğd‚ÅŠ„‚Á‚Ä©g‚ğ•Ô‚·D
-	 * @param d 
-	 * @return ‚±‚Ìs—ñ
+	 * å…¨ã¦ã®è¦ç´ ã‚’dã§å‰²ã£ã¦è‡ªèº«ã‚’è¿”ã™ï¼
+	 * 
+	 * @param d
+	 * @return ã“ã®è¡Œåˆ—
 	 */
 	public TCMatrix div(double d) {
 		for (int m = 0; m < fM; ++m) {
@@ -512,21 +538,22 @@ public class TCMatrix implements Serializable, Cloneable {
 		}
 		return this;
 	}
-	
+
 	/**
 	 * Div each element.
-	 * The elements <i>a<sub>i,j</sub></i> = <i>a<sub>i,j</sub></i> * <i>b<sub>i,j</sub></i>.
+	 * The elements <i>a<sub>i,j</sub></i> = <i>a<sub>i,j</sub></i> *
+	 * <i>b<sub>i,j</sub></i>.
 	 * Updates this object.
 	 * 
 	 * @param b
 	 * @return this matrix
 	 */
 	public TCMatrix divElement(TCMatrix b) {
-		if(fM != b.fM || fN != b.fN) {
+		if (fM != b.fM || fN != b.fN) {
 			throw new IllegalArgumentException("Dimensions are incorrect.");
 		}
-		for(int i=0; i<fM; i++) {
-			for(int j=0; j<fN; j++) {
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < fN; j++) {
 				fElements[i][j] /= b.fElements[i][j];
 			}
 		}
@@ -536,13 +563,14 @@ public class TCMatrix implements Serializable, Cloneable {
 	/**
 	 * Returns transpose.
 	 * Updates this object.
+	 * 
 	 * @return this matrix
 	 */
 	public TCMatrix transpose() {
-		if(fM == fN) {
+		if (fM == fN) {
 			double temp;
-			for(int i=0; i<fM; i++) {
-				for(int j=0; j<i; j++) {
+			for (int i = 0; i < fM; i++) {
+				for (int j = 0; j < i; j++) {
 					temp = getValue(i, j);
 					setValue(i, j, getValue(j, i));
 					setValue(j, i, temp);
@@ -550,74 +578,80 @@ public class TCMatrix implements Serializable, Cloneable {
 			}
 		} else {
 			double[][] result = new double[fN][fM];
-			for(int i=0; i<fN; i++) {
-				for(int j=0; j<fM; j++) {
+			for (int i = 0; i < fN; i++) {
+				for (int j = 0; j < fM; j++) {
 					result[i][j] = getValue(j, i);
 				}
 			}
 			fN = fM;
 			fM = result.length;
 			fElements = new double[fM][fN];
-			for(int i=0; i<fM; i++) {
+			for (int i = 0; i < fM; i++) {
 				System.arraycopy(result[i], 0, fElements[i], 0, fN);
 			}
 		}
 		return this;
 	}
-	
+
 	/**
 	 * Calculates and returns trace.
+	 * 
 	 * @return the trace of this matrix
 	 */
 	public double trace() {
 		double tr = 0.0;
 		int n = Math.min(fM, fN);
-		for(int i=0; i<n; i++) {
+		for (int i = 0; i < n; i++) {
 			tr += getValue(i, i);
 		}
 		return tr;
 	}
-	
+
 	/**
 	 * Do cholesky decomposition.
+	 * 
 	 * @return TCCholeskyDecomposition Class of this matrix
 	 */
 	public TCCholeskyDecomposition chol() {
 		return new TCCholeskyDecomposition(this);
 	}
-	
+
 	/**
 	 * Do LU decomposition.
+	 * 
 	 * @return TCLUDecomposition Class of this matrix
 	 */
 	public TCLUDecomposition lu() {
 		return new TCLUDecomposition(this);
 	}
-	
+
 	/**
 	 * Do QR decomposition.
+	 * 
 	 * @return TCQRDecomposition Class of this matrix
 	 */
 	public TCQRDecomposition qr() {
 		return new TCQRDecomposition(this);
 	}
-	
+
 	/**
 	 * Do Eigenvalue decomposition.
+	 * 
 	 * @return TCEigenvalueDecomposition Class of this matrix
 	 */
 	public TCEigenvalueDecomposition eig() {
 		return new TCEigenvalueDecomposition(this);
 	}
-	
+
 	/**
 	 * Do SingularValue decomposition.
+	 * 
 	 * @return TCSingularValuDecomposition Class of this matrix.
 	 */
 	public TCSingularValueDecomposition svd() {
 		return new TCSingularValueDecomposition(this);
 	}
-	
+
 	/**
 	 * Returns determinant of this matrix.
 	 * 
@@ -626,64 +660,70 @@ public class TCMatrix implements Serializable, Cloneable {
 	public double det() {
 		return new TCLUDecomposition(this).det();
 	}
-	
+
 	/**
 	 * Returns TCMatrix X such that satisfies A*X = B, where A is this matrix.
+	 * 
 	 * @param B
 	 * @return The solution of A*X = B.
 	 */
 	public TCMatrix solve(TCMatrix B) {
-		return (fM == fN ? (new TCLUDecomposition(this)).solve(B) :
-											(new TCQRDecomposition(this)).solve(B));
+		return (fM == fN ? (new TCLUDecomposition(this)).solve(B) : (new TCQRDecomposition(this)).solve(B));
 	}
-	
+
 	/**
 	 * Returns an inverse of this matrix.
 	 * Updates this object.
+	 * 
 	 * @return this matrix
 	 */
 	public TCMatrix inverse() {
 		double[][] ident = new double[fM][fM];
-		for(int i=0; i<fM; i++) ident[i][i] = 1.0;
+		for (int i = 0; i < fM; i++)
+			ident[i][i] = 1.0;
 		TCMatrix identityMatrix = new TCMatrix(ident);
 		this.copyFrom(solve(identityMatrix));
 		return this;
 	}
-	
+
 	/**
 	 * Returns rank of this matrix.
+	 * 
 	 * @return the rank of this matrix
 	 */
 	public int rank() {
 		return new TCSingularValueDecomposition(this).rank();
 	}
-	
+
 	/**
 	 * Returns condition number (singular value decomposition) of this matrix.
+	 * 
 	 * @return the condition number of this matrix
 	 */
 	public double cond() {
 		return new TCSingularValueDecomposition(this).cond();
 	}
-	
+
 	/**
 	 * Frobenius norm.
+	 * 
 	 * @return sqrt of sum of squares of all elements.
 	 */
 	public double normF() {
 		double f = 0.0;
-		for(int i=0; i<fM; i++) {
-			for(int j=0; j<fN; j++) {
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < fN; j++) {
 				f = TCMaths.hypot(f, fElements[i][j]);
 			}
 		}
 		return f;
 	}
-	
+
 	/**
-	 * L2ƒmƒ‹ƒ€‚ğ•Ô‚·D
-	 * ‚±‚Ìƒƒ\ƒbƒh‚Í—ñƒxƒNƒgƒ‹‚É‘Î‚µ‚Ä‚Ì‚İ“K—p‰Â”\D
-	 * @return L2ƒmƒ‹ƒ€
+	 * L2ãƒãƒ«ãƒ ã‚’è¿”ã™ï¼
+	 * ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯åˆ—ãƒ™ã‚¯ãƒˆãƒ«ã«å¯¾ã—ã¦ã®ã¿é©ç”¨å¯èƒ½ï¼
+	 * 
+	 * @return L2ãƒãƒ«ãƒ 
 	 */
 	public double normL2() {
 		if (getColumnDimension() != 1) {
@@ -695,11 +735,12 @@ public class TCMatrix implements Serializable, Cloneable {
 		}
 		return Math.sqrt(sum);
 	}
-	
+
 	/**
-	 * ’PˆÊƒxƒNƒgƒ‹‚É‹­§‚·‚éD
-	 * ‚±‚Ìƒƒ\ƒbƒh‚Í—ñƒxƒNƒgƒ‹‚É‘Î‚µ‚Ä‚Ì‚İ“K—p‰Â”\D
-	 * @return ’PˆÊƒxƒNƒgƒ‹
+	 * å˜ä½ãƒ™ã‚¯ãƒˆãƒ«ã«å¼·åˆ¶ã™ã‚‹ï¼
+	 * ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯åˆ—ãƒ™ã‚¯ãƒˆãƒ«ã«å¯¾ã—ã¦ã®ã¿é©ç”¨å¯èƒ½ï¼
+	 * 
+	 * @return å˜ä½ãƒ™ã‚¯ãƒˆãƒ«
 	 */
 	public TCMatrix enforceToUnitVector() {
 		if (getColumnDimension() != 1) {
@@ -709,15 +750,16 @@ public class TCMatrix implements Serializable, Cloneable {
 		div(length);
 		return this;
 	}
-	
+
 	/**
-	 * “àÏ‚ğ•Ô‚·D
-	 * ‚±‚Ìƒƒ\ƒbƒh‚Í—ñƒxƒNƒgƒ‹‚É‘Î‚µ‚Ä‚Ì‚İ“K—p‰Â”\D
-	 * @param v —ñƒxƒNƒgƒ‹
-	 * @return “àÏ
+	 * å†…ç©ã‚’è¿”ã™ï¼
+	 * ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯åˆ—ãƒ™ã‚¯ãƒˆãƒ«ã«å¯¾ã—ã¦ã®ã¿é©ç”¨å¯èƒ½ï¼
+	 * 
+	 * @param v åˆ—ãƒ™ã‚¯ãƒˆãƒ«
+	 * @return å†…ç©
 	 */
 	public double innerProduct(TCMatrix v) {
-		if(getColumnDimension() != 1 || v.getColumnDimension() != 1 || getRowDimension() != v.getRowDimension()) {
+		if (getColumnDimension() != 1 || v.getColumnDimension() != 1 || getRowDimension() != v.getRowDimension()) {
 			throw new IllegalArgumentException("Dimensions are incorrect.");
 		}
 		double result = 0.0;
@@ -726,125 +768,130 @@ public class TCMatrix implements Serializable, Cloneable {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Fills the elements of the matrix with specified value.
+	 * 
 	 * @param value
 	 * @return this matrix
 	 */
 	public TCMatrix fill(double value) {
-		if(fM == fN) {
-			for(int i=0; i<fM; i++) {
+		if (fM == fN) {
+			for (int i = 0; i < fM; i++) {
 				fElements[i][i] = value;
-				for(int j=0; j<i; j++) {
+				for (int j = 0; j < i; j++) {
 					fElements[i][j] = value;
 					fElements[j][i] = value;
 				}
 			}
 		} else {
-			for(int i=0; i<fM; i++) {
-				for(int j=0; j<fN; j++) {
+			for (int i = 0; i < fM; i++) {
+				for (int j = 0; j < fN; j++) {
 					fElements[i][j] = value;
 				}
 			}
 		}
 		return this;
 	}
-	
+
 	/**
 	 * Initializes all elements with random double values.
+	 * 
 	 * @param random
 	 * @return this matrix
 	 */
 	public TCMatrix rand(ICRandom random) {
-		for(int i=0; i<fM; i++) {
-			for(int j=0; j<fN; j++) {
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < fN; j++) {
 				fElements[i][j] = random.nextDouble();
 			}
 		}
 		return this;
 	}
-	
+
 	/**
 	 * Initializes all elements with random double values according to gaussian.
+	 * 
 	 * @param random
 	 * @return this matrix
 	 */
 	public TCMatrix randn(ICRandom random) {
-		for(int i=0; i<fM; i++) {
-			for(int j=0; j<fN; j++) {
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < fN; j++) {
 				fElements[i][j] = random.nextGaussian();
 			}
 		}
 		return this;
 	}
-	
+
 	/**
 	 * Initializes this matrix as the identity matrix.
-	 * The elements <i>x<sub>i,i</sub></i> = 1.0, where <i>i</i> = min {<i>m, n</i>}, and the other elements are 0.
+	 * The elements <i>x<sub>i,i</sub></i> = 1.0, where <i>i</i> = min {<i>m,
+	 * n</i>}, and the other elements are 0.
 	 * 
 	 * @return this matrix
 	 */
 	public TCMatrix eye() {
 		this.fill(0.0);
-		int n = fM<fN ? fM : fN;
-		for(int i=0; i<n; i++) fElements[i][i] = 1.0;
-		
+		int n = fM < fN ? fM : fN;
+		for (int i = 0; i < n; i++)
+			fElements[i][i] = 1.0;
+
 		return this;
 	}
-	
+
 	/**
-	 * matrix exponential by using eigenvalue decomposition 
+	 * matrix exponential by using eigenvalue decomposition
 	 * Note that this way is ``Not'' like matlab that uses Pade approximant.
 	 * 
 	 * @param sym Is the matrix symmetric?
 	 * @author fnob
 	 */
-	public TCMatrix expm(boolean sym){
-		if(fN != fM){
+	public TCMatrix expm(boolean sym) {
+		if (fN != fM) {
 			throw new IllegalArgumentException("Matrix exponential is defined for square matrices");
 		}
-			
+
 		TCEigenvalueDecomposition eig = eig();
 		TCMatrix expD = eig.getD();
 		TCMatrix v = eig.getV();
-		
-	    for(int i=0; i<fN; i++){
-	    	expD.setValue(i, i, Math.expm1(expD.getValue(i, i))+1.0);
-	    }
-	    
-	    if(sym){
-	    	TCMatrix vT = (new TCMatrix(v)).transpose();
+
+		for (int i = 0; i < fN; i++) {
+			expD.setValue(i, i, Math.expm1(expD.getValue(i, i)) + 1.0);
+		}
+
+		if (sym) {
+			TCMatrix vT = (new TCMatrix(v)).transpose();
 			this.copyFrom(v.times(expD).times(vT));
-	    }else{
-	    	TCMatrix vI = (new TCMatrix(v)).inverse();
+		} else {
+			TCMatrix vI = (new TCMatrix(v)).inverse();
 			this.copyFrom(v.times(expD).times(vI));
-	    }
-	    return this;
+		}
+		return this;
 	}
-	
+
 	/**
 	 * element-by-element array exponential.
 	 * 
 	 * @author fnob
 	 */
-	public TCMatrix exp(){
-		for(int i=0; i<fM; i++){
-			for(int j=0; j<fN; j++){
+	public TCMatrix exp() {
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < fN; j++) {
 				fElements[i][j] = Math.expm1(fElements[i][j]) + 1.0;
 			}
 		}
 		return this;
 	}
-	
+
 	/**
 	 * element-by-element array sine.
 	 * 
 	 * @author fnob
 	 */
-	public TCMatrix sin(){
-		for(int i=0; i<fM; i++){
-			for(int j=0; j<fN; j++){
+	public TCMatrix sin() {
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < fN; j++) {
 				fElements[i][j] = Math.sin(fElements[i][j]);
 			}
 		}
@@ -856,91 +903,91 @@ public class TCMatrix implements Serializable, Cloneable {
 	 * 
 	 * @author fnob
 	 */
-	public TCMatrix cos(){
-		for(int i=0; i<fM; i++){
-			for(int j=0; j<fN; j++){
+	public TCMatrix cos() {
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < fN; j++) {
 				fElements[i][j] = Math.cos(fElements[i][j]);
 			}
 		}
 		return this;
 	}
-	
+
 	/**
 	 * element-by-element array tangent.
 	 * 
 	 * @author fnob
 	 */
-	public TCMatrix tan(){
-		for(int i=0; i<fM; i++){
-			for(int j=0; j<fN; j++){
+	public TCMatrix tan() {
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < fN; j++) {
 				fElements[i][j] = Math.tan(fElements[i][j]);
 			}
 		}
 		return this;
 	}
-	
+
 	/**
-	 * “ñ‚Â‚Ìs—ñ‚ÌŠe—v‘f‚ğ”äŠr‚µC‘å‚«‚¢•û‚Ì—v‘f‚Å\¬‚³‚ê‚½s—ñ•Ô‚·D
+	 * äºŒã¤ã®è¡Œåˆ—ã®å„è¦ç´ ã‚’æ¯”è¼ƒã—ï¼Œå¤§ãã„æ–¹ã®è¦ç´ ã§æ§‹æˆã•ã‚ŒãŸè¡Œåˆ—è¿”ã™ï¼
 	 * 
 	 * @param b matrix
 	 * @return this
 	 * @author fnob
 	 */
 	public TCMatrix max(TCMatrix b) {
-		if(fN != b.fN | fM != b.fM) {
+		if (fN != b.fN | fM != b.fM) {
 			throw new IllegalArgumentException("Dimensions are incorrect.");
 		}
-		
-		for(int i=0; i<fM; i++){
-			for(int j=0; j<fN; j++){
-				if(this.fElements[i][j] < b.fElements[i][j]){
+
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < fN; j++) {
+				if (this.fElements[i][j] < b.fElements[i][j]) {
 					this.fElements[i][j] = b.fElements[i][j];
 				}
-			}	
+			}
 		}
 		return this;
 	}
-	
+
 	/**
-	 * s—ñ‚ÌŠe—v‘fa_(i,j)‚ğmax(a_(i,j), d)‚Å’u‚«Š·‚¦‚éD
+	 * è¡Œåˆ—ã®å„è¦ç´ a_(i,j)ã‚’max(a_(i,j), d)ã§ç½®ãæ›ãˆã‚‹ï¼
 	 * 
-	 * @param d ”äŠr‘ÎÛ
+	 * @param d æ¯”è¼ƒå¯¾è±¡
 	 * @return this
 	 * @author fnob
 	 */
 	public TCMatrix max(double d) {
-		for(int i=0; i<fM; i++){
-			for(int j=0; j<fN; j++){
-				if(this.fElements[i][j] < d){
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < fN; j++) {
+				if (this.fElements[i][j] < d) {
 					this.fElements[i][j] = d;
 				}
-			}	
+			}
 		}
 		return this;
 	}
-	
+
 	/**
-	 * m-by-ns—ñ‚ÌÅ‘å’l‚Æ‚»‚ê‚É‘Î‰‚·‚éƒCƒ“ƒfƒbƒNƒX‚ğ”­Œ©‚·‚éD
-	 * Å‘å’l‚É‘Î‰‚·‚éƒCƒ“ƒfƒbƒNƒX‚ª•¡”‚ ‚éê‡C‚»‚ê‚ç‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ‘S‚Äæ‚èo‚·D
+	 * m-by-nè¡Œåˆ—ã®æœ€å¤§å€¤ã¨ãã‚Œã«å¯¾å¿œã™ã‚‹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ç™ºè¦‹ã™ã‚‹ï¼
+	 * æœ€å¤§å€¤ã«å¯¾å¿œã™ã‚‹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãŒè¤‡æ•°ã‚ã‚‹å ´åˆï¼Œãã‚Œã‚‰ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å…¨ã¦å–ã‚Šå‡ºã™ï¼
 	 * 
-	 * @param indexes Å‘å’l‚ÌwƒCƒ“ƒfƒbƒNƒXx‚ğŠi”[‚·‚éƒŠƒXƒg.
-	 * ‚½‚¾‚µCm-by-ns—ñ‚É‚¨‚¯‚é(i,j)—v‘f‚ÌwƒCƒ“ƒfƒbƒNƒXx‚ÍCi*n + j‚Å•\Œ»‚³‚ê‚é‚±‚Æ‚É’ˆÓD
+	 * @param indexes æœ€å¤§å€¤ã®ã€ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€ã‚’æ ¼ç´ã™ã‚‹ãƒªã‚¹ãƒˆ.
+	 *                ãŸã ã—ï¼Œm-by-nè¡Œåˆ—ã«ãŠã‘ã‚‹(i,j)è¦ç´ ã®ã€ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€ã¯ï¼Œi*n + jã§è¡¨ç¾ã•ã‚Œã‚‹ã“ã¨ã«æ³¨æ„ï¼
 	 * 
-	 * @return max Å‘å.
+	 * @return max æœ€å¤§.
 	 * @author fnob
 	 */
-	public double max(ArrayList<Integer> indexes){
+	public double max(ArrayList<Integer> indexes) {
 		double max = fElements[0][0];
-		
+
 		indexes.clear();
-		for(int i=0; i<fM; i++){
-			for(int j=0; j<fN; j++){
-				if(max <= fElements[i][j]){
-					if(max == fElements[i][j]){
-						indexes.add(i*fN + j);
-					}else{
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < fN; j++) {
+				if (max <= fElements[i][j]) {
+					if (max == fElements[i][j]) {
+						indexes.add(i * fN + j);
+					} else {
 						indexes.clear();
-						indexes.add(i*fN + j);
+						indexes.add(i * fN + j);
 						max = fElements[i][j];
 					}
 				}
@@ -948,34 +995,34 @@ public class TCMatrix implements Serializable, Cloneable {
 		}
 		return max;
 	}
-	
+
 	/**
-	 * m-by-ns—ñ‚Ìs•ûŒü‚ÌÅ‘å’l‚Æ‚»‚ê‚É‘Î‰‚·‚éƒCƒ“ƒfƒbƒNƒX‚ğ”­Œ©‚·‚éD
-	 * Å‘å’l‚É‘Î‰‚·‚éƒCƒ“ƒfƒbƒNƒX‚ª•¡”‚ ‚éê‡C‚»‚ê‚ç‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ‘S‚Äæ‚èo‚·D
+	 * m-by-nè¡Œåˆ—ã®è¡Œæ–¹å‘ã®æœ€å¤§å€¤ã¨ãã‚Œã«å¯¾å¿œã™ã‚‹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ç™ºè¦‹ã™ã‚‹ï¼
+	 * æœ€å¤§å€¤ã«å¯¾å¿œã™ã‚‹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãŒè¤‡æ•°ã‚ã‚‹å ´åˆï¼Œãã‚Œã‚‰ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å…¨ã¦å–ã‚Šå‡ºã™ï¼
 	 * 
-	 * @param indexes Å‘å’l‚ÌwƒCƒ“ƒfƒbƒNƒXx‚ğŠi”[‚·‚éƒŠƒXƒg.
-	 * ‚½‚¾‚µCm-by-ns—ñ‚É‚¨‚¯‚é(i,j)—v‘f‚ÌwƒCƒ“ƒfƒbƒNƒXx‚ÍCi*n + j‚Å•\Œ»‚³‚ê‚é‚±‚Æ‚É’ˆÓD
+	 * @param indexes æœ€å¤§å€¤ã®ã€ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€ã‚’æ ¼ç´ã™ã‚‹ãƒªã‚¹ãƒˆ.
+	 *                ãŸã ã—ï¼Œm-by-nè¡Œåˆ—ã«ãŠã‘ã‚‹(i,j)è¦ç´ ã®ã€ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€ã¯ï¼Œi*n + jã§è¡¨ç¾ã•ã‚Œã‚‹ã“ã¨ã«æ³¨æ„ï¼
 	 * 
-	 * @param max Å‘å’l‚ğŠi”[‚·‚éƒxƒNƒgƒ‹(m-by-1s—ñ)D
+	 * @param max     æœ€å¤§å€¤ã‚’æ ¼ç´ã™ã‚‹ãƒ™ã‚¯ãƒˆãƒ«(m-by-1è¡Œåˆ—)ï¼
 	 * @author fnob
 	 */
-	public void maxRowDirection(ArrayList<Integer> indexes, TCMatrix max){
-		if(max.fM != this.fM | max.fN != 1) {
+	public void maxRowDirection(ArrayList<Integer> indexes, TCMatrix max) {
+		if (max.fM != this.fM | max.fN != 1) {
 			throw new IllegalArgumentException("Dimension of max is incorrect.");
 		}
-		
+
 		indexes.clear();
 		ArrayList<Integer> rowIndexes = new ArrayList<Integer>();
 		double temp;
-		for(int i=0; i<fM; i++){
+		for (int i = 0; i < fM; i++) {
 			rowIndexes.clear();
-			rowIndexes.add(0);		
+			rowIndexes.add(0);
 			temp = fElements[i][0];
-			for(int j=1; j<fN; j++){
-				if(temp <= fElements[i][j]){
-					if(temp == fElements[i][j]){
+			for (int j = 1; j < fN; j++) {
+				if (temp <= fElements[i][j]) {
+					if (temp == fElements[i][j]) {
 						rowIndexes.add(j);
-					}else{
+					} else {
 						rowIndexes.clear();
 						rowIndexes.add(j);
 						temp = fElements[i][j];
@@ -983,39 +1030,39 @@ public class TCMatrix implements Serializable, Cloneable {
 				}
 			}
 			max.fElements[i][0] = temp;
-			for(Integer idx : rowIndexes){
+			for (Integer idx : rowIndexes) {
 				indexes.add(idx + i * fN);
 			}
 		}
 	}
-	
+
 	/**
-	 * m-by-ns—ñ‚Ì—ñ•ûŒü‚ÌÅ‘å’l‚Æ‚»‚ê‚É‘Î‰‚·‚éƒCƒ“ƒfƒbƒNƒX‚ğ”­Œ©‚·‚é.
-	 * Å‘å’l‚É‘Î‰‚·‚éƒCƒ“ƒfƒbƒNƒX‚ª•¡”‚ ‚éê‡C‚»‚ê‚ç‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ‘S‚Äæ‚èo‚·.
+	 * m-by-nè¡Œåˆ—ã®åˆ—æ–¹å‘ã®æœ€å¤§å€¤ã¨ãã‚Œã«å¯¾å¿œã™ã‚‹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ç™ºè¦‹ã™ã‚‹.
+	 * æœ€å¤§å€¤ã«å¯¾å¿œã™ã‚‹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãŒè¤‡æ•°ã‚ã‚‹å ´åˆï¼Œãã‚Œã‚‰ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å…¨ã¦å–ã‚Šå‡ºã™.
 	 * 
-	 * @param indexes Å‘å’l‚ÌwƒCƒ“ƒfƒbƒNƒXx‚ğŠi”[‚·‚éƒŠƒXƒg.
-	 * ‚½‚¾‚µCm-by-ns—ñ‚É‚¨‚¯‚é(i,j)—v‘f‚ÌwƒCƒ“ƒfƒbƒNƒXx‚ÍCi*n + j‚Å•\Œ»‚³‚ê‚é‚±‚Æ‚É’ˆÓ.
+	 * @param indexes æœ€å¤§å€¤ã®ã€ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€ã‚’æ ¼ç´ã™ã‚‹ãƒªã‚¹ãƒˆ.
+	 *                ãŸã ã—ï¼Œm-by-nè¡Œåˆ—ã«ãŠã‘ã‚‹(i,j)è¦ç´ ã®ã€ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€ã¯ï¼Œi*n + jã§è¡¨ç¾ã•ã‚Œã‚‹ã“ã¨ã«æ³¨æ„.
 	 * 
-	 * @param max Å‘å’l‚ğŠi”[‚·‚éƒxƒNƒgƒ‹(1-by-ns—ñ).
+	 * @param max     æœ€å¤§å€¤ã‚’æ ¼ç´ã™ã‚‹ãƒ™ã‚¯ãƒˆãƒ«(1-by-nè¡Œåˆ—).
 	 * @author fnob
 	 */
-	public void maxColumnDirection(ArrayList<Integer> indexes, TCMatrix max){
-		if(max.fM != 1 | max.fN != this.fN) {
+	public void maxColumnDirection(ArrayList<Integer> indexes, TCMatrix max) {
+		if (max.fM != 1 | max.fN != this.fN) {
 			throw new IllegalArgumentException("Dimension of max is incorrect.");
 		}
-		
+
 		indexes.clear();
 		ArrayList<Integer> columnIndexes = new ArrayList<Integer>();
 		double temp;
-		for(int i=0; i<fN; i++){
+		for (int i = 0; i < fN; i++) {
 			columnIndexes.clear();
 			columnIndexes.add(0);
-			temp =  fElements[0][i];
-			for(int j=1; j<fM; j++){
-				if(temp <= fElements[j][i]){
-					if(temp == fElements[j][i]){
+			temp = fElements[0][i];
+			for (int j = 1; j < fM; j++) {
+				if (temp <= fElements[j][i]) {
+					if (temp == fElements[j][i]) {
 						columnIndexes.add(j);
-					}else{
+					} else {
 						columnIndexes.clear();
 						columnIndexes.add(j);
 						temp = fElements[j][i];
@@ -1023,75 +1070,75 @@ public class TCMatrix implements Serializable, Cloneable {
 				}
 			}
 			max.fElements[0][i] = temp;
-			for(Integer idx : columnIndexes){
+			for (Integer idx : columnIndexes) {
 				indexes.add(i + idx * fN);
 			}
-			
+
 		}
 	}
 
 	/**
-	 * “ñ‚Â‚Ìs—ñ‚ÌŠe—v‘f‚ğ”äŠr‚µC‘å‚«‚¢•û‚Ì—v‘f‚Å\¬‚³‚ê‚½s—ñ•Ô‚·D
+	 * äºŒã¤ã®è¡Œåˆ—ã®å„è¦ç´ ã‚’æ¯”è¼ƒã—ï¼Œå¤§ãã„æ–¹ã®è¦ç´ ã§æ§‹æˆã•ã‚ŒãŸè¡Œåˆ—è¿”ã™ï¼
 	 * 
 	 * @param b matrix
 	 * @return this
 	 * @author fnob
 	 */
 	public TCMatrix min(TCMatrix b) {
-		if(fN != b.fN | fM != b.fM) {
+		if (fN != b.fN | fM != b.fM) {
 			throw new IllegalArgumentException("Dimensions are incorrect.");
 		}
-		
-		for(int i=0; i<fM; i++){
-			for(int j=0; j<fN; j++){
-				if(this.fElements[i][j] > b.fElements[i][j]){
+
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < fN; j++) {
+				if (this.fElements[i][j] > b.fElements[i][j]) {
 					this.fElements[i][j] = b.fElements[i][j];
 				}
-			}	
+			}
 		}
 		return this;
 	}
-	
+
 	/**
-	 * s—ñ‚ÌŠe—v‘fa_(i,j)‚ğmin(a_(i,j), d)‚Å’u‚«Š·‚¦‚éD
+	 * è¡Œåˆ—ã®å„è¦ç´ a_(i,j)ã‚’min(a_(i,j), d)ã§ç½®ãæ›ãˆã‚‹ï¼
 	 * 
-	 * @param d ”äŠr‘ÎÛ
+	 * @param d æ¯”è¼ƒå¯¾è±¡
 	 * @return this
 	 * @author fnob
 	 */
 	public TCMatrix min(double d) {
-		for(int i=0; i<fM; i++){
-			for(int j=0; j<fN; j++){
-				if(this.fElements[i][j] > d){
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < fN; j++) {
+				if (this.fElements[i][j] > d) {
 					this.fElements[i][j] = d;
 				}
-			}	
+			}
 		}
 		return this;
 	}
-	
+
 	/**
-	 * m-by-ns—ñ‚ÌÅ¬’l‚Æ‚»‚ê‚É‘Î‰‚·‚éƒCƒ“ƒfƒbƒNƒX‚ğ”­Œ©‚·‚éD
-	 * Å¬’l‚É‘Î‰‚·‚éƒCƒ“ƒfƒbƒNƒX‚ª•¡”‚ ‚éê‡C‚»‚ê‚ç‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ‘S‚Äæ‚èo‚·D
+	 * m-by-nè¡Œåˆ—ã®æœ€å°å€¤ã¨ãã‚Œã«å¯¾å¿œã™ã‚‹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ç™ºè¦‹ã™ã‚‹ï¼
+	 * æœ€å°å€¤ã«å¯¾å¿œã™ã‚‹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãŒè¤‡æ•°ã‚ã‚‹å ´åˆï¼Œãã‚Œã‚‰ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å…¨ã¦å–ã‚Šå‡ºã™ï¼
 	 * 
-	 * @param indexes Å¬’l‚ÌwƒCƒ“ƒfƒbƒNƒXx‚ğŠi”[‚·‚éƒŠƒXƒg.
-	 * ‚½‚¾‚µCm-by-ns—ñ‚É‚¨‚¯‚é(i,j)—v‘f‚ÌwƒCƒ“ƒfƒbƒNƒXx‚ÍCi*n + j‚Å•\Œ»‚³‚ê‚é‚±‚Æ‚É’ˆÓD
+	 * @param indexes æœ€å°å€¤ã®ã€ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€ã‚’æ ¼ç´ã™ã‚‹ãƒªã‚¹ãƒˆ.
+	 *                ãŸã ã—ï¼Œm-by-nè¡Œåˆ—ã«ãŠã‘ã‚‹(i,j)è¦ç´ ã®ã€ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€ã¯ï¼Œi*n + jã§è¡¨ç¾ã•ã‚Œã‚‹ã“ã¨ã«æ³¨æ„ï¼
 	 * 
-	 * @return min Å¬’l.
+	 * @return min æœ€å°å€¤.
 	 * @author fnob
 	 */
-	public double min(ArrayList<Integer> indexes){
+	public double min(ArrayList<Integer> indexes) {
 		double min = fElements[0][0];
-		
+
 		indexes.clear();
-		for(int i=0; i<fM; i++){
-			for(int j=0; j<fN; j++){
-				if(min >= fElements[i][j]){
-					if(min == fElements[i][j]){
-						indexes.add(i*fN + j);
-					}else{
+		for (int i = 0; i < fM; i++) {
+			for (int j = 0; j < fN; j++) {
+				if (min >= fElements[i][j]) {
+					if (min == fElements[i][j]) {
+						indexes.add(i * fN + j);
+					} else {
 						indexes.clear();
-						indexes.add(i*fN + j);
+						indexes.add(i * fN + j);
 						min = fElements[i][j];
 					}
 				}
@@ -1099,34 +1146,34 @@ public class TCMatrix implements Serializable, Cloneable {
 		}
 		return min;
 	}
-	
+
 	/**
-	 * m-by-ns—ñ‚Ìs•ûŒü‚ÌÅ¬’l‚Æ‚»‚ê‚É‘Î‰‚·‚éƒCƒ“ƒfƒbƒNƒX‚ğ”­Œ©‚·‚éD
-	 * Å¬’l‚É‘Î‰‚·‚éƒCƒ“ƒfƒbƒNƒX‚ª•¡”‚ ‚éê‡C‚»‚ê‚ç‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ‘S‚Äæ‚èo‚·D
+	 * m-by-nè¡Œåˆ—ã®è¡Œæ–¹å‘ã®æœ€å°å€¤ã¨ãã‚Œã«å¯¾å¿œã™ã‚‹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ç™ºè¦‹ã™ã‚‹ï¼
+	 * æœ€å°å€¤ã«å¯¾å¿œã™ã‚‹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãŒè¤‡æ•°ã‚ã‚‹å ´åˆï¼Œãã‚Œã‚‰ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å…¨ã¦å–ã‚Šå‡ºã™ï¼
 	 * 
-	 * @param indexes Å¬’l‚ÌwƒCƒ“ƒfƒbƒNƒXx‚ğŠi”[‚·‚éƒŠƒXƒg.
-	 * ‚½‚¾‚µCm-by-ns—ñ‚É‚¨‚¯‚é(i,j)—v‘f‚ÌwƒCƒ“ƒfƒbƒNƒXx‚ÍCi*n + j‚Å•\Œ»‚³‚ê‚é‚±‚Æ‚É’ˆÓD
+	 * @param indexes æœ€å°å€¤ã®ã€ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€ã‚’æ ¼ç´ã™ã‚‹ãƒªã‚¹ãƒˆ.
+	 *                ãŸã ã—ï¼Œm-by-nè¡Œåˆ—ã«ãŠã‘ã‚‹(i,j)è¦ç´ ã®ã€ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€ã¯ï¼Œi*n + jã§è¡¨ç¾ã•ã‚Œã‚‹ã“ã¨ã«æ³¨æ„ï¼
 	 * 
-	 * @param min Å¬’l‚ğŠi”[‚·‚éƒxƒNƒgƒ‹(m-by-1s—ñ)D
+	 * @param min     æœ€å°å€¤ã‚’æ ¼ç´ã™ã‚‹ãƒ™ã‚¯ãƒˆãƒ«(m-by-1è¡Œåˆ—)ï¼
 	 * @author fnob
 	 */
-	public void minRowDirection(ArrayList<Integer> indexes, TCMatrix min){	
-		if(min.fM != this.fM | min.fN != 1) {
+	public void minRowDirection(ArrayList<Integer> indexes, TCMatrix min) {
+		if (min.fM != this.fM | min.fN != 1) {
 			throw new IllegalArgumentException("Dimension of min is incorrect.");
 		}
-		
+
 		indexes.clear();
 		ArrayList<Integer> rowIndexes = new ArrayList<Integer>();
 		double temp;
-		for(int i=0; i<fM; i++){
+		for (int i = 0; i < fM; i++) {
 			rowIndexes.clear();
 			rowIndexes.add(0);
 			temp = fElements[i][0];
-			for(int j=1; j<fN; j++){
-				if(temp >= fElements[i][j]){
-					if(temp == fElements[i][j]){
+			for (int j = 1; j < fN; j++) {
+				if (temp >= fElements[i][j]) {
+					if (temp == fElements[i][j]) {
 						rowIndexes.add(j);
-					}else{
+					} else {
 						rowIndexes.clear();
 						rowIndexes.add(j);
 						temp = fElements[i][j];
@@ -1134,39 +1181,39 @@ public class TCMatrix implements Serializable, Cloneable {
 				}
 			}
 			min.fElements[i][0] = temp;
-			for(Integer idx : rowIndexes){
+			for (Integer idx : rowIndexes) {
 				indexes.add(idx + i * fN);
 			}
 		}
 	}
-	
+
 	/**
-	 * m-by-ns—ñ‚Ì—ñ•ûŒü‚ÌÅ¬’l‚Æ‚»‚ê‚É‘Î‰‚·‚éƒCƒ“ƒfƒbƒNƒX‚ğ”­Œ©‚·‚éD
-	 * Å¬’l‚É‘Î‰‚·‚éƒCƒ“ƒfƒbƒNƒX‚ª•¡”‚ ‚éê‡C‚»‚ê‚ç‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ‘S‚Äæ‚èo‚·D
+	 * m-by-nè¡Œåˆ—ã®åˆ—æ–¹å‘ã®æœ€å°å€¤ã¨ãã‚Œã«å¯¾å¿œã™ã‚‹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ç™ºè¦‹ã™ã‚‹ï¼
+	 * æœ€å°å€¤ã«å¯¾å¿œã™ã‚‹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãŒè¤‡æ•°ã‚ã‚‹å ´åˆï¼Œãã‚Œã‚‰ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å…¨ã¦å–ã‚Šå‡ºã™ï¼
 	 * 
-	 * @param indexes Å¬’l‚ÌwƒCƒ“ƒfƒbƒNƒXx‚ğŠi”[‚·‚éƒŠƒXƒg.
-	 * ‚½‚¾‚µCm-by-ns—ñ‚É‚¨‚¯‚é(i,j)—v‘f‚ÌwƒCƒ“ƒfƒbƒNƒXx‚ÍCi*n + j‚Å•\Œ»‚³‚ê‚é‚±‚Æ‚É’ˆÓD
+	 * @param indexes æœ€å°å€¤ã®ã€ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€ã‚’æ ¼ç´ã™ã‚‹ãƒªã‚¹ãƒˆ.
+	 *                ãŸã ã—ï¼Œm-by-nè¡Œåˆ—ã«ãŠã‘ã‚‹(i,j)è¦ç´ ã®ã€ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€ã¯ï¼Œi*n + jã§è¡¨ç¾ã•ã‚Œã‚‹ã“ã¨ã«æ³¨æ„ï¼
 	 * 
-	 * @param min Å¬’l‚ğŠi”[‚·‚éƒxƒNƒgƒ‹(1-by-ns—ñ)D
+	 * @param min     æœ€å°å€¤ã‚’æ ¼ç´ã™ã‚‹ãƒ™ã‚¯ãƒˆãƒ«(1-by-nè¡Œåˆ—)ï¼
 	 * @author fnob
 	 */
-	public void minColumnDirection(ArrayList<Integer> indexes, TCMatrix min){	
-		if(min.fM != 1 | min.fN != this.fN) {
+	public void minColumnDirection(ArrayList<Integer> indexes, TCMatrix min) {
+		if (min.fM != 1 | min.fN != this.fN) {
 			throw new IllegalArgumentException("Dimension of min is incorrect.");
 		}
-		
+
 		indexes.clear();
 		ArrayList<Integer> columnIndexes = new ArrayList<Integer>();
 		double temp;
-		for(int i=0; i<fN; i++){
+		for (int i = 0; i < fN; i++) {
 			columnIndexes.clear();
 			columnIndexes.add(0);
-			temp =  fElements[0][i];
-			for(int j=1; j<fM; j++){
-				if(temp >= fElements[j][i]){
-					if(temp == fElements[j][i]){
+			temp = fElements[0][i];
+			for (int j = 1; j < fM; j++) {
+				if (temp >= fElements[j][i]) {
+					if (temp == fElements[j][i]) {
 						columnIndexes.add(j);
-					}else{
+					} else {
 						columnIndexes.clear();
 						columnIndexes.add(j);
 						temp = fElements[j][i];
@@ -1174,39 +1221,42 @@ public class TCMatrix implements Serializable, Cloneable {
 				}
 			}
 			min.fElements[0][i] = temp;
-			for(Integer idx : columnIndexes){
+			for (Integer idx : columnIndexes) {
 				indexes.add(i + idx * fN);
 			}
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
 	public TCMatrix clone() {
 		return new TCMatrix(this);
 	}
-	
+
 	/**
-	 * ©g‚Ì src_i0 ‚©‚ç src_i1 sC‚¨‚æ‚Ñ src_j0 ‚©‚ç src_j1 —ñ‚É‘Î‰‚·‚é•”•ªs—ñ‚ÌƒNƒ[ƒ“‚ğì¬‚µ‚Ä•Ô‚·D
+	 * è‡ªèº«ã® src_i0 ã‹ã‚‰ src_i1 è¡Œï¼ŒãŠã‚ˆã³ src_j0 ã‹ã‚‰ src_j1 åˆ—ã«å¯¾å¿œã™ã‚‹éƒ¨åˆ†è¡Œåˆ—ã®ã‚¯ãƒ­ãƒ¼ãƒ³ã‚’ä½œæˆã—ã¦è¿”ã™ï¼
+	 * 
 	 * @param src_i0 first row index
 	 * @param src_i1 last row index
 	 * @param src_j0 first column index
 	 * @param src_j1 last column index
-	 * @return •”•ªs—ñ‚ÌƒNƒ[ƒ“
+	 * @return éƒ¨åˆ†è¡Œåˆ—ã®ã‚¯ãƒ­ãƒ¼ãƒ³
 	 */
 	public TCMatrix cloneSubmatrix(int src_i0, int src_i1, int src_j0, int src_j1) {
 		TCMatrix result = new TCMatrix();
 		result.copySubmatrixFrom(this, src_i0, src_i1, src_j0, src_j1, 0, 0);
 		return result;
 	}
-	
+
 	/**
-	 * w’è‚µ‚½s‚ÌsƒxƒNƒgƒ‹‚ÌƒNƒ[ƒ“‚ğ•Ô‚·D
-	 * @param rowIndex s
-	 * @return sƒxƒNƒgƒ‹
+	 * æŒ‡å®šã—ãŸè¡Œã®è¡Œãƒ™ã‚¯ãƒˆãƒ«ã®ã‚¯ãƒ­ãƒ¼ãƒ³ã‚’è¿”ã™ï¼
+	 * 
+	 * @param rowIndex è¡Œ
+	 * @return è¡Œãƒ™ã‚¯ãƒˆãƒ«
 	 */
 	public TCMatrix cloneRowVector(int rowIndex) {
 		TCMatrix result = new TCMatrix(1, getColumnDimension());
@@ -1217,9 +1267,10 @@ public class TCMatrix implements Serializable, Cloneable {
 	}
 
 	/**
-	 * w’è‚µ‚½—ñ‚Ì—ñƒxƒNƒgƒ‹‚ÌƒNƒ[ƒ“‚ğ•Ô‚·D
-	 * @param columnIndex —ñ
-	 * @return —ñƒxƒNƒgƒ‹
+	 * æŒ‡å®šã—ãŸåˆ—ã®åˆ—ãƒ™ã‚¯ãƒˆãƒ«ã®ã‚¯ãƒ­ãƒ¼ãƒ³ã‚’è¿”ã™ï¼
+	 * 
+	 * @param columnIndex åˆ—
+	 * @return åˆ—ãƒ™ã‚¯ãƒˆãƒ«
 	 */
 	public TCMatrix cloneColumnVector(int columnIndex) {
 		TCMatrix result = new TCMatrix(getRowDimension(), 1);
@@ -1228,14 +1279,14 @@ public class TCMatrix implements Serializable, Cloneable {
 		}
 		return result;
 	}
-	
+
 	@Override
 	public String toString() {
-		if(fM==0 || fN==0) {
+		if (fM == 0 || fN == 0) {
 			return "[]\n";
 		}
 		String s = "";
-		for(int i=0; i<fM; i++) {
+		for (int i = 0; i < fM; i++) {
 			s += Arrays.toString(fElements[i]);
 			if (i < fM - 1) {
 				s += "\n";
@@ -1243,13 +1294,14 @@ public class TCMatrix implements Serializable, Cloneable {
 		}
 		return s;
 	}
-	
+
 	/**
-	 * ÅŒã‚Ìs‚ÌŒã‚És—ñ‚ğ’Ç‰Á‚·‚éD
-	 * “à•”“I‚É‚ÍC–ˆ‰ñCƒƒ‚ƒŠ‚ÌŠm•Û‚Æ—v‘f‚ÌƒRƒs[‚ª‹N‚±‚é‚Ì‚ÅŒø—¦‚Í‚ ‚Ü‚è—Ç‚­‚È‚¢D
-	 * ‚ ‚ç‚©‚¶‚ßÅ‘å‚Ìs”‚ª‚í‚©‚Á‚Ä‚¢‚é‚È‚ç‚ÎCÅ‘å‚Ìs”‚Ås—ñ‚ğ¶¬‚µ‚Ä‚¨‚«CcopyAtRowƒƒ\ƒbƒh‚ÅƒRƒs[‚ğ‚µ‚Ä‚¢‚­•û‚ªŒø—¦“I‚Å‚ ‚éD
-	 * @param b ’Ç‰Á‚µ‚½‚¢s—ñD—ñ”n‚Í“¯‚¶•K—v‚ª‚ ‚éD
-	 * @return (m + b.m)~ns—ñ
+	 * æœ€å¾Œã®è¡Œã®å¾Œã«è¡Œåˆ—ã‚’è¿½åŠ ã™ã‚‹ï¼
+	 * å†…éƒ¨çš„ã«ã¯ï¼Œæ¯å›ï¼Œãƒ¡ãƒ¢ãƒªã®ç¢ºä¿ã¨è¦ç´ ã®ã‚³ãƒ”ãƒ¼ãŒèµ·ã“ã‚‹ã®ã§åŠ¹ç‡ã¯ã‚ã¾ã‚Šè‰¯ããªã„ï¼
+	 * ã‚ã‚‰ã‹ã˜ã‚æœ€å¤§ã®è¡Œæ•°ãŒã‚ã‹ã£ã¦ã„ã‚‹ãªã‚‰ã°ï¼Œæœ€å¤§ã®è¡Œæ•°ã§è¡Œåˆ—ã‚’ç”Ÿæˆã—ã¦ãŠãï¼ŒcopyAtRowãƒ¡ã‚½ãƒƒãƒ‰ã§ã‚³ãƒ”ãƒ¼ã‚’ã—ã¦ã„ãæ–¹ãŒåŠ¹ç‡çš„ã§ã‚ã‚‹ï¼
+	 * 
+	 * @param b è¿½åŠ ã—ãŸã„è¡Œåˆ—ï¼åˆ—æ•°nã¯åŒã˜å¿…è¦ãŒã‚ã‚‹ï¼
+	 * @return (m + b.m)Ã—nè¡Œåˆ—
 	 */
 	public TCMatrix appendAfterLastRow(TCMatrix b) {
 		if (fN != b.fN) {
@@ -1273,11 +1325,12 @@ public class TCMatrix implements Serializable, Cloneable {
 	}
 
 	/**
-	 * ÅŒã‚Ì—ñ‚ÌŒã‚És—ñ‚ğ’Ç‰Á‚·‚éD
-	 * “à•”“I‚É‚ÍC–ˆ‰ñCƒƒ‚ƒŠ‚ÌŠm•Û‚Æ—v‘f‚ÌƒRƒs[‚ª‹N‚±‚é‚Ì‚ÅŒø—¦‚Í‚ ‚Ü‚è—Ç‚­‚È‚¢D
-	 * ‚ ‚ç‚©‚¶‚ßÅ‘å‚Ì—ñ”‚ª‚í‚©‚Á‚Ä‚¢‚é‚È‚ç‚ÎCÅ‘å‚Ì—ñ”‚Ås—ñ‚ğ¶¬‚µ‚Ä‚¨‚«CcopyAtColumnƒƒ\ƒbƒh‚ÅƒRƒs[‚ğ‚µ‚Ä‚¢‚­•û‚ªŒø—¦“I‚Å‚ ‚éD
-	 * @param b ’Ç‰Á‚µ‚½‚¢s—ñDs”m‚Í“¯‚¶‚Å‚ ‚é•K—v‚ª‚ ‚éD
-	 * @return m~(n+b.n)s—ñ
+	 * æœ€å¾Œã®åˆ—ã®å¾Œã«è¡Œåˆ—ã‚’è¿½åŠ ã™ã‚‹ï¼
+	 * å†…éƒ¨çš„ã«ã¯ï¼Œæ¯å›ï¼Œãƒ¡ãƒ¢ãƒªã®ç¢ºä¿ã¨è¦ç´ ã®ã‚³ãƒ”ãƒ¼ãŒèµ·ã“ã‚‹ã®ã§åŠ¹ç‡ã¯ã‚ã¾ã‚Šè‰¯ããªã„ï¼
+	 * ã‚ã‚‰ã‹ã˜ã‚æœ€å¤§ã®åˆ—æ•°ãŒã‚ã‹ã£ã¦ã„ã‚‹ãªã‚‰ã°ï¼Œæœ€å¤§ã®åˆ—æ•°ã§è¡Œåˆ—ã‚’ç”Ÿæˆã—ã¦ãŠãï¼ŒcopyAtColumnãƒ¡ã‚½ãƒƒãƒ‰ã§ã‚³ãƒ”ãƒ¼ã‚’ã—ã¦ã„ãæ–¹ãŒåŠ¹ç‡çš„ã§ã‚ã‚‹ï¼
+	 * 
+	 * @param b è¿½åŠ ã—ãŸã„è¡Œåˆ—ï¼è¡Œæ•°mã¯åŒã˜ã§ã‚ã‚‹å¿…è¦ãŒã‚ã‚‹ï¼
+	 * @return mÃ—(n+b.n)è¡Œåˆ—
 	 */
 	public TCMatrix appendAfterLastColumn(TCMatrix b) {
 		if (fM != b.fM) {
@@ -1297,10 +1350,11 @@ public class TCMatrix implements Serializable, Cloneable {
 		}
 		return this;
 	}
-	
+
 	/**
-	 * s—ñ‚Ì—v‘f‚ÉNaN‚ğŠÜ‚ñ‚Å‚¢‚È‚¢‚©’²‚×‚éD
-	 * @return true:ŠÜ‚ñ‚Å‚¢‚éCfalse:ŠÜ‚ñ‚Å‚¢‚È‚¢
+	 * è¡Œåˆ—ã®è¦ç´ ã«NaNã‚’å«ã‚“ã§ã„ãªã„ã‹èª¿ã¹ã‚‹ï¼
+	 * 
+	 * @return true:å«ã‚“ã§ã„ã‚‹ï¼Œfalse:å«ã‚“ã§ã„ãªã„
 	 */
 	public boolean isNan() {
 		for (int m = 0; m < fM; ++m) {
@@ -1312,19 +1366,20 @@ public class TCMatrix implements Serializable, Cloneable {
 		}
 		return false;
 	}
-	
+
 	/**
-	 * w’è‚³‚ê‚½s‚És—ñ‚ğƒRƒs[‚·‚éD
-	 * @param b ƒRƒs[‚·‚és—ñD—ñ”‚ªƒRƒs[æ‚Ìs—ñi‚±‚Ìs—ñj‚Æ“¯‚¶‚Å‚ ‚é•K—v‚ª‚ ‚éD
-	 * @param row ƒRƒs[‚·‚ésD(row+b‚Ìs”)‚ªƒRƒs[æ‚Ìs—ñi‚±‚Ìs—ñj‚Ìs”“à‚Éû‚Ü‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éD
-	 * @return ƒRƒs[‚³‚ê‚½Œã‚Ì‚±‚Ìs—ñ
+	 * æŒ‡å®šã•ã‚ŒãŸè¡Œã«è¡Œåˆ—ã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹ï¼
+	 * 
+	 * @param b   ã‚³ãƒ”ãƒ¼ã™ã‚‹è¡Œåˆ—ï¼åˆ—æ•°ãŒã‚³ãƒ”ãƒ¼å…ˆã®è¡Œåˆ—ï¼ˆã“ã®è¡Œåˆ—ï¼‰ã¨åŒã˜ã§ã‚ã‚‹å¿…è¦ãŒã‚ã‚‹ï¼
+	 * @param row ã‚³ãƒ”ãƒ¼ã™ã‚‹è¡Œï¼(row+bã®è¡Œæ•°)ãŒã‚³ãƒ”ãƒ¼å…ˆã®è¡Œåˆ—ï¼ˆã“ã®è¡Œåˆ—ï¼‰ã®è¡Œæ•°å†…ã«åã¾ã£ã¦ã„ã‚‹å¿…è¦ãŒã‚ã‚‹ï¼
+	 * @return ã‚³ãƒ”ãƒ¼ã•ã‚ŒãŸå¾Œã®ã“ã®è¡Œåˆ—
 	 */
 	public TCMatrix copyAtRow(TCMatrix b, int row) {
 		if (fN != b.fN) {
 			throw new IllegalArgumentException("The number of columns must be same.");
 		}
 		if (row < 0 || row + b.fM > fM) {
-			throw new IllegalArgumentException("row+b.fM must be within the range [0, fM].");			
+			throw new IllegalArgumentException("row+b.fM must be within the range [0, fM].");
 		}
 		for (int m = 0; m < b.fM; ++m) {
 			for (int n = 0; n < b.fN; ++n) {
@@ -1333,90 +1388,96 @@ public class TCMatrix implements Serializable, Cloneable {
 		}
 		return this;
 	}
-	
+
 	/**
-	 * w’è‚³‚ê‚½—ñ‚És—ñ‚ğƒRƒs[‚·‚éD
-	 * @param b ƒRƒs[‚·‚és—ñDs”‚ªƒRƒs[æ‚Ìs—ñi‚±‚Ìs—ñj‚Æ“¯‚¶‚Å‚ ‚é•K—v‚ª‚ ‚éD
-	 * @param row ƒRƒs[‚·‚é—ñD(column+b‚Ì—ñ”)‚ªƒRƒs[æ‚Ìs—ñi‚±‚Ìs—ñj‚Ì—ñ”“à‚Éû‚Ü‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éD
-	 * @return ƒRƒs[‚³‚ê‚½Œã‚Ì‚±‚Ìs—ñ
+	 * æŒ‡å®šã•ã‚ŒãŸåˆ—ã«è¡Œåˆ—ã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹ï¼
+	 * 
+	 * @param b   ã‚³ãƒ”ãƒ¼ã™ã‚‹è¡Œåˆ—ï¼è¡Œæ•°ãŒã‚³ãƒ”ãƒ¼å…ˆã®è¡Œåˆ—ï¼ˆã“ã®è¡Œåˆ—ï¼‰ã¨åŒã˜ã§ã‚ã‚‹å¿…è¦ãŒã‚ã‚‹ï¼
+	 * @param row ã‚³ãƒ”ãƒ¼ã™ã‚‹åˆ—ï¼(column+bã®åˆ—æ•°)ãŒã‚³ãƒ”ãƒ¼å…ˆã®è¡Œåˆ—ï¼ˆã“ã®è¡Œåˆ—ï¼‰ã®åˆ—æ•°å†…ã«åã¾ã£ã¦ã„ã‚‹å¿…è¦ãŒã‚ã‚‹ï¼
+	 * @return ã‚³ãƒ”ãƒ¼ã•ã‚ŒãŸå¾Œã®ã“ã®è¡Œåˆ—
 	 */
 	public TCMatrix copyAtColumn(TCMatrix b, int column) {
 		if (fM != b.fM) {
 			throw new IllegalArgumentException("The number of rows must be same.");
 		}
 		if (column < 0 || column + b.fN > fN) {
-			throw new IllegalArgumentException("column+b.fN must be within the range [0, fN].");			
+			throw new IllegalArgumentException("column+b.fN must be within the range [0, fN].");
 		}
 		for (int m = 0; m < b.fM; ++m) {
 			for (int n = 0; n < b.fN; ++n) {
 				fElements[m][column + n] = b.fElements[m][n];
 			}
-		}		
+		}
 		return this;
 	}
-		
+
 	/**
-	 * ”ñ‘ÎÌs—ñ‚ğ‘ÎÌs—ñ‚Ö‹­§‚·‚éD
-	 * @param ”ñ‘ÎÌs—ñ
-	 * @return ‘ÎÌs—ñ
+	 * éå¯¾ç§°è¡Œåˆ—ã‚’å¯¾ç§°è¡Œåˆ—ã¸å¼·åˆ¶ã™ã‚‹ï¼
+	 * 
+	 * @param éå¯¾ç§°è¡Œåˆ—
+	 * @return å¯¾ç§°è¡Œåˆ—
 	 */
-	public TCMatrix enforceSymmetry(){
+	public TCMatrix enforceSymmetry() {
 		if (fM != fN) {
 			throw new IllegalArgumentException("The numbers of row and column must be same.");
 		}
-		for(int m=0; m<fM; ++m){
-			for(int n=0; n<m; ++n){
+		for (int m = 0; m < fM; ++m) {
+			for (int n = 0; n < m; ++n) {
 				fElements[m][n] = fElements[n][m];
 			}
 		}
 		return this;
 	}
-	
-	public static void main(String[] args) {				
+
+	public static void main(String[] args) {
 		/*
-		//•”•ªs—ñ‚Ìæ‚èo‚µ
-		TCMatrix mat0 = new TCMatrix(3, 5);
-		mat0.eye();
-		System.out.println(mat0);
-		TCMatrix vec0 = new TCMatrix();
-		vec0.copySubmatrixFrom(mat0, 0, mat0.getRowDimension()-1, 2, 2, 0, 0);
-		System.out.println(vec0);
-		
-		//•”•ª“I‚È•ÏX
-		TCMatrix mat1 = new TCMatrix(3, 3);
-		mat1.fill(0.8);
-		TCMatrix vec1 = new TCMatrix(3, 1);
-		vec1.fill(3.0);
-		System.out.println(mat1);
-		mat1.copySubmatrixFrom(vec1, 0, vec1.getRowDimension()-1, 0, vec1.getColumnDimension()-1, 1, 1);
-		System.out.println(mat1);
-		*/
-//		
-//		//©g‚ÌŠg‘å
-//		TCMatrix mat2 = new TCMatrix(3, 2);
-//		mat2.eye();
-//		mat2.copySubmatrixFrom(mat2, 0, mat2.getRowDimension()-1, 0, mat2.getColumnDimension()-1, 0, mat2.getColumnDimension());
-//		System.out.println(mat2);
-//		
-//		//—v‘f‚Ì’Ç‰Á
-//		TCMatrix dataset = new TCMatrix();
-//		TCMatrix data = new TCMatrix(2, 1);
-//		for(int t=0; t<10; t++) {
-//			data.setValue(0, t);
-//			data.setValue(1, t/10.0);
-//			dataset.copySubmatrixFrom(data, 0, data.getRowDimension()-1, 0, data.getColumnDimension()-1, 0, dataset.getColumnDimension());
-//			System.out.println(dataset);
-//		}
-//		
-//		//’PˆÊs—ñì¬
-//		TCMatrix eye = new TCMatrix();
-//		TCMatrix ele = new TCMatrix(1, 1);
-//		ele.fill(1.0);
-//		System.out.println(eye);
-//		for(int i=0; i<4; i++) {
-//			eye.copySubmatrixFrom(ele, 0, 0, 0, 0, eye.getRowDimension(), eye.getColumnDimension());
-//			System.out.println(eye);
-//		}
+		 * //éƒ¨åˆ†è¡Œåˆ—ã®å–ã‚Šå‡ºã—
+		 * TCMatrix mat0 = new TCMatrix(3, 5);
+		 * mat0.eye();
+		 * System.out.println(mat0);
+		 * TCMatrix vec0 = new TCMatrix();
+		 * vec0.copySubmatrixFrom(mat0, 0, mat0.getRowDimension()-1, 2, 2, 0, 0);
+		 * System.out.println(vec0);
+		 * 
+		 * //éƒ¨åˆ†çš„ãªå¤‰æ›´
+		 * TCMatrix mat1 = new TCMatrix(3, 3);
+		 * mat1.fill(0.8);
+		 * TCMatrix vec1 = new TCMatrix(3, 1);
+		 * vec1.fill(3.0);
+		 * System.out.println(mat1);
+		 * mat1.copySubmatrixFrom(vec1, 0, vec1.getRowDimension()-1, 0,
+		 * vec1.getColumnDimension()-1, 1, 1);
+		 * System.out.println(mat1);
+		 */
+		//
+		// //è‡ªèº«ã®æ‹¡å¤§
+		// TCMatrix mat2 = new TCMatrix(3, 2);
+		// mat2.eye();
+		// mat2.copySubmatrixFrom(mat2, 0, mat2.getRowDimension()-1, 0,
+		// mat2.getColumnDimension()-1, 0, mat2.getColumnDimension());
+		// System.out.println(mat2);
+		//
+		// //è¦ç´ ã®è¿½åŠ 
+		// TCMatrix dataset = new TCMatrix();
+		// TCMatrix data = new TCMatrix(2, 1);
+		// for(int t=0; t<10; t++) {
+		// data.setValue(0, t);
+		// data.setValue(1, t/10.0);
+		// dataset.copySubmatrixFrom(data, 0, data.getRowDimension()-1, 0,
+		// data.getColumnDimension()-1, 0, dataset.getColumnDimension());
+		// System.out.println(dataset);
+		// }
+		//
+		// //å˜ä½è¡Œåˆ—ä½œæˆ
+		// TCMatrix eye = new TCMatrix();
+		// TCMatrix ele = new TCMatrix(1, 1);
+		// ele.fill(1.0);
+		// System.out.println(eye);
+		// for(int i=0; i<4; i++) {
+		// eye.copySubmatrixFrom(ele, 0, 0, 0, 0, eye.getRowDimension(),
+		// eye.getColumnDimension());
+		// System.out.println(eye);
+		// }
 	}
 
 }

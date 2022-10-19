@@ -3,8 +3,10 @@ package jgoal.solution;
 import jssf.math.TCMatrix;
 
 /**
- * Supports the real vector representation of objects. Real vectors are used as solutions
- * for function optimization problems or individuals for continuous reproduction operators
+ * Supports the real vector representation of objects. Real vectors are used as
+ * solutions
+ * for function optimization problems or individuals for continuous reproduction
+ * operators
  * in evolutionary algorithms.
  *
  * @since 2
@@ -14,7 +16,8 @@ public interface ICRealCoding {
 
 	/**
 	 * Return the real vector representation of this object.
-	 * If you modify the returned value of this method, call {@link #notifyVectorUpdated()}
+	 * If you modify the returned value of this method, call
+	 * {@link #notifyVectorUpdated()}
 	 * to update all the other representations of this object.
 	 *
 	 * @return the real vector representation of this object
@@ -23,8 +26,8 @@ public interface ICRealCoding {
 	TCMatrix getVector();
 
 	/**
-	 * ƒxƒNƒgƒ‹‚ªXV‚³‚ê‚½‚±‚Æ‚ğ’Ê’m‚·‚éD
-	 * getVectorƒƒ\ƒbƒh‚Åæ“¾‚µ‚½ƒxƒNƒgƒ‹‚Ì“à—e‚ğXV‚µ‚½ê‡‚ÍC•K‚¸‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ô‚±‚ÆD
+	 * ãƒ™ã‚¯ãƒˆãƒ«ãŒæ›´æ–°ã•ã‚ŒãŸã“ã¨ã‚’é€šçŸ¥ã™ã‚‹ï¼
+	 * getVectorãƒ¡ã‚½ãƒƒãƒ‰ã§å–å¾—ã—ãŸãƒ™ã‚¯ãƒˆãƒ«ã®å†…å®¹ã‚’æ›´æ–°ã—ãŸå ´åˆã¯ï¼Œå¿…ãšã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã¶ã“ã¨ï¼
 	 *
 	 * @since 2 isao
 	 */
