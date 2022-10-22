@@ -16,6 +16,7 @@ import lensDesignProblem.simulator.TTransformer;
 /**
  * 固定焦点単色レンズ設計問題．
  * 歪曲と解像度の線形加重和を評価値として返す．
+ *
  * @author isao
  *
  */
@@ -58,25 +59,27 @@ public class TSMonochromeLensProblem implements Cloneable, Serializable {
 
 	/**
 	 * コンストラクタ
-	 * @param config レンズ系の構成．"a g a g a"は「空気 ガラス 空気 ガラス 空気」を表す．必ず，最初と最後は「空気」とすること．
-	 * @param fNumber F値
-	 * @param focalLength 焦点距離
-	 * @param wMax 最大半画角
-	 * @param lensGapMin レンズ厚の最小値
-	 * @param lensGapMax レンズ厚の最大値
-	 * @param airGapMin 空気厚の最小値
-	 * @param airGapMax 空気厚の最大値
-	 * @param radiusMin 曲率半径の最小値
-	 * @param radiusMax 曲率半径の最大値
+	 *
+	 * @param config              レンズ系の構成．"a g a g a"は「空気 ガラス 空気 ガラス
+	 *                            空気」を表す．必ず，最初と最後は「空気」とすること．
+	 * @param fNumber             F値
+	 * @param focalLength         焦点距離
+	 * @param wMax                最大半画角
+	 * @param lensGapMin          レンズ厚の最小値
+	 * @param lensGapMax          レンズ厚の最大値
+	 * @param airGapMin           空気厚の最小値
+	 * @param airGapMax           空気厚の最大値
+	 * @param radiusMin           曲率半径の最小値
+	 * @param radiusMax           曲率半径の最大値
 	 * @param weightForDistortion 歪曲の重み
 	 * @param weightForResolution 解像度の重み
 	 */
 	public TSMonochromeLensProblem(String config,
-			                           double fNumber, double focalLength, double wMax,
-			                           double lensGapMin, double lensGapMax,
-			                           double airGapMin, double airGapMax,
-			                           double radiusMin, double radiusMax,
-			                           double weightForDistortion, double weightForResolution) {
+			double fNumber, double focalLength, double wMax,
+			double lensGapMin, double lensGapMax,
+			double airGapMin, double airGapMax,
+			double radiusMin, double radiusMax,
+			double weightForDistortion, double weightForResolution) {
 		fLens = new TLens(new TLensConfig(config), fNumber, focalLength, wMax);
 		fEnforcementOperator = new TEnforcementOperator();
 		fEvaluator = new TChromaticLensEvaluator(false, true, false, false);
@@ -97,14 +100,15 @@ public class TSMonochromeLensProblem implements Cloneable, Serializable {
 		double radiusMin = fConverter.getRadiusMin();
 		double radiusMax = fConverter.getRadiusMax();
 		return new TSMonochromeLensProblem(confiString, fNumber, focalLength, wMax,
-				                               lensGapMin, lensGapMax,
-				                               airGapMin, airGapMax,
-				                               radiusMin, radiusMax,
-				                               fWeightForDistortion, fWeightForResolution);
+				lensGapMin, lensGapMax,
+				airGapMin, airGapMax,
+				radiusMin, radiusMax,
+				fWeightForDistortion, fWeightForResolution);
 	}
 
 	/**
 	 * 決定変数の数を返す．
+	 *
 	 * @return 決定変数の数
 	 */
 	public int getDimension() {
@@ -113,20 +117,21 @@ public class TSMonochromeLensProblem implements Cloneable, Serializable {
 
 	/**
 	 * 決定変数ベクトルxの評価値を計算して返す．
+	 *
 	 * @param x 決定変数ベクトル．要素の定義域は[-1000, +1000]．次元数は，getDimensionメソッドで返されたもの．
 	 * @return 評価値．実行不可能の場合はDouble.MAX_VALUEが返る．
 	 */
 	public double evaluate(double[] x) {
 		if (!fConverter.convertVectorToLens(x, fLens)) {
-			//System.err.print("1");
+			// System.err.print("1");
 			return Double.MAX_VALUE;
 		}
 		if (!fEnforcementOperator.doIt(fLens)) {
-			//System.err.print("2");
+			// System.err.print("2");
 			return Double.MAX_VALUE;
 		}
 		if (!fEvaluator.doIt(fLens)) {
-			//System.err.print("3");
+			// System.err.print("3");
 			return Double.MAX_VALUE;
 		}
 		double result = 0.0;
@@ -139,6 +144,7 @@ public class TSMonochromeLensProblem implements Cloneable, Serializable {
 
 	/**
 	 * 直近に評価されたレンズ系を返す．
+	 *
 	 * @return レンズ系
 	 */
 	public TLens getLens() {
@@ -147,6 +153,7 @@ public class TSMonochromeLensProblem implements Cloneable, Serializable {
 
 	/**
 	 * 決定変数ベクトルとレンズ系の変換器を返す．
+	 *
 	 * @return 決定変数ベクトルとレンズ系の変換器
 	 */
 	public TCArrayMonochromeLensConverter getConverter() {
@@ -155,6 +162,7 @@ public class TSMonochromeLensProblem implements Cloneable, Serializable {
 
 	/**
 	 * 歪曲の重みを返す．
+	 *
 	 * @return 歪曲の重み
 	 */
 	public double getWeightForDistortion() {
@@ -163,6 +171,7 @@ public class TSMonochromeLensProblem implements Cloneable, Serializable {
 
 	/**
 	 * 解像度の重み
+	 *
 	 * @return 解像度の重み
 	 */
 	public double getWeightForResolution() {
@@ -176,26 +185,28 @@ public class TSMonochromeLensProblem implements Cloneable, Serializable {
 	 * レンズ系の設計仕様は，3枚組，F値3.0, 焦点距離100mm, 最大半画角19度である．
 	 * 探索範囲は，レンズ厚0mm～5mm, 空気厚0mm～20mm, 曲率半径10mm～1,000mmである．
 	 * 歪曲の重み1.0，解像度の重み1.0である．
+	 *
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		Random rand = new Random();
 		TSMonochromeLensProblem problem = new TSMonochromeLensProblem("a g a g a g a", 3.0, 100.0, 19.0,
-				                                                          0.0, 5.0, 0.0, 20.0, 10.0, 1000.0,
-				                                                          1.0, 1.0); //固定焦点単色レンズ設計問題を生成している．
-		double[] x = new double [problem.getDimension()]; // 決定変数ベクトルを生成している．必要な次元数を固定焦点単色レンズ設計問題から得ていることに注意．
+				0.0, 5.0, 0.0, 20.0, 10.0, 1000.0,
+				1.0, 1.0); // 固定焦点単色レンズ設計問題を生成している．
+		double[] x = new double[problem.getDimension()]; // 決定変数ベクトルを生成している．必要な次元数を固定焦点単色レンズ設計問題から得ていることに注意．
 		int counter = 0; // 実行可能解が得られるまでに生成される解の数を数えるためのカウンタ．
 		double eval = Double.MAX_VALUE; // 解の評価値
 		while (true) {
 			++counter;
-			//決定変数ベクトルの各要素を[-1000, +1000]で一様ランダムに初期化している．
+			// 決定変数ベクトルの各要素を[-1000, +1000]で一様ランダムに初期化している．
 			for (int i = 0; i < x.length; ++i) {
-				x[i] = rand.nextDouble() * (TSMonochromeLensProblem.MAX - TSMonochromeLensProblem.MIN) + TSMonochromeLensProblem.MIN;
+				x[i] = rand.nextDouble() * (TSMonochromeLensProblem.MAX - TSMonochromeLensProblem.MIN)
+						+ TSMonochromeLensProblem.MIN;
 			}
 			eval = problem.evaluate(x); // 評価値を計算している．
-			if (eval < Double.MAX_VALUE) { //実行可能だったら，レンズ系のパラメータとカウンタを表示してループを抜ける．
+			if (eval < Double.MAX_VALUE) { // 実行可能だったら，レンズ系のパラメータとカウンタを表示してループを抜ける．
 				System.out.println(problem.getLens());
-				System.out.println("Counter:"+ counter);
+				System.out.println("Counter:" + counter);
 				break;
 			}
 		}

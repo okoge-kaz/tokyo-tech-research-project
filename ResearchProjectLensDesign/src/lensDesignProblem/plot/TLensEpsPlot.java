@@ -15,6 +15,7 @@ import lensDesignProblem.simulator.TWavelength;
 
 /**
  * レンズ系をEPSファイルへ出力する．
+ *
  * @author ishihara, isao
  */
 public class TLensEpsPlot {
@@ -25,7 +26,7 @@ public class TLensEpsPlot {
 	 * EPS描画クラス
 	 */
 	private TEPSMaker fPen;
-	
+
 	/** レンズ */
 	private TLens fLens = null;
 
@@ -37,16 +38,17 @@ public class TLensEpsPlot {
 	 */
 	public TLensEpsPlot() {
 	}
-	
+
 	/**
 	 * 描画を実行する．
+	 *
 	 * @param filename 出力先のファイル名
-	 * @param lens レンズ系
+	 * @param lens     レンズ系
 	 */
 	public void doIt(String filename, TLens lens) {
 		fLens = lens;
 		calcRays(lens);
-		double[] extent = new double [4];
+		double[] extent = new double[4];
 		fLens.getExtent(extent);
 		double margin = (extent[2] - extent[0]) / 10.0;
 		fPen = new TEPSMaker(filename, extent[0] - margin, extent[3] - margin, extent[2] + margin, extent[1] + margin);
@@ -61,9 +63,10 @@ public class TLensEpsPlot {
 
 	/**
 	 * 光線を設定する。
+	 *
 	 * @param ray 光線
-	 * @param w 入射角
-	 * @param i 光線番号
+	 * @param w   入射角
+	 * @param i   光線番号
 	 */
 	private void calcRays(TLens lens) {
 		TChromaticLensEvaluator evaluator = new TChromaticLensEvaluator(true, true, true, false);
@@ -159,12 +162,13 @@ public class TLensEpsPlot {
 
 	/**
 	 * ダブルガウスレンズのデータをファイルから読み込んでEPSファイルを作成する．
+	 *
 	 * @param args
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
 		String lensFile = "GaussLens.txt"; // レンズデータ
-		//String lensFile = "3lens-F3_0-f100-w19.txt"; // レンズデータ
+		// String lensFile = "3lens-F3_0-f100-w19.txt"; // レンズデータ
 		TLens lens = new TLens();
 		BufferedReader br = new BufferedReader(new FileReader(lensFile));
 		lens.readFrom(br);

@@ -13,9 +13,9 @@ import lensDesignProblem.simulator.TTransformer;
 
 public class TCArrayMonochromeLensConverter {
 
-	public static final TGlass G1 = new TGlass("G1", new double[] {1.613000, 1.613000, 1.613000}, 0.00);
+	public static final TGlass G1 = new TGlass("G1", new double[] { 1.613000, 1.613000, 1.613000 }, 0.00);
 
-	public static final TGlass G2 = new TGlass("G2", new double[] {1.636000, 1.636000, 1.636000}, 0.00);
+	public static final TGlass G2 = new TGlass("G2", new double[] { 1.636000, 1.636000, 1.636000 }, 0.00);
 
 	public static final TGlass AIR = TGlass.AIR;
 
@@ -25,8 +25,8 @@ public class TCArrayMonochromeLensConverter {
 	 * コンストラクタ
 	 */
 	public TCArrayMonochromeLensConverter(double lensGapMin, double lensGapMax,
-			                                   double airGapMin, double airGapMax,
-			                                   double radiusMin, double radiusMax) {
+			double airGapMin, double airGapMax,
+			double radiusMin, double radiusMax) {
 		fConverter = new TTransformer(lensGapMin, lensGapMax, airGapMin, airGapMax, radiusMin, radiusMax);
 	}
 
@@ -133,7 +133,7 @@ public class TCArrayMonochromeLensConverter {
 		eval.doIt(lens);
 		System.out.println(lens);
 		System.out.println("*******************");
-		double[] v = new double [lens.getNoOfSurfaces() * 2 - 2];
+		double[] v = new double[lens.getNoOfSurfaces() * 2 - 2];
 		TCArrayMonochromeLensConverter conv = new TCArrayMonochromeLensConverter(0.0, 5.0, 0.0, 20.0, 10.0, 1000.0);
 		conv.convertLensToVector(lens, v);
 		TLens lens2 = new TLens(lens.getConfig(), lens.getFNumber(), lens.getFocusLength(), lens.getWMax());

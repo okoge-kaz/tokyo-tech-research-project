@@ -1,4 +1,5 @@
 package lensDesignProblem.plot;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -18,7 +19,7 @@ public class TPen {
 	}
 
 	public void setScaling(double srcX1, double srcY1, double srcX2, double srcY2,
-		                      int dstX1, int dstY1, int dstX2, int dstY2) {
+			int dstX1, int dstY1, int dstX2, int dstY2) {
 		fFactorX = (double) (dstX2 - dstX1) / (srcX2 - srcX1);
 		fFactorY = (double) (dstY2 - dstY1) / (srcY2 - srcY1);
 		fSrcX = srcX1;
@@ -54,7 +55,7 @@ public class TPen {
 	}
 
 	public void drawArc(double x1, double y1, double x2, double y2,
-		                    double startAngle, double deltaAngle) {
+			double startAngle, double deltaAngle) {
 		int x = Math.min(transX(x1), transX(x2));
 		int y = Math.min(transY(y1), transY(y2));
 		int width = Math.abs(transX(x1) - transX(x2));
@@ -65,7 +66,7 @@ public class TPen {
 	}
 
 	public void fillArc(double x1, double y1, double x2, double y2,
-		                    double startAngle, double deltaAngle) {
+			double startAngle, double deltaAngle) {
 		int x = Math.min(transX(x1), transX(x2));
 		int y = Math.min(transY(y1), transY(y2));
 		int width = Math.abs(transX(x1) - transX(x2));
@@ -79,10 +80,10 @@ public class TPen {
 		if (transformingR) {
 			fillArc(x - r, y - r, x + r, y + r, 0.0, 360.0);
 		} else {
-			int intX = transX(x) - (int)r;
-			int intY = transY(y) - (int)r;
-			int width = (int)(2.0 * r);
-			int height = (int)(2.0 * r);
+			int intX = transX(x) - (int) r;
+			int intY = transY(y) - (int) r;
+			int width = (int) (2.0 * r);
+			int height = (int) (2.0 * r);
 			fGraphics.fillArc(intX, intY, width, height, 0, 360);
 		}
 	}
@@ -90,5 +91,5 @@ public class TPen {
 	public void drawString(String str, double x, double y) {
 		fGraphics.drawString(str, transX(x), transY(y));
 	}
-	
+
 }

@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -19,6 +20,7 @@ import lensDesignProblem.simulator.TWavelength;
 
 /**
  * レンズビューア
+ *
  * @author ishihara, isao
  */
 public class TLensPlot extends JPanel {
@@ -35,7 +37,7 @@ public class TLensPlot extends JPanel {
 
 	/** 光線 */
 	private TRay fRays[][];
-	
+
 	/** 表示文字列 */
 	private String fMessage;
 
@@ -45,13 +47,14 @@ public class TLensPlot extends JPanel {
 	 */
 	public TLensPlot() {
 		setBackground(Color.WHITE);
-		fMessage ="";
+		fMessage = "";
 	}
 
 	/**
 	 * コンストラクタ
+	 *
 	 * @param lens レンズ系
-	 * @param msg レンズ系の説明文字列．評価値などを指定するとよい．表示したくない場合は""を与えること．
+	 * @param msg  レンズ系の説明文字列．評価値などを指定するとよい．表示したくない場合は""を与えること．
 	 */
 	public TLensPlot(TLens lens, String msg) {
 		setBackground(Color.WHITE);
@@ -60,9 +63,10 @@ public class TLensPlot extends JPanel {
 
 	/**
 	 * 光線を設定する。
+	 *
 	 * @param ray 光線
-	 * @param w 入射角
-	 * @param i 光線番号
+	 * @param w   入射角
+	 * @param i   光線番号
 	 */
 	private void calcRays(TLens lens) {
 		TChromaticLensEvaluator evaluator = new TChromaticLensEvaluator(true, true, true, false);
@@ -79,8 +83,9 @@ public class TLensPlot extends JPanel {
 
 	/**
 	 * レンズ系を設定する。
+	 *
 	 * @param lens レンズ系
-	 * @param msg レンズ系の説明文字列．評価値などを指定するとよい．表示したくない場合は""を与えること．
+	 * @param msg  レンズ系の説明文字列．評価値などを指定するとよい．表示したくない場合は""を与えること．
 	 */
 	public void setLens(TLens lens, String msg) {
 		fLens = lens;
@@ -91,12 +96,13 @@ public class TLensPlot extends JPanel {
 
 	/**
 	 * レンズ系を返す．
+	 *
 	 * @return レンズ系
 	 */
 	public TLens getLens() {
 		return fLens;
 	}
-	
+
 	/**
 	 * 光線を描く
 	 *
@@ -193,7 +199,7 @@ public class TLensPlot extends JPanel {
 		int height = getHeight();
 		if (fLens == null)
 			return;
-		double[] extent = new double [4];
+		double[] extent = new double[4];
 		fLens.getExtent(extent);
 		fPen.setScaling(extent[0] - 10.0, extent[1] + 10.0, extent[2] + 10.0, extent[3] - 10.0, 0, 0, width, height);
 		drawAxis();
@@ -212,12 +218,13 @@ public class TLensPlot extends JPanel {
 
 	/**
 	 * ダブルガウスレンズのデータをファイルから読み込んで表示する．
+	 *
 	 * @param args
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
 		String lensFile = "GaussLens.txt"; // レンズデータ
-		//String lensFile = "3lens-F3_0-f100-w19.txt"; // レンズデータ
+		// String lensFile = "3lens-F3_0-f100-w19.txt"; // レンズデータ
 		TLens lens = new TLens();
 		BufferedReader br = new BufferedReader(new FileReader(lensFile));
 		lens.readFrom(br);
