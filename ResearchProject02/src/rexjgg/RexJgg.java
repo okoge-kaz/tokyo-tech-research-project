@@ -74,23 +74,19 @@ public class RexJgg {
    * @param n
    */
   private static ArrayList<TIndividual> selectParents(ArrayList<TIndividual> population, final int n) {
-    // deep copy
-    ArrayList<TIndividual> randomizedPopulation = new ArrayList<TIndividual>();
-    for (TIndividual individual : population) {
-      randomizedPopulation.add(individual.clone());
-    }
-
+    // population自体の順番が変わるようにする
     assert (population.size() == 14 * n);
 
     for (int i = 0; i < n + 1; ++i) {
       Random random = new Random();
-      int index = (int) (random.nextDouble() * (randomizedPopulation.size() - 1));
+      int index = (int) (random.nextDouble() * (population.size() - 1));
 
       assert (0 <= index && index <= n);
 
-      Collections.swap(randomizedPopulation, i, index);
+      Collections.swap(population, i, index);
     }
-    ArrayList<TIndividual> parents = new ArrayList<TIndividual>(randomizedPopulation.subList(0, n + 1));
+    ArrayList<TIndividual> parents = new ArrayList<TIndividual>(population.subList(0, n + 1));
+
     // [0, n+1)の範囲を抽出
     return parents;
   }
@@ -101,7 +97,7 @@ public class RexJgg {
   private static TVector calcMeanVector(ArrayList<TIndividual> parents) {
     TVector meanVector = new TVector(parents.get(0).getVector().getDimension());
     for (int i = 0; i < parents.size(); ++i) {
-      meanVector = meanVector.add(parents.get(i).getVector());
+      meanVector = meanVector.add(parents.get(i).clone().getVector());
     }
     meanVector = meanVector.scalarProduct(1.0 / parents.size());
     return meanVector;
@@ -119,11 +115,11 @@ public class RexJgg {
    * @param n
    *                          次元数(ベクトル)
    */
-  private static TVector calcDiffVector(ArrayList<TIndividual> selectedParents, TVector meanVector, int n) {
-    TVector diffVector = new TVector(selectedParents.get(0).getVector().getDimension());
+  private static TVector calcDiffVector(ArrayList<TIndividual> parents, TVector meanVector, int n) {
+    TVector diffVector = new TVector(parents.get(0).getVector().getDimension());
     // 0初期化済み
 
-    for (int i = 0; i < selectedParents.size(); ++i) {
+    for (int i = 0; i < parents.size(); ++i) {
       Random random = new Random();
       double sigma = random.nextGaussian() * Math.sqrt(1.0 / n);
       // nextGaussian()は標準正規分布に従う乱数を生成する
@@ -131,7 +127,7 @@ public class RexJgg {
       // with mean 0.0 and standard deviation 1.0 from this random number generator's
       // sequence.
       // https://docs.oracle.com/javase/8/docs/api/java/util/Random.html#nextGaussian--
-      diffVector = diffVector.add(selectedParents.get(i).getVector().subtract(meanVector).scalarProduct(sigma));
+      diffVector = diffVector.add(parents.get(i).clone().getVector().subtract(meanVector).scalarProduct(sigma));
     }
     return diffVector;
   }
@@ -147,14 +143,12 @@ public class RexJgg {
     ArrayList<TIndividual> children = new ArrayList<TIndividual>();
 
     for (int i = 0; i < 5 * dimension; ++i) {// 子個体の数は 5n (= 5 * dimension)
-      // 親個体からランダムにn+1個体を非復元抽出する
-      ArrayList<TIndividual> selectedParents = selectParents(parents, dimension);// dimension = n
 
       // 親個体の情報から子個体のベクトルを生成する
       TVector childVector = new TVector(dimension);
       // xi = <y> + sum(1, n+1, (yj - <y>))
-      TVector meanVector = calcMeanVector(selectedParents);
-      childVector = meanVector.add(calcDiffVector(selectedParents, meanVector, dimension));// dimension = n
+      TVector meanVector = calcMeanVector(parents);
+      childVector = meanVector.add(calcDiffVector(parents, meanVector, dimension));// dimension = n
 
       TIndividual child = new TIndividual(childVector);
 
