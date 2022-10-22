@@ -1,8 +1,11 @@
 package lensDesignProblem.simulator;
 
-/** クラス<BR>
-    @author Kenta Hirano */
-public class TRayConstant{
+/**
+ * クラス<BR>
+ * 
+ * @author Kenta Hirano
+ */
+public class TRayConstant {
     /** スポットダイアグラム(11本の光線の結ぶ像)の個数 */
     public static final int NO_OF_WS = 3;
     /** スポットダイアグラムの光線の角度その1 0度 */

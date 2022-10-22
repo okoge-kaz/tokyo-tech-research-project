@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StringWriter;
 
-
 /*
 
         No. of Surfaces : 3
@@ -22,8 +21,11 @@ import java.io.StringWriter;
 
 */
 
-/** レンズ系クラス<BR>
-    @author Kenta Hirano, isao */
+/**
+ * レンズ系クラス<BR>
+ * 
+ * @author Kenta Hirano, isao
+ */
 public class TLens implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -70,10 +72,12 @@ public class TLens implements Serializable {
 	/** 各入射角の解像度．主光線とそれ以外の10本の光線の２乗距離の和．基準線(D線)で計算． */
 	private double[] fResolutions;
 
-	/** 各波長における各入射角の色収差．
+	/**
+	 * 各波長における各入射角の色収差．
 	 * 主光線を含む11本の光線について，
 	 * 基準線(D線)の光線と対象線(C線またはg線)の光線との２乗距離の和をとったもの．
-	 * 配列の添字は[入射各ID][波長ID]． */
+	 * 配列の添字は[入射各ID][波長ID]．
+	 */
 	private double[][] fChromaticAbberations;
 
 	/**
@@ -83,32 +87,33 @@ public class TLens implements Serializable {
 	public TLens() {
 		fFeasible = false;
 		fChromatic = true;
-		fDistortions = new double [TRayConstant.NO_OF_WS];
-		fResolutions = new double [TRayConstant.NO_OF_WS];
-		fChromaticAbberations = new double [TRayConstant.NO_OF_WS][TWavelength.NO_OF_WAVELENGTHS];
+		fDistortions = new double[TRayConstant.NO_OF_WS];
+		fResolutions = new double[TRayConstant.NO_OF_WS];
+		fChromaticAbberations = new double[TRayConstant.NO_OF_WS][TWavelength.NO_OF_WAVELENGTHS];
 		fFNumber = fFocusLength = fWMax = fStopPosition = -1.0;
 		fNoOfSurfaces = 0;
-		fSurfaces = new TSurface [fNoOfSurfaces];
-		fGlasses = new TGlass [fNoOfSurfaces + 1];
+		fSurfaces = new TSurface[fNoOfSurfaces];
+		fGlasses = new TGlass[fNoOfSurfaces + 1];
 		fGlasses[0] = TGlass.AIR;
-		fD = new double [fNoOfSurfaces];
+		fD = new double[fNoOfSurfaces];
 		fConfig = new TLensConfig();
 	}
 
 	/**
 	 * コンストラクタ
-	 * @param config レンズ構成情報
+	 * 
+	 * @param config       レンズ構成情報
 	 * @param noOfSurfaces 面数
-	 * @param fNumber Ｆナンバー
-	 * @param focusLength 焦点距離
-	 * @param wMax 半画角
+	 * @param fNumber      Ｆナンバー
+	 * @param focusLength  焦点距離
+	 * @param wMax         半画角
 	 */
 	public TLens(TLensConfig config, double fNumber, double focusLength, double wMax) {
 		fFeasible = false;
 		fChromatic = true;
-		fDistortions = new double [TRayConstant.NO_OF_WS];
-		fResolutions = new double [TRayConstant.NO_OF_WS];
-		fChromaticAbberations = new double [TRayConstant.NO_OF_WS][TWavelength.NO_OF_WAVELENGTHS];
+		fDistortions = new double[TRayConstant.NO_OF_WS];
+		fResolutions = new double[TRayConstant.NO_OF_WS];
+		fChromaticAbberations = new double[TRayConstant.NO_OF_WS][TWavelength.NO_OF_WAVELENGTHS];
 		setConfig(config);
 		fStopPosition = -1.0;
 		fFNumber = fNumber;
@@ -118,14 +123,15 @@ public class TLens implements Serializable {
 
 	/**
 	 * コピーコンストラクタ
+	 * 
 	 * @param src コピー元
 	 */
 	public TLens(final TLens src) {
 		fFeasible = src.fFeasible;
 		fChromatic = src.fChromatic;
-		fDistortions = new double [TRayConstant.NO_OF_WS];
-		fResolutions = new double [TRayConstant.NO_OF_WS];
-		fChromaticAbberations = new double [TRayConstant.NO_OF_WS][TWavelength.NO_OF_WAVELENGTHS];
+		fDistortions = new double[TRayConstant.NO_OF_WS];
+		fResolutions = new double[TRayConstant.NO_OF_WS];
+		fChromaticAbberations = new double[TRayConstant.NO_OF_WS][TWavelength.NO_OF_WAVELENGTHS];
 		for (int w = 0; w < TRayConstant.NO_OF_WS; ++w) {
 			fDistortions[w] = src.fDistortions[w];
 			fResolutions[w] = src.fResolutions[w];
@@ -140,10 +146,10 @@ public class TLens implements Serializable {
 		fNoOfSurfaces = src.fNoOfSurfaces;
 		fSurfaces = new TSurface[fNoOfSurfaces];
 		for (int i = 0; i < fNoOfSurfaces; ++i) {
-				fSurfaces[i] = new TSurface();
+			fSurfaces[i] = new TSurface();
 		}
-		fD = new double [fNoOfSurfaces];
-		fGlasses = new TGlass [fNoOfSurfaces + 1];
+		fD = new double[fNoOfSurfaces];
+		fGlasses = new TGlass[fNoOfSurfaces + 1];
 		for (int i = 0; i < fNoOfSurfaces; ++i) {
 			fSurfaces[i] = src.fSurfaces[i];
 			fD[i] = src.fD[i];
@@ -156,6 +162,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * srcをコピーする．
+	 * 
 	 * @param src コピー元
 	 */
 	public final void copy(final TLens src) {
@@ -185,6 +192,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * 入力ストリームから読み込む
+	 * 
 	 * @param br 入力ストリーム
 	 * @throws IOException
 	 */
@@ -208,7 +216,7 @@ public class TLens implements Serializable {
 		tokens = br.readLine().split(" ");
 		fNoOfSurfaces = Integer.parseInt(tokens[0]);
 		fStopPosition = Double.parseDouble(tokens[1]);
-		fSurfaces = new TSurface [fNoOfSurfaces];
+		fSurfaces = new TSurface[fNoOfSurfaces];
 		for (int i = 0; i < fNoOfSurfaces; ++i) {
 			fSurfaces[i] = new TSurface();
 			fSurfaces[i].readFrom(br);
@@ -218,7 +226,7 @@ public class TLens implements Serializable {
 		for (int i = 0; i < fNoOfSurfaces; ++i) {
 			fD[i] = Double.parseDouble(tokens[i]);
 		}
-		fGlasses = new TGlass [fNoOfSurfaces + 1];
+		fGlasses = new TGlass[fNoOfSurfaces + 1];
 		for (int i = 0; i < fNoOfSurfaces + 1; ++i) {
 			fGlasses[i] = new TGlass(br);
 		}
@@ -228,12 +236,13 @@ public class TLens implements Serializable {
 
 	/**
 	 * 出力ストリームへ書き出す
+	 * 
 	 * @param pw 出力ストリーム
 	 */
 	public final void writeTo(PrintWriter pw) {
 		pw.println(fFeasible + " " + fChromatic);
 		for (int w = 0; w < TRayConstant.NO_OF_WS; ++w) {
-			pw.print(fDistortions[w] + " " +  fResolutions[w]);
+			pw.print(fDistortions[w] + " " + fResolutions[w]);
 			for (int wl = 0; wl < TWavelength.NO_OF_WAVELENGTHS; ++wl) {
 				pw.print(" " + fChromaticAbberations[w][wl]);
 			}
@@ -256,6 +265,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * 面数を返す．
+	 * 
 	 * @return 面数
 	 */
 	public final int getNoOfSurfaces() {
@@ -264,6 +274,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * 面数を設定する．
+	 * 
 	 * @param n 面数
 	 */
 	public final void setNoOfSurfaces(int n) {
@@ -275,8 +286,8 @@ public class TLens implements Serializable {
 			fSurfaces[i] = new TSurface();
 		}
 		fD = new double[n];
-		fGlasses = new TGlass [n + 1];
-		for (int i = 0;  i < n + 1; ++i) {
+		fGlasses = new TGlass[n + 1];
+		for (int i = 0; i < n + 1; ++i) {
 			fGlasses[i] = TGlass.AIR;
 		}
 		fNoOfSurfaces = n;
@@ -284,6 +295,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * 面間隔を返す．
+	 * 
 	 * @param index 添え字
 	 * @return 面間隔
 	 */
@@ -293,8 +305,9 @@ public class TLens implements Serializable {
 
 	/**
 	 * 面間隔を設定する．
+	 * 
 	 * @param index 添え字
-	 * @param d 面間隔
+	 * @param d     面間隔
 	 */
 	public final void setD(int index, double d) {
 		fD[index] = d;
@@ -302,8 +315,9 @@ public class TLens implements Serializable {
 
 	/**
 	 * ガラスを設定する．
+	 * 
 	 * @param index 添字
-	 * @param g ガラス
+	 * @param g     ガラス
 	 */
 	public void setGlass(int index, TGlass g) {
 		fGlasses[index] = g;
@@ -311,6 +325,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * ガラスを返す．
+	 * 
 	 * @param index 添字
 	 * @return ガラス
 	 */
@@ -318,9 +333,9 @@ public class TLens implements Serializable {
 		return fGlasses[index];
 	}
 
-
 	/**
 	 * 面を返す．
+	 * 
 	 * @param index 添え字
 	 * @return 面
 	 */
@@ -340,6 +355,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * Fナンバーを返す．
+	 * 
 	 * @return Fナンバー
 	 */
 	public final double getFNumber() {
@@ -348,6 +364,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * Ｆナンバーを設定する．
+	 * 
 	 * @param f Fナンバー
 	 */
 	public final void setFNumber(double f) {
@@ -356,6 +373,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * 焦点距離を返す．
+	 * 
 	 * @return 焦点距離
 	 */
 	public final double getFocusLength() {
@@ -364,6 +382,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * 焦点距離を設定する．
+	 * 
 	 * @param l 焦点距離
 	 */
 	public final void setFocusLength(double l) {
@@ -372,6 +391,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * 最大半画角を返す．
+	 * 
 	 * @return 最大半画角
 	 */
 	public final double getWMax() {
@@ -380,6 +400,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * 最大半画角を設定する．
+	 * 
 	 * @param w 最大半画角
 	 */
 	public final void setWMax(double w) {
@@ -388,6 +409,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * 絞りの位置を返す．
+	 * 
 	 * @return 絞りの位置
 	 */
 	public final double getStopPosition() {
@@ -396,6 +418,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * 絞りの位置を設定する．
+	 * 
 	 * @param x 絞りの位置
 	 */
 	public final void setStopPosition(double x) {
@@ -404,6 +427,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * 絞りの半径を返す．
+	 * 
 	 * @return 絞りの半径
 	 */
 	public final double getStopR() {
@@ -412,6 +436,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * 絞りの半径を設定する．
+	 * 
 	 * @param r 絞りの半径
 	 */
 	public final void setStopR(double r) {
@@ -420,19 +445,23 @@ public class TLens implements Serializable {
 
 	/**
 	 * フィルム位置を返す．
+	 * 
 	 * @return フィルム位置
 	 */
 	public final double getFilmPosition() {
 		return fSurfaces[fNoOfSurfaces - 1].getPosition() + fD[fNoOfSurfaces - 1];
 	}
 
-	/** 曲面の交点を計算. 交点があれば, x,y に代入し true を返す.
-	なければ false を返す.
-	@param index1 曲面番号その1
-	@param index2 曲面番号その2
-	@param x 交点のx座標(代入する)
-	@param y 交点のy座標(代入する)
-	@return 交点があれば true なければ false     */
+	/**
+	 * 曲面の交点を計算. 交点があれば, x,y に代入し true を返す.
+	 * なければ false を返す.
+	 * 
+	 * @param index1 曲面番号その1
+	 * @param index2 曲面番号その2
+	 * @param x      交点のx座標(代入する)
+	 * @param y      交点のy座標(代入する)
+	 * @return 交点があれば true なければ false
+	 */
 	public final boolean calcIntersection(int index1, int index2, double x, double y) {
 		double a = fSurfaces[index1].getCenter();
 		double b = fSurfaces[index2].getCenter();
@@ -450,8 +479,11 @@ public class TLens implements Serializable {
 		return true;
 	}
 
-	/** レンズ系の範囲を代入する.
-	@param ltrb 4次元配列 順に 左端,トップ(一番高いところ),右端,ボトム(一番低いところ)    */
+	/**
+	 * レンズ系の範囲を代入する.
+	 * 
+	 * @param ltrb 4次元配列 順に 左端,トップ(一番高いところ),右端,ボトム(一番低いところ)
+	 */
 	public final void getExtent(double ltrb[]) {
 		ltrb[0] = -10.0;
 		ltrb[2] = this.getFilmPosition();
@@ -464,13 +496,20 @@ public class TLens implements Serializable {
 		ltrb[3] = -top;
 	}
 
-	/** レンズ系の左端を返す.
-	@return 左端     */
+	/**
+	 * レンズ系の左端を返す.
+	 * 
+	 * @return 左端
+	 */
 	public final double getLeft() {
 		return -10.0;
 	}
-	/** レンズ系のトップ(一番高いところ)を返す.
-	@return トップ(一番高いところ)     */
+
+	/**
+	 * レンズ系のトップ(一番高いところ)を返す.
+	 * 
+	 * @return トップ(一番高いところ)
+	 */
 	public double getTop() {
 		double top = fFocusLength * Math.tan(fWMax * Math.PI / 180.0);
 		for (int i = 0; i < fNoOfSurfaces; ++i) {
@@ -480,14 +519,20 @@ public class TLens implements Serializable {
 		return top;
 	}
 
-	/** レンズ系の右端を返す.
-	@return 右端     */
+	/**
+	 * レンズ系の右端を返す.
+	 * 
+	 * @return 右端
+	 */
 	public final double getRight() {
 		return this.getFilmPosition();
 	}
 
-	/** レンズ系のボトム(一番低いところ)を返す.
-	@return ボトム(一番低いところ)     */
+	/**
+	 * レンズ系のボトム(一番低いところ)を返す.
+	 * 
+	 * @return ボトム(一番低いところ)
+	 */
 	public final double getBottom() {
 		double top = fFocusLength * Math.tan(fWMax * Math.PI / 180.0);
 		for (int i = 0; i < fNoOfSurfaces; ++i) {
@@ -499,6 +544,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * レンズ構成情報を返す．
+	 * 
 	 * @return レンズ構成情報
 	 */
 	public TLensConfig getConfig() {
@@ -507,6 +553,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * レンズ構成情報を設定する．
+	 * 
 	 * @param config レンズ構成情報
 	 */
 	public void setConfig(TLensConfig config) {
@@ -517,7 +564,7 @@ public class TLens implements Serializable {
 			fSurfaces[i] = new TSurface();
 		}
 		fD = new double[fNoOfSurfaces];
-		fGlasses = new TGlass [fNoOfSurfaces + 1];
+		fGlasses = new TGlass[fNoOfSurfaces + 1];
 		for (int i = 0; i < fGlasses.length; ++i) {
 			fGlasses[i] = TGlass.AIR;
 		}
@@ -541,6 +588,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * 実行可能かどうかを返す．
+	 * 
 	 * @return 実行可能性
 	 */
 	public boolean isFeasible() {
@@ -549,6 +597,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * 実行可能性を設定する．
+	 * 
 	 * @param feasible 実行可能性
 	 */
 	public void setFeasible(boolean feasible) {
@@ -557,6 +606,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * 色収差の評価の有無を返す．
+	 * 
 	 * @return true:色収差あり, false:色収差なし
 	 */
 	public boolean isChromatic() {
@@ -565,6 +615,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * 色収差の評価の有無を設定する．
+	 * 
 	 * @param chromatic 色収差の評価の有無
 	 */
 	public void setChromatic(boolean chromatic) {
@@ -573,6 +624,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * 指定された入射角の歪曲を返す．
+	 * 
 	 * @param w 入射角 (0:W_0, 1:W_065, 2:W_MAX)．
 	 * @return 歪曲
 	 */
@@ -582,7 +634,8 @@ public class TLens implements Serializable {
 
 	/**
 	 * 指定された入射角の歪曲を設定する．．
-	 * @param w 入射角 (0:W_0, 1:W_065, 2:W_MAX)．
+	 * 
+	 * @param w          入射角 (0:W_0, 1:W_065, 2:W_MAX)．
 	 * @param distortion 歪曲
 	 */
 	public void setDistortion(int w, double distortion) {
@@ -591,6 +644,7 @@ public class TLens implements Serializable {
 
 	/**
 	 * 指定された入射角の解像度を返す．
+	 * 
 	 * @param w 入射角 (0:W_0, 1:W_065, 2:W_MAX)．
 	 * @return 解像度
 	 */
@@ -600,7 +654,8 @@ public class TLens implements Serializable {
 
 	/**
 	 * 指定された入射角の解像度を設定する．．
-	 * @param w 入射角 (0:W_0, 1:W_065, 2:W_MAX)．
+	 * 
+	 * @param w          入射角 (0:W_0, 1:W_065, 2:W_MAX)．
 	 * @param resolution 解像度
 	 */
 	public void setResolution(int w, double resolution) {
@@ -609,7 +664,8 @@ public class TLens implements Serializable {
 
 	/**
 	 * 指定された入射角および波長の色収差を返す．ただし，wavelength=0（基準線）の場合，もしくは，isChromaticがfalseの場合はゼロを返す．
-	 * @param w 入射角 (0:W_0, 1:W_065, 2:W_MAX)．
+	 * 
+	 * @param w          入射角 (0:W_0, 1:W_065, 2:W_MAX)．
 	 * @param wavelength 波長 (0:REF_D, 1:REF_C, 2:REF_G)
 	 * @return 色収差．
 	 */
@@ -619,7 +675,8 @@ public class TLens implements Serializable {
 
 	/**
 	 * 指定された入射角および波長の色収差を設定する．
-	 * @param w 入射角 (0:W_0, 1:W_065, 2:W_MAX)．
+	 * 
+	 * @param w          入射角 (0:W_0, 1:W_065, 2:W_MAX)．
 	 * @param wavelength 波長 (0:REF_D, 1:REF_C, 2:REF_G)
 	 * @return 色収差．
 	 */
@@ -638,6 +695,5 @@ public class TLens implements Serializable {
 		}
 		return sb.toString();
 	}
-
 
 }

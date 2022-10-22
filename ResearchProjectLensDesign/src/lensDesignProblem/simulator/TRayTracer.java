@@ -1,25 +1,27 @@
 package lensDesignProblem.simulator;
 
-
-/** 光線追跡を行うクラス<BR>
-    @author Kenta Hirano, isao */
+/**
+ * 光線追跡を行うクラス<BR>
+ * 
+ * @author Kenta Hirano, isao
+ */
 public class TRayTracer {
-	
+
 	/** 光線追跡オペレータ */
 	private TRayTraceOperator fOp;
 
 	private TVector3D fNextT;
-	
+
 	private TVector3D fNextQ;
-	
+
 	private TVector3D fT;
-	
+
 	private TVector3D fQ;
-	
+
 	private TVector3D fP1;
-	
+
 	private TVector3D fP2;
-	
+
 	private TVector3D fV;
 
 	/**
@@ -37,17 +39,21 @@ public class TRayTracer {
 		fV = TVector3D.newInstance();
 	}
 
-	/** 光線追跡を行う. 
-	@param initD 間隔 d の初期値
-	@param initT 位置ベクトル T の初期値
-	@param initQ 光線の方向ベクトル T の初期値
-	@param lens  追跡を行うレンズ系
-	@param wavelength 波長番号
-	@param ray  追跡光線. これに登録する. 
-	@param checkLensHeight 高さのチェックするかどうか
-	@param checkStopR 絞りに光線が当たらないかチェックするかどうか     */
-	public final boolean doIt(double initD, final TVector3D initT, final TVector3D initQ, final TLens lens, int wavelength,
-		                        TRay ray, boolean checkLensHeight, boolean checkStopR) {
+	/**
+	 * 光線追跡を行う.
+	 * 
+	 * @param initD           間隔 d の初期値
+	 * @param initT           位置ベクトル T の初期値
+	 * @param initQ           光線の方向ベクトル T の初期値
+	 * @param lens            追跡を行うレンズ系
+	 * @param wavelength      波長番号
+	 * @param ray             追跡光線. これに登録する.
+	 * @param checkLensHeight 高さのチェックするかどうか
+	 * @param checkStopR      絞りに光線が当たらないかチェックするかどうか
+	 */
+	public final boolean doIt(double initD, final TVector3D initT, final TVector3D initQ, final TLens lens,
+			int wavelength,
+			TRay ray, boolean checkLensHeight, boolean checkStopR) {
 		ray.reset();
 		addToRay(initT, -initD, ray);
 		fT.copy(initT);
@@ -89,16 +95,19 @@ public class TRayTracer {
 		return true;
 	}
 
-	/** 光線追跡を行う. 
-	@param initD 間隔 d の初期値
-	@param initT 位置ベクトル T の初期値
-	@param initQ 光線の方向ベクトル T の初期値
-	@param lens  追跡を行うレンズ系
-	@param wavelength 波長番号
-	@param ray  追跡光線. これに登録する. 
-	@param checkLensHeight 高さのチェックするかどうか     */
+	/**
+	 * 光線追跡を行う.
+	 * 
+	 * @param initD           間隔 d の初期値
+	 * @param initT           位置ベクトル T の初期値
+	 * @param initQ           光線の方向ベクトル T の初期値
+	 * @param lens            追跡を行うレンズ系
+	 * @param wavelength      波長番号
+	 * @param ray             追跡光線. これに登録する.
+	 * @param checkLensHeight 高さのチェックするかどうか
+	 */
 	public final boolean doIt(double initD, final TVector3D initT, final TVector3D initQ, final TLens lens,
-		                        int wavelength, TRay ray, boolean checkLensHeight) {
+			int wavelength, TRay ray, boolean checkLensHeight) {
 		ray.reset();
 		addToRay(initT, -initD, ray);
 		fT.copy(initT);
@@ -130,14 +139,18 @@ public class TRayTracer {
 		return true;
 	}
 
-	/** 光線追跡を行う. 
-	@param initD 間隔 d の初期値
-	@param initT 位置ベクトル T の初期値
-	@param initQ 光線の方向ベクトル T の初期値
-	@param lens  追跡を行うレンズ系
-	@param wavelength 波長番号
-	@param ray  追跡光線. これに登録する.     */
-	public final boolean doIt(double initD, final TVector3D initT, final TVector3D initQ, final TLens lens, int wavelength, TRay ray) {
+	/**
+	 * 光線追跡を行う.
+	 * 
+	 * @param initD      間隔 d の初期値
+	 * @param initT      位置ベクトル T の初期値
+	 * @param initQ      光線の方向ベクトル T の初期値
+	 * @param lens       追跡を行うレンズ系
+	 * @param wavelength 波長番号
+	 * @param ray        追跡光線. これに登録する.
+	 */
+	public final boolean doIt(double initD, final TVector3D initT, final TVector3D initQ, final TLens lens,
+			int wavelength, TRay ray) {
 		ray.reset();
 		addToRay(initT, -initD, ray);
 		fT.copy(initT);
@@ -165,7 +178,7 @@ public class TRayTracer {
 	}
 
 	public final int doOneStep(int index, final TVector3D curT, final TVector3D curQ,
-		                         TVector3D nextT, TVector3D nextQ, final TLens lens, int wavelength, TRay ray) {
+			TVector3D nextT, TVector3D nextQ, final TLens lens, int wavelength, TRay ray) {
 		int err = TRayError.NO_ERROR;
 		double d;
 		double r = lens.surface(index).getR();
@@ -194,7 +207,7 @@ public class TRayTracer {
 	}
 
 	public final int doOneStep(int index, final TVector3D curT, final TVector3D curQ,
-		                         TVector3D nextT, TVector3D nextQ, final TLens lens, int wavelength) {
+			TVector3D nextT, TVector3D nextQ, final TLens lens, int wavelength) {
 		int err = TRayError.NO_ERROR;
 		double d;
 		double r = lens.surface(index).getR();
@@ -217,21 +230,24 @@ public class TRayTracer {
 		return TRayError.NO_ERROR;
 	}
 
-	/** 光線の高さがyになっているポジションを探す
-	@param initD 間隔 d の初期値
-	@param initT 位置ベクトル T の初期値
-	@param initQ 光線の方向ベクトル T の初期値
-	@param lens  追跡を行うレンズ系
-	@param wavelength 波長番号
-	@param y 探す高さy
-	@param pos 見つかったポジションを代入する
-	ポインタが使えないため大きさ1の配列
-	@param reachFilm 最後まで追跡できたが見つからなかったとき, trueを代入
-	ポインタが使えないため大きさ1の配列
-	@param checkLensHeight 高さのチェックするかどうか
-	@return 見つかったとき, true    */
+	/**
+	 * 光線の高さがyになっているポジションを探す
+	 * 
+	 * @param initD           間隔 d の初期値
+	 * @param initT           位置ベクトル T の初期値
+	 * @param initQ           光線の方向ベクトル T の初期値
+	 * @param lens            追跡を行うレンズ系
+	 * @param wavelength      波長番号
+	 * @param y               探す高さy
+	 * @param pos             見つかったポジションを代入する
+	 *                        ポインタが使えないため大きさ1の配列
+	 * @param reachFilm       最後まで追跡できたが見つからなかったとき, trueを代入
+	 *                        ポインタが使えないため大きさ1の配列
+	 * @param checkLensHeight 高さのチェックするかどうか
+	 * @return 見つかったとき, true
+	 */
 	public final boolean searchPointWithY(double initD, final TVector3D initT, final TVector3D initQ, final TLens lens,
-		                                    int wavelength, double y, double[] pos, boolean[] reachFilm, boolean checkLensHeight) {
+			int wavelength, double y, double[] pos, boolean[] reachFilm, boolean checkLensHeight) {
 		reachFilm[0] = false;
 		fT.copy(initT);
 		fQ.copy(initQ);
@@ -281,20 +297,23 @@ public class TRayTracer {
 		return false;
 	}
 
-	/** 光線の高さがyになっているポジションを探す
-	@param initD 間隔 d の初期値
-	@param initT 位置ベクトル T の初期値
-	@param initQ 光線の方向ベクトル T の初期値
-	@param lens  追跡を行うレンズ系
-	@param wavelength 波長番号
-	@param y 探す高さy
-	@param pos 見つかったポジションを代入する
-	ポインタが使えないため大きさ1の配列
-	@param reachFilm 最後まで追跡できたが見つからなかったとき, trueを代入
-	ポインタが使えないため大きさ1の配列
-	@return 見つかったとき, true    */
+	/**
+	 * 光線の高さがyになっているポジションを探す
+	 * 
+	 * @param initD      間隔 d の初期値
+	 * @param initT      位置ベクトル T の初期値
+	 * @param initQ      光線の方向ベクトル T の初期値
+	 * @param lens       追跡を行うレンズ系
+	 * @param wavelength 波長番号
+	 * @param y          探す高さy
+	 * @param pos        見つかったポジションを代入する
+	 *                   ポインタが使えないため大きさ1の配列
+	 * @param reachFilm  最後まで追跡できたが見つからなかったとき, trueを代入
+	 *                   ポインタが使えないため大きさ1の配列
+	 * @return 見つかったとき, true
+	 */
 	public final boolean searchPointWithY(double initD, final TVector3D initT, final TVector3D initQ, final TLens lens,
-		                                    int wavelength, double y, double[] pos, boolean[] reachFilm) {
+			int wavelength, double y, double[] pos, boolean[] reachFilm) {
 		reachFilm[0] = false;
 		fT.copy(initT);
 		fQ.copy(initQ);
@@ -339,19 +358,22 @@ public class TRayTracer {
 		return false;
 	}
 
-	/** 光線のポジションがxになっている高さyを探す
-	@param initD 間隔 d の初期値
-	@param initT 位置ベクトル T の初期値
-	@param initQ 光線の方向ベクトル T の初期値
-	@param lens  追跡を行うレンズ系
-	@param wavelength 波長番号
-	@param 探すポジションx
-	@param y 見つかった高さyを代入する
-	ポインタが使えないため大きさ1の配列
-	@param checkLensHeight 高さのチェックするかどうか
-	@return 見つかったとき, true    */
+	/**
+	 * 光線のポジションがxになっている高さyを探す
+	 * 
+	 * @param initD           間隔 d の初期値
+	 * @param initT           位置ベクトル T の初期値
+	 * @param initQ           光線の方向ベクトル T の初期値
+	 * @param lens            追跡を行うレンズ系
+	 * @param wavelength      波長番号
+	 * @param 探すポジションx
+	 * @param y               見つかった高さyを代入する
+	 *                        ポインタが使えないため大きさ1の配列
+	 * @param checkLensHeight 高さのチェックするかどうか
+	 * @return 見つかったとき, true
+	 */
 	public final boolean searchPointWithX(double initD, final TVector3D initT, final TVector3D initQ, final TLens lens,
-		                                    int wavelength, double x, double[] y, boolean checkLensHeight) {
+			int wavelength, double x, double[] y, boolean checkLensHeight) {
 		fT.copy(initT);
 		fQ.copy(initQ);
 		double d = initD;
@@ -403,18 +425,21 @@ public class TRayTracer {
 		return false;
 	}
 
-	/** 光線のポジションがxになっている高さyを探す
-	@param initD 間隔 d の初期値
-	@param initT 位置ベクトル T の初期値
-	@param initQ 光線の方向ベクトル T の初期値
-	@param lens  追跡を行うレンズ系
-	@param wavelength 波長番号
-	@param 探すポジションx
-	@param y 見つかった高さyを代入する
-	ポインタが使えないため大きさ1の配列
-	@return 見つかったとき, true    */
+	/**
+	 * 光線のポジションがxになっている高さyを探す
+	 * 
+	 * @param initD      間隔 d の初期値
+	 * @param initT      位置ベクトル T の初期値
+	 * @param initQ      光線の方向ベクトル T の初期値
+	 * @param lens       追跡を行うレンズ系
+	 * @param wavelength 波長番号
+	 * @param 探すポジションx
+	 * @param y          見つかった高さyを代入する
+	 *                   ポインタが使えないため大きさ1の配列
+	 * @return 見つかったとき, true
+	 */
 	public final boolean searchPointWithX(double initD, final TVector3D initT, final TVector3D initQ, final TLens lens,
-		                                    int wavelength, double x, double[] y) {
+			int wavelength, double x, double[] y) {
 		fT.copy(initT);
 		fQ.copy(initQ);
 		double d = initD;
@@ -461,19 +486,22 @@ public class TRayTracer {
 		return false;
 	}
 
-	/** 光線のポジションがxになっている高さyを探す
-	@param initD 間隔 d の初期値
-	@param initT 位置ベクトル T の初期値
-	@param initQ 光線の方向ベクトル T の初期値
-	@param lens  追跡を行うレンズ系
-	@param wavelength 波長番号
-	@param 探すポジションx
-	@param y 見つかった高さyを代入する
-	ポインタが使えないため大きさ1の配列
-	@param checkLensHeight 高さのチェックするかどうか
-	@return 見つかったとき, true    */
+	/**
+	 * 光線のポジションがxになっている高さyを探す
+	 * 
+	 * @param initD           間隔 d の初期値
+	 * @param initT           位置ベクトル T の初期値
+	 * @param initQ           光線の方向ベクトル T の初期値
+	 * @param lens            追跡を行うレンズ系
+	 * @param wavelength      波長番号
+	 * @param 探すポジションx
+	 * @param y               見つかった高さyを代入する
+	 *                        ポインタが使えないため大きさ1の配列
+	 * @param checkLensHeight 高さのチェックするかどうか
+	 * @return 見つかったとき, true
+	 */
 	public final boolean searchPointWithX(double initD, final TVector3D initT, final TVector3D initQ, final TLens lens,
-		                                    int wavelength, double x, TMyPtrDouble y, boolean checkLensHeight) {
+			int wavelength, double x, TMyPtrDouble y, boolean checkLensHeight) {
 		fT.copy(initT);
 		fQ.copy(initQ);
 		double d = initD;
@@ -525,18 +553,21 @@ public class TRayTracer {
 		return false;
 	}
 
-	/** 光線のポジションがxになっている高さyを探す
-	@param initD 間隔 d の初期値
-	@param initT 位置ベクトル T の初期値
-	@param initQ 光線の方向ベクトル T の初期値
-	@param lens  追跡を行うレンズ系
-	@param wavelength 波長番号
-	@param 探すポジションx
-	@param y 見つかった高さyを代入する
-	ポインタが使えないため大きさ1の配列
-	@return 見つかったとき, true    */
+	/**
+	 * 光線のポジションがxになっている高さyを探す
+	 * 
+	 * @param initD      間隔 d の初期値
+	 * @param initT      位置ベクトル T の初期値
+	 * @param initQ      光線の方向ベクトル T の初期値
+	 * @param lens       追跡を行うレンズ系
+	 * @param wavelength 波長番号
+	 * @param 探すポジションx
+	 * @param y          見つかった高さyを代入する
+	 *                   ポインタが使えないため大きさ1の配列
+	 * @return 見つかったとき, true
+	 */
 	public final boolean searchPointWithX(double initD, final TVector3D initT, final TVector3D initQ, final TLens lens,
-		                                    int wavelength, double x, TMyPtrDouble y) {
+			int wavelength, double x, TMyPtrDouble y) {
 		fT.copy(initT);
 		fQ.copy(initQ);
 		double d = initD;
@@ -583,19 +614,25 @@ public class TRayTracer {
 		return false;
 	}
 
-	/** 光線に付け加える. 
-	@param t      位置ベクトル T
-	@param offset (絶対位置にするための)差分
-	@param ray    登録先の追跡光線     */
+	/**
+	 * 光線に付け加える.
+	 * 
+	 * @param t      位置ベクトル T
+	 * @param offset (絶対位置にするための)差分
+	 * @param ray    登録先の追跡光線
+	 */
 	private final void addToRay(final TVector3D t, double offset, TRay ray) {
 		fV.copy(t.getData(0) + offset, t.getData(1), t.getData(2));
 		ray.appendVertex(fV);
 	}
 
-	/** 最後の頂点(像面上)を計算して, 光線に登録する. 
-	@param q 方向ベクトル Q
-	@param filmPosition 像面のポジション
-	@param ray 登録先の追跡光線     */
+	/**
+	 * 最後の頂点(像面上)を計算して, 光線に登録する.
+	 * 
+	 * @param q            方向ベクトル Q
+	 * @param filmPosition 像面のポジション
+	 * @param ray          登録先の追跡光線
+	 */
 	private final void calculateLastVertex(final TVector3D q, double filmPosition, TRay ray) {
 		int last = ray.getCurrentSize();
 		double factor = (filmPosition - ray.getVector3D(last - 1).getData(0)) / q.getData(0);
@@ -605,20 +642,25 @@ public class TRayTracer {
 		ray.appendVertex(fV);
 	}
 
-	/** 光線が絞りに当たるかしらべる. 
-	当たったとき true 当たらなかったとき falseを返す. 
-	@param lens 光線追跡中のレンズ系
-	@param ray  光線追跡中の光線
-	@param i    追跡箇所
-	@return  当たったとき false 当たらなかったとき true     */
+	/**
+	 * 光線が絞りに当たるかしらべる.
+	 * 当たったとき true 当たらなかったとき falseを返す.
+	 * 
+	 * @param lens 光線追跡中のレンズ系
+	 * @param ray  光線追跡中の光線
+	 * @param i    追跡箇所
+	 * @return 当たったとき false 当たらなかったとき true
+	 */
 	private final boolean checkStopR(final TLens lens, TRay ray, int i) {
 		double stopPos = lens.getStopPosition();
 		double x1 = ray.getVector3D(i).getData(0);
 		double x2 = ray.getVector3D(i + 1).getData(0);
 		if (x1 <= stopPos && stopPos <= x2) {
 			double t = (stopPos - x1) / (x2 - x1);
-			double y = ray.getVector3D(i).getData(1) + t * (ray.getVector3D(i + 1).getData(1) - ray.getVector3D(i).getData(1));
-			double z = ray.getVector3D(i).getData(2) + t * (ray.getVector3D(i + 1).getData(2) - ray.getVector3D(i).getData(2));
+			double y = ray.getVector3D(i).getData(1)
+					+ t * (ray.getVector3D(i + 1).getData(1) - ray.getVector3D(i).getData(1));
+			double z = ray.getVector3D(i).getData(2)
+					+ t * (ray.getVector3D(i + 1).getData(2) - ray.getVector3D(i).getData(2));
 			if (y * y + z * z > lens.getStopR() * lens.getStopR()) {
 				return false;
 			}

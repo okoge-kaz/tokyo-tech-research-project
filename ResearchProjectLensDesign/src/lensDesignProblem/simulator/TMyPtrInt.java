@@ -1,7 +1,10 @@
 package lensDesignProblem.simulator;
 
-/** オブジェクト付きint型ポインタクラス<BR>
-    @author Kenta Hirano */
+/**
+ * オブジェクト付きint型ポインタクラス<BR>
+ * 
+ * @author Kenta Hirano
+ */
 public class TMyPtrInt {
 	/** intの値 */
 	private int fValue;
@@ -20,21 +23,30 @@ public class TMyPtrInt {
 		fValue = 0;
 	}
 
-	/** コンストラクタ
-	@param i    値     */
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param i 値
+	 */
 	private TMyPtrInt(int i) {
 		fValue = i;
 	}
 
-	/** コピーコンストラクタ
-	@param src    コピー元     */
+	/**
+	 * コピーコンストラクタ
+	 * 
+	 * @param src コピー元
+	 */
 	private TMyPtrInt(TMyPtrInt src) {
 		fValue = src.fValue;
 	}
 
-	/** インスタンスを返す. (再利用できなければ新規)
-	コンストラクタの役割を果たす.
-	@return インスタンス    */
+	/**
+	 * インスタンスを返す. (再利用できなければ新規)
+	 * コンストラクタの役割を果たす.
+	 * 
+	 * @return インスタンス
+	 */
 	public static TMyPtrInt newInstance() {
 		TMyPtrInt p = null;
 		if (fGarbageSize == 0) {
@@ -47,10 +59,13 @@ public class TMyPtrInt {
 		return p;
 	}
 
-	/** インスタンスを返す. (再利用できなければ新規)
-	コンストラクタの役割を果たす. 
-	@param i   値
-	@return インスタンス    */
+	/**
+	 * インスタンスを返す. (再利用できなければ新規)
+	 * コンストラクタの役割を果たす.
+	 * 
+	 * @param i 値
+	 * @return インスタンス
+	 */
 	public static TMyPtrInt newInstance(int i) {
 		TMyPtrInt p = null;
 		if (fGarbageSize == 0) {
@@ -63,10 +78,13 @@ public class TMyPtrInt {
 		return p;
 	}
 
-	/** インスタンスを返す. (再利用できなければ新規)
-	コピーコンストラクタの役割を果たす. 
-	@param src コピー元
-	@return インスタンス    */
+	/**
+	 * インスタンスを返す. (再利用できなければ新規)
+	 * コピーコンストラクタの役割を果たす.
+	 * 
+	 * @param src コピー元
+	 * @return インスタンス
+	 */
 	public static TMyPtrInt newInstance(TMyPtrInt src) {
 		TMyPtrInt p = null;
 		if (fGarbageSize == 0) {
@@ -91,20 +109,29 @@ public class TMyPtrInt {
 		}
 	}
 
-	/** コピーする. 
-	@param src コピー元    */
+	/**
+	 * コピーする.
+	 * 
+	 * @param src コピー元
+	 */
 	public final void copy(final TMyPtrInt src) {
 		this.fValue = src.fValue;
 	}
 
-	/** 値を返す. 
-	@return 値     */
+	/**
+	 * 値を返す.
+	 * 
+	 * @return 値
+	 */
 	public final int getValue() {
 		return this.fValue;
 	}
 
-	/** 代入する. 
-	@param i 代入値    */
+	/**
+	 * 代入する.
+	 * 
+	 * @param i 代入値
+	 */
 	public final void setValue(int i) {
 		this.fValue = i;
 	}

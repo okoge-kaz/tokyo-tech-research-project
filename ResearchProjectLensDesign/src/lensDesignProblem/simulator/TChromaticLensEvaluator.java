@@ -2,8 +2,9 @@ package lensDesignProblem.simulator;
 
 /**
  * レンズ系の評価器
+ * 
  * @author hirano, isao
-*/
+ */
 public class TChromaticLensEvaluator {
 
 	/** 色収差を考慮するかどうか，のデフォルト値. trueならする. */
@@ -102,13 +103,14 @@ public class TChromaticLensEvaluator {
 
 	/**
 	 * コンストラクタ
-	 * @param chromatic 色収差を考慮するかどうかの設定
+	 * 
+	 * @param chromatic           色収差を考慮するかどうかの設定
 	 * @param enforceStopPosition 絞りの位置の強制
-	 * @param useRaysForDisplay 追跡光線の表示への使用
+	 * @param useRaysForDisplay   追跡光線の表示への使用
 	 * @param useOriginalPosition 絞りのオリジナルポジションの使用
-	*/
+	 */
 	public TChromaticLensEvaluator(boolean chromatic, boolean enforceStopPosition,
-		                             boolean useRaysForDisplay, boolean useOriginalStopPosition) {
+			boolean useRaysForDisplay, boolean useOriginalStopPosition) {
 		fChromatic = chromatic;
 		fEnforceStopPosition = enforceStopPosition;
 		fUseRaysForDisplay = useRaysForDisplay;
@@ -146,9 +148,12 @@ public class TChromaticLensEvaluator {
 		}
 	}
 
-	/** レンズを評価する.
-	@param lens 評価するレンズ
-	@return 成否    */
+	/**
+	 * レンズを評価する.
+	 * 
+	 * @param lens 評価するレンズ
+	 * @return 成否
+	 */
 	public final boolean doIt(TLens lens) {
 		fLens = lens;
 		fLens.setChromatic(fChromatic);
@@ -194,8 +199,8 @@ public class TChromaticLensEvaluator {
 			int max = fRaysForDisplay[wl][TRayConstant.W_0][1].getNoOfVertexes();
 			for (int i = 0; i < max; ++i) {
 				d1.copy(fRaysForDisplay[wl][TRayConstant.W_0][1].getVector3D(i).getData(0),
-					     -fRaysForDisplay[wl][TRayConstant.W_0][1].getVector3D(i).getData(1),
-					      fRaysForDisplay[wl][TRayConstant.W_0][1].getVector3D(i).getData(2));
+						-fRaysForDisplay[wl][TRayConstant.W_0][1].getVector3D(i).getData(1),
+						fRaysForDisplay[wl][TRayConstant.W_0][1].getVector3D(i).getData(2));
 				ray0.appendVertex(d0);
 				ray2.appendVertex(d1);
 			}
@@ -204,27 +209,31 @@ public class TChromaticLensEvaluator {
 		TVector3D.deleteInstance(d1);
 	}
 
-	/** 追跡光線を返す
-	@param wavelength 波長番号
-	@param w 角度番号
-	@param index 光線番号     */
+	/**
+	 * 追跡光線を返す
+	 * 
+	 * @param wavelength 波長番号
+	 * @param w          角度番号
+	 * @param index      光線番号
+	 */
 	public final TRay getRaysForDisplay(int wavelength, int w, int index) {
 		return fRaysForDisplay[wavelength][w][index];
 	}
 
 	/**
 	 * 追跡光線を返す．
+	 * 
 	 * @param wavelength 波長番号
-	 * @param w 角度番号
+	 * @param w          角度番号
 	 * @return 光線
 	 */
 	public TRay[] getRaysForDisplay(int wavelength, int w) {
 		return fRaysForDisplay[wavelength][w];
 	}
 
-
 	/**
 	 * 追跡光線を返す．
+	 * 
 	 * @param wavelength 波長番号
 	 * @return 光線
 	 */
@@ -232,15 +241,19 @@ public class TChromaticLensEvaluator {
 		return fRaysForDisplay[wavelength];
 	}
 
-	/** スポットを返す
-	@param wavelength 波長番号
-	@param w 角度番号     */
+	/**
+	 * スポットを返す
+	 * 
+	 * @param wavelength 波長番号
+	 * @param w          角度番号
+	 */
 	public final TSpot getSpot(int wavelength, int w) {
 		return fSpots[wavelength][w];
 	}
 
 	/**
 	 * スポットを返す．
+	 * 
 	 * @param wavelength 波長番号
 	 * @return スポット
 	 */
@@ -248,16 +261,19 @@ public class TChromaticLensEvaluator {
 		return fSpots[wavelength];
 	}
 
-	/** 光線が最初の曲面入る位置ベクトルを返す
-	@param wavelength 波長番号
-	@param w 角度番号
-	@param index 光線番号
-	@return 初期位置ベクトル T     */
+	/**
+	 * 光線が最初の曲面入る位置ベクトルを返す
+	 * 
+	 * @param wavelength 波長番号
+	 * @param w          角度番号
+	 * @param index      光線番号
+	 * @return 初期位置ベクトル T
+	 */
 	public final TVector3D getInitT(int wavelength, int w, int index) {
 		return fInitT[wavelength][w][index];
 	}
 
-	/** パラメータを初期化する.      */
+	/** パラメータを初期化する. */
 	private final void initParameters() {
 		fRay.setNoOfSegments(fLens.getNoOfSurfaces() + 1);
 		for (int wl = 0; wl < TWavelength.NO_OF_WAVELENGTHS; ++wl) {
@@ -271,8 +287,8 @@ public class TChromaticLensEvaluator {
 		fW[TRayConstant.W_0] = 0.0;
 		fW[TRayConstant.W_MAX] = fLens.getWMax() * Math.PI / 180.0;
 		/*
-		fW[TRayConstant.W_MAX] = fLens.getWMax() * 3.141592 / 180.0;
-		*/
+		 * fW[TRayConstant.W_MAX] = fLens.getWMax() * 3.141592 / 180.0;
+		 */
 		fW[TRayConstant.W_065] = fW[TRayConstant.W_MAX] * 0.65;
 		fInitQ[TRayConstant.W_0].copy(1.0, 0.0, 0.0);
 		fInitQ[TRayConstant.W_065].copy(Math.cos(fW[TRayConstant.W_065]), Math.sin(fW[TRayConstant.W_065]), 0.0);
@@ -283,8 +299,9 @@ public class TChromaticLensEvaluator {
 	}
 
 	/**
-	 *  画面に表示する光線の追跡を行う
-	 *  @param wavelength 波長番号
+	 * 画面に表示する光線の追跡を行う
+	 * 
+	 * @param wavelength 波長番号
 	 */
 	private final boolean calculateRaysForDisplay(int wavelength) {
 		fInitT[wavelength][TRayConstant.W_0][0].copy(0.0, 0.0, 0.0);
@@ -292,8 +309,8 @@ public class TChromaticLensEvaluator {
 			TVector3D in = TVector3D.newInstance(0.0, 0.0, 0.0);
 			TVector3D out = TVector3D.newInstance(0.0, -2.0 * fRadiusOfFNumberRay, 0.0);
 			if (!searchLimitT(fInitD, fInitQ[TRayConstant.W_0], in, out,
-					              fInitT[wavelength][TRayConstant.W_0][1], wavelength,
-					              fRaysForDisplay[wavelength][TRayConstant.W_0][1], false, true)) {
+					fInitT[wavelength][TRayConstant.W_0][1], wavelength,
+					fRaysForDisplay[wavelength][TRayConstant.W_0][1], false, true)) {
 				TVector3D.deleteInstance(in);
 				TVector3D.deleteInstance(out);
 				return false;
@@ -311,7 +328,7 @@ public class TChromaticLensEvaluator {
 		for (int w = 1; w < TRayConstant.NO_OF_WS; ++w) {
 			double upperY = y1 - (x1 + fInitD) * Math.tan(fW[w]);
 			double lowerY = calcLowerY(w);
-			//		assert( upperY >= lowerY );
+			// assert( upperY >= lowerY );
 			int div = (int) ((upperY - lowerY) / fRadiusOfFNumberRay) + 1;
 			double stepSize = 1.0 / (double) div;
 			inT.copy(0.0, 0.0, 0.0);
@@ -324,7 +341,7 @@ public class TChromaticLensEvaluator {
 				return false;
 			}
 			if (!searchLimitT(fInitD, fInitQ[w], inT, v3dly, fInitT[wavelength][w][1], wavelength,
-					              fRaysForDisplay[wavelength][w][1], false, true)) {
+					fRaysForDisplay[wavelength][w][1], false, true)) {
 				TVector3D.deleteInstance(inT);
 				TVector3D.deleteInstance(v3duy);
 				TVector3D.deleteInstance(v3dly);
@@ -333,7 +350,7 @@ public class TChromaticLensEvaluator {
 			upperY = -1.0 * y1 - (x1 + fInitD) * Math.tan(fW[w]);
 			v3duy.copy(0.0, upperY, 0.0);
 			if (!searchLimitT(fInitD, fInitQ[w], fInitT[wavelength][w][1], v3duy, fInitT[wavelength][w][2],
-					              wavelength, fRaysForDisplay[wavelength][w][2], false, true)) {
+					wavelength, fRaysForDisplay[wavelength][w][2], false, true)) {
 				TVector3D.deleteInstance(inT);
 				TVector3D.deleteInstance(v3duy);
 				TVector3D.deleteInstance(v3dly);
@@ -344,14 +361,14 @@ public class TChromaticLensEvaluator {
 		TVector3D.deleteInstance(v3duy);
 		TVector3D.deleteInstance(v3dly);
 		if (fInitT[TWavelength.REF_D][TRayConstant.W_MAX][2].getData(1)
-			  - fInitT[TWavelength.REF_D][TRayConstant.W_MAX][1].getData(1) < fRadiusOfFNumberRay) {
+				- fInitT[TWavelength.REF_D][TRayConstant.W_MAX][1].getData(1) < fRadiusOfFNumberRay) {
 			return false;
 		}
 		for (int w = 1; w < TRayConstant.NO_OF_WS; ++w) {
 			searchMainT(fInitD, fInitQ[w], fInitT[wavelength][w][1], fInitT[wavelength][w][2],
-					        fInitT[wavelength][w][0], wavelength);
+					fInitT[wavelength][w][0], wavelength);
 			if (!fRayTracer.doIt(fInitD, fInitT[wavelength][w][0], fInitQ[w], fLens, wavelength,
-					                 fRaysForDisplay[wavelength][w][0], false, true)) {
+					fRaysForDisplay[wavelength][w][0], false, true)) {
 				return false;
 			}
 			/* 主光線の偏りをチェック */
@@ -366,8 +383,11 @@ public class TChromaticLensEvaluator {
 		return true;
 	}
 
-	/** 画面に表示しない光線の追跡を行う
-	@param wavelength 波長番号     */
+	/**
+	 * 画面に表示しない光線の追跡を行う
+	 * 
+	 * @param wavelength 波長番号
+	 */
 	private final boolean calculateOtherRays(int wavelength) {
 		boolean checkLensHeight = false;
 		boolean checkStopR = true;
@@ -376,7 +396,7 @@ public class TChromaticLensEvaluator {
 			fInitT[wavelength][w][3].add(fInitT[wavelength][w][1]);
 			fInitT[wavelength][w][3].scalerQuotient(2.0);
 			if (!fRayTracer.doIt(fInitD, fInitT[wavelength][w][3], fInitQ[w], fLens, wavelength,
-					                 fRaysForDisplay[wavelength][w][3], false, true)) {
+					fRaysForDisplay[wavelength][w][3], false, true)) {
 				return false;
 			}
 			if (w != 0) {
@@ -384,13 +404,13 @@ public class TChromaticLensEvaluator {
 				fInitT[wavelength][w][4].add(fInitT[wavelength][w][2]);
 				fInitT[wavelength][w][4].scalerQuotient(2.0);
 				if (!fRayTracer.doIt(fInitD, fInitT[wavelength][w][4], fInitQ[w], fLens, wavelength,
-						                 fRaysForDisplay[wavelength][w][4], false, true)) {
+						fRaysForDisplay[wavelength][w][4], false, true)) {
 					return false;
 				}
 				TVector3D out5 = TVector3D.newInstance(0.0, 0.0, fRadiusOfFNumberRay);
 				out5.add(fInitT[wavelength][w][0]);
 				if (!searchLimitT(fInitD, fInitQ[w], fInitT[wavelength][w][0], out5, fInitT[wavelength][w][5],
-						              wavelength, fRaysForDisplay[wavelength][w][5], checkLensHeight, checkStopR)) {
+						wavelength, fRaysForDisplay[wavelength][w][5], checkLensHeight, checkStopR)) {
 					TVector3D.deleteInstance(out5);
 					return false;
 				}
@@ -398,7 +418,7 @@ public class TChromaticLensEvaluator {
 				fInitT[wavelength][w][6].add(fInitT[wavelength][w][5]);
 				fInitT[wavelength][w][6].scalerQuotient(2.0);
 				if (!fRayTracer.doIt(fInitD, fInitT[wavelength][w][6], fInitQ[w], fLens, wavelength,
-						                 fRaysForDisplay[wavelength][w][6], false, true)) {
+						fRaysForDisplay[wavelength][w][6], false, true)) {
 					TVector3D.deleteInstance(out5);
 					return false;
 				}
@@ -406,7 +426,7 @@ public class TChromaticLensEvaluator {
 				TVector3D out7 = TVector3D.newInstance(0.0, d1, d1);
 				out7.add(fInitT[wavelength][w][0]);
 				if (!searchLimitT(fInitD, fInitQ[w], fInitT[wavelength][w][0], out7, fInitT[wavelength][w][7],
-						              wavelength, fRaysForDisplay[wavelength][w][7], checkLensHeight, checkStopR)) {
+						wavelength, fRaysForDisplay[wavelength][w][7], checkLensHeight, checkStopR)) {
 					TVector3D.deleteInstance(out5);
 					TVector3D.deleteInstance(out7);
 					return false;
@@ -415,7 +435,7 @@ public class TChromaticLensEvaluator {
 				fInitT[wavelength][w][8].add(fInitT[wavelength][w][7]);
 				fInitT[wavelength][w][8].scalerQuotient(2.0);
 				if (!fRayTracer.doIt(fInitD, fInitT[wavelength][w][8], fInitQ[w], fLens, wavelength,
-						                 fRaysForDisplay[wavelength][w][8], false, true)) {
+						fRaysForDisplay[wavelength][w][8], false, true)) {
 					TVector3D.deleteInstance(out5);
 					TVector3D.deleteInstance(out7);
 					return false;
@@ -424,7 +444,7 @@ public class TChromaticLensEvaluator {
 				TVector3D out9 = TVector3D.newInstance(0.0, -d2, d2);
 				out9.add(fInitT[wavelength][w][0]);
 				if (!searchLimitT(fInitD, fInitQ[w], fInitT[wavelength][w][0], out9, fInitT[wavelength][w][9],
-						              wavelength, fRaysForDisplay[wavelength][w][9], checkLensHeight, checkStopR)) {
+						wavelength, fRaysForDisplay[wavelength][w][9], checkLensHeight, checkStopR)) {
 					TVector3D.deleteInstance(out5);
 					TVector3D.deleteInstance(out7);
 					TVector3D.deleteInstance(out9);
@@ -434,7 +454,7 @@ public class TChromaticLensEvaluator {
 				fInitT[wavelength][w][10].add(fInitT[wavelength][w][9]);
 				fInitT[wavelength][w][10].scalerQuotient(2.0);
 				if (!fRayTracer.doIt(fInitD, fInitT[wavelength][w][10], fInitQ[w], fLens,
-						                 wavelength, fRaysForDisplay[wavelength][w][10], false, true)) {
+						wavelength, fRaysForDisplay[wavelength][w][10], false, true)) {
 					TVector3D.deleteInstance(out5);
 					TVector3D.deleteInstance(out7);
 					TVector3D.deleteInstance(out9);
@@ -456,15 +476,15 @@ public class TChromaticLensEvaluator {
 		fInitT[TWavelength.REF_D][TRayConstant.W_0][1].copy(0.0, -fRadiusOfFNumberRay, 0.0);
 		fInitT[TWavelength.REF_D][TRayConstant.W_0][2].copy(0.0, fRadiusOfFNumberRay, 0.0);
 		if (!fRayTracer.doIt(fInitD, fInitT[TWavelength.REF_D][TRayConstant.W_0][1], fInitQ[TRayConstant.W_0],
-				                 fLens, TWavelength.REF_D, fRaysForDisplay[TWavelength.REF_D][TRayConstant.W_0][1],
-				                 false, false)) {
+				fLens, TWavelength.REF_D, fRaysForDisplay[TWavelength.REF_D][TRayConstant.W_0][1],
+				false, false)) {
 			return false;
 		}
 		double x1 = fRaysForDisplay[TWavelength.REF_D][TRayConstant.W_0][1].getVector3D(1).getData(0);
 		int w = TRayConstant.W_MAX;
 		double upperY = -fRadiusOfFNumberRay - (x1 + fInitD) * Math.tan(fW[w]);
 		double lowerY = calcLowerY(w);
-		//	assert( upperY >= lowerY );
+		// assert( upperY >= lowerY );
 		int div = (int) ((upperY - lowerY) / fRadiusOfFNumberRay) + 1;
 		double stepSize = 1.0 / (double) div;
 		TVector3D inT = TVector3D.newInstance();
@@ -476,7 +496,8 @@ public class TChromaticLensEvaluator {
 			TVector3D.deleteInstance(v3dly);
 			return false;
 		}
-		if (!searchLimitT(fInitD, fInitQ[w], inT, v3dly, fInitT[TWavelength.REF_D][w][1], TWavelength.REF_D, fRaysForDisplay[TWavelength.REF_D][w][1], false, false)) {
+		if (!searchLimitT(fInitD, fInitQ[w], inT, v3dly, fInitT[TWavelength.REF_D][w][1], TWavelength.REF_D,
+				fRaysForDisplay[TWavelength.REF_D][w][1], false, false)) {
 			TVector3D.deleteInstance(inT);
 			TVector3D.deleteInstance(v3duy);
 			TVector3D.deleteInstance(v3dly);
@@ -484,13 +505,15 @@ public class TChromaticLensEvaluator {
 		}
 		upperY = fRadiusOfFNumberRay - (x1 + fInitD) * Math.tan(fW[w]);
 		v3duy.copy(0.0, upperY, 0.0);
-		if (!searchLimitT(fInitD, fInitQ[w], fInitT[TWavelength.REF_D][w][1], v3duy, fInitT[TWavelength.REF_D][w][2], TWavelength.REF_D, fRaysForDisplay[TWavelength.REF_D][w][2], false, false)) {
+		if (!searchLimitT(fInitD, fInitQ[w], fInitT[TWavelength.REF_D][w][1], v3duy, fInitT[TWavelength.REF_D][w][2],
+				TWavelength.REF_D, fRaysForDisplay[TWavelength.REF_D][w][2], false, false)) {
 			TVector3D.deleteInstance(inT);
 			TVector3D.deleteInstance(v3duy);
 			TVector3D.deleteInstance(v3dly);
 			return false;
 		}
-		if (fInitT[TWavelength.REF_D][TRayConstant.W_MAX][2].getData(1) - fInitT[TWavelength.REF_D][TRayConstant.W_MAX][1].getData(1) < fRadiusOfFNumberRay) {
+		if (fInitT[TWavelength.REF_D][TRayConstant.W_MAX][2].getData(1)
+				- fInitT[TWavelength.REF_D][TRayConstant.W_MAX][1].getData(1) < fRadiusOfFNumberRay) {
 			TVector3D.deleteInstance(inT);
 			TVector3D.deleteInstance(v3duy);
 			TVector3D.deleteInstance(v3dly);
@@ -511,8 +534,11 @@ public class TChromaticLensEvaluator {
 		return true;
 	}
 
-	/** 像面のスポットを作成する
-	@param wavelength 波長番号     */
+	/**
+	 * 像面のスポットを作成する
+	 * 
+	 * @param wavelength 波長番号
+	 */
 	private final void makeSpots(int wavelength) {
 		makeSpotAtW0(wavelength);
 		TVector3D p = TVector3D.newInstance();
@@ -529,8 +555,11 @@ public class TChromaticLensEvaluator {
 		TVector2D.deleteInstance(d);
 	}
 
-	/** 像面のスポットのうち角度0の光線のものを作成する
-	@param wavelength 波長番号     */
+	/**
+	 * 像面のスポットのうち角度0の光線のものを作成する
+	 * 
+	 * @param wavelength 波長番号
+	 */
 	private final void makeSpotAtW0(int wavelength) {
 		TVector2D bufv2d = TVector2D.newInstance();
 		final double root2 = Math.sqrt(2.0);
@@ -567,6 +596,7 @@ public class TChromaticLensEvaluator {
 
 	/**
 	 * 絞りの位置を探す
+	 * 
 	 * @param lowerRay 探索範囲の下端
 	 * @param upperRay 探索範囲の上端
 	 * @return 絞りの位置
@@ -582,7 +612,7 @@ public class TChromaticLensEvaluator {
 		double right = fLens.surface(fLens.getNoOfSurfaces() - 1).getPosition();
 		n = lowerRay.searchPointsWithY(0.0, p, 1);
 		if (n > 0 && p[0].getData(0) < right) {
-				right = p[0].getData(0);
+			right = p[0].getData(0);
 		}
 		curPos = (left + right) / 2.0;
 		for (int i = 0; i < 15; ++i) {
@@ -594,11 +624,11 @@ public class TChromaticLensEvaluator {
 			TVector3D.deleteInstance(p1);
 			TVector3D.deleteInstance(p2);
 			if (curErr < 0.0) {
-					left = curPos;
+				left = curPos;
 			} else if (curErr > 0.0) {
-					right = curPos;
+				right = curPos;
 			} else {
-					break;
+				break;
 			}
 			curPos = (left + right) / 2.0;
 		}
@@ -609,21 +639,21 @@ public class TChromaticLensEvaluator {
 	/**
 	 * 光線追跡可能な, 開始位置が外側の光線の進入位置Tを求める
 	 *
-	 * @param initD 間隔 d の初期値
-	 * @param initQ 位置ベクトル T の初期値
-	 * @param inT 探索開始位置 内側
-	 * @param outT 探索開始位置 外側
-	 * @param resultT 結果の位置ベクトル T これに格納
-	 * @param wavelength 波長番号
-	 * @param ray, 追跡光線. これに登録
+	 * @param initD           間隔 d の初期値
+	 * @param initQ           位置ベクトル T の初期値
+	 * @param inT             探索開始位置 内側
+	 * @param outT            探索開始位置 外側
+	 * @param resultT         結果の位置ベクトル T これに格納
+	 * @param wavelength      波長番号
+	 * @param ray,            追跡光線. これに登録
 	 * @param checkLensHeight 高さのチェックするかどうか
-	 * @param checkStopR 絞りに光線が当たらないかチェックするかどうか
+	 * @param checkStopR      絞りに光線が当たらないかチェックするかどうか
 	 *
 	 */
 	private final boolean searchLimitT(double initD, final TVector3D initQ, final TVector3D inT, final TVector3D outT,
-		                                 TVector3D resultT, int wavelength, TRay ray, boolean checkLensHeight, boolean checkStopR) {
-		if (!fRayTracer.doIt(initD, inT, initQ, fLens, wavelength, fRay, checkLensHeight, checkStopR)) { //注意 true しか返さない
-			//throw new RuntimeException("Error in TChromaticLensEvaluator::SearchLimitT");
+			TVector3D resultT, int wavelength, TRay ray, boolean checkLensHeight, boolean checkStopR) {
+		if (!fRayTracer.doIt(initD, inT, initQ, fLens, wavelength, fRay, checkLensHeight, checkStopR)) { // 注意 true しか返さない
+			// throw new RuntimeException("Error in TChromaticLensEvaluator::SearchLimitT");
 			return false;
 		}
 		ray.copy(fRay);
@@ -632,7 +662,7 @@ public class TChromaticLensEvaluator {
 		TVector3D curT = TVector3D.newInstance(iT);
 		curT.add(oT);
 		curT.scalerQuotient(2.0);
-		for (int i = 0; i < 15; ++i) { //二分探索
+		for (int i = 0; i < 15; ++i) { // 二分探索
 			if (fRayTracer.doIt(initD, curT, initQ, fLens, wavelength, fRay, checkLensHeight, checkStopR)) {
 				ray.copy(fRay);
 				iT.copy(curT);
@@ -650,7 +680,7 @@ public class TChromaticLensEvaluator {
 	}
 
 	/**
-	 *  レンズの端を調整する(表示用)
+	 * レンズの端を調整する(表示用)
 	 */
 	private final void adjustLensEdges() {
 		for (int i = 0; i < fLens.getNoOfSurfaces(); ++i) {
@@ -669,15 +699,16 @@ public class TChromaticLensEvaluator {
 
 	/**
 	 * 主光線のあるべき位置を探す
-	 * @param initD 間隔 d の初期値
-	 * @param initQ 位置ベクトル T の初期値
-	 * @param lowerT 探索の下端
-	 * @param upperT 探索の上端
-	 * @param mainT  結果の主光線の初期位置
+	 * 
+	 * @param initD      間隔 d の初期値
+	 * @param initQ      位置ベクトル T の初期値
+	 * @param lowerT     探索の下端
+	 * @param upperT     探索の上端
+	 * @param mainT      結果の主光線の初期位置
 	 * @param wavelength 波長番号
 	 */
 	private final boolean searchMainT(double initD, final TVector3D initQ, final TVector3D lowerT, final TVector3D upperT,
-			                              TVector3D mainT, int wavelength) {
+			TVector3D mainT, int wavelength) {
 		TVector3D uT = TVector3D.newInstance(upperT);
 		TVector3D lT = TVector3D.newInstance(lowerT);
 		TVector3D curT = TVector3D.newInstance(lT);
@@ -723,7 +754,7 @@ public class TChromaticLensEvaluator {
 			filmPos += fLens.getD(i);
 		}
 		double stopPos = searchStopPosition(fRaysForDisplay[TWavelength.REF_D][TRayConstant.W_MAX][1],
-				                                fRaysForDisplay[TWavelength.REF_D][TRayConstant.W_MAX][2]);
+				fRaysForDisplay[TWavelength.REF_D][TRayConstant.W_MAX][2]);
 		fLens.setStopPosition(stopPos);
 		if (fEnforceStopPosition) {
 			enforceStopPosition();
@@ -790,7 +821,7 @@ public class TChromaticLensEvaluator {
 	private final void setLensHeight(TRay ray) {
 		for (int i = 0; i < fLens.getNoOfSurfaces(); ++i) {
 			double h1 = Math.sqrt(ray.getVector3D(i + 1).getData(1) * ray.getVector3D(i + 1).getData(1)
-						                + ray.getVector3D(i + 1).getData(2) * ray.getVector3D(i + 1).getData(2));
+					+ ray.getVector3D(i + 1).getData(2) * ray.getVector3D(i + 1).getData(2));
 			double h2 = fLens.surface(i).getHeight();
 			double h = h1 > h2 ? h1 : h2;
 			fLens.surface(i).setHeight(h);
@@ -808,18 +839,19 @@ public class TChromaticLensEvaluator {
 	/**
 	 * 実行可能な光線の追跡開始位置を探す
 	 *
-	 * @param fInitD 間隔 d の初期値
-	 * @param initQ 位置ベクトル T の初期値
-	 * @param start 探索開始位置
-	 * @param end 探索終了位置
-	 * @param result 結果の光線追跡開始位置
-	 * @param stepSize 探索幅
-	 * @param wavelength 波長番号
+	 * @param fInitD      間隔 d の初期値
+	 * @param initQ       位置ベクトル T の初期値
+	 * @param start       探索開始位置
+	 * @param end         探索終了位置
+	 * @param result      結果の光線追跡開始位置
+	 * @param stepSize    探索幅
+	 * @param wavelength  波長番号
 	 * @param checkHeight 高さのチェックするかどうか
-	 * @param checkStopR 絞りに光線が当たらないかチェックするかどうか
+	 * @param checkStopR  絞りに光線が当たらないかチェックするかどうか
 	 */
-	private final boolean findFeasibleRay(double fInitD, final TVector3D initQ, final TVector3D start, final TVector3D end,
-		                                    TVector3D result, double stepSize, int wavelength, boolean checkHeight, boolean checkStopR) {
+	private final boolean findFeasibleRay(double fInitD, final TVector3D initQ, final TVector3D start,
+			final TVector3D end,
+			TVector3D result, double stepSize, int wavelength, boolean checkHeight, boolean checkStopR) {
 		TVector3D d = TVector3D.newInstance(end);
 		d.subtract(start);
 		TVector3D td = TVector3D.newInstance();
@@ -833,7 +865,7 @@ public class TChromaticLensEvaluator {
 			}
 		}
 		result = end;
-		if (fRayTracer.doIt(fInitD, result, initQ, fLens, wavelength, fRay, checkHeight,checkStopR)) {
+		if (fRayTracer.doIt(fInitD, result, initQ, fLens, wavelength, fRay, checkHeight, checkStopR)) {
 			TVector3D.deleteInstance(d);
 			TVector3D.deleteInstance(td);
 			return true;
@@ -874,17 +906,19 @@ public class TChromaticLensEvaluator {
 		TMyPtrInt rightIndex = TMyPtrInt.newInstance(-1);
 		searchLeftStopPosition(leftPos, leftIndex);
 		searchRightStopPosition(rightPos, rightIndex);
-		/* レンズの幅に入らないとき そのまま*/
+		/* レンズの幅に入らないとき そのまま */
 		if (leftIndex.getValue() == -1 && rightIndex.getValue() == -1) {
 			return;
 		} else if (leftIndex.getValue() == -1 || rightIndex.getValue() == -1) {
-			throw new RuntimeException("Error in TChromaticLensEvaluator::EnforceStopPosition.\nleftIndex:" + leftIndex + ", rightIndex:" + rightIndex);
+			throw new RuntimeException("Error in TChromaticLensEvaluator::EnforceStopPosition.\nleftIndex:" + leftIndex
+					+ ", rightIndex:" + rightIndex);
 		}
 		/* レンズの幅に入るとき */
 		if (leftIndex.getValue() == 0) {
 			fLens.setStopPosition(rightPos.getValue());
 		} else { /* もとの位置に近いほうにする. */
-			double result = curStopPos - leftPos.getValue() < rightPos.getValue() - curStopPos ? leftPos.getValue() : rightPos.getValue();
+			double result = curStopPos - leftPos.getValue() < rightPos.getValue() - curStopPos ? leftPos.getValue()
+					: rightPos.getValue();
 			fLens.setStopPosition(result);
 		}
 		TMyPtrDouble.deleteInstance(leftPos);
@@ -893,32 +927,35 @@ public class TChromaticLensEvaluator {
 		TMyPtrInt.deleteInstance(rightIndex);
 	}
 
-//	/**
-//	 * ガラスの幅に絞りが入る箇所を探し, あれば, 右端代入しをその空間番号に変更
-//	 * @param stopPos 探索結果
-//	 * @param mIndex 空間の番号
-//	 */
-//	private final void searchLeftStopPosition(double[] stopPos, int[] mIndex) {
-//		stopPos[0] = fLens.getStopPosition();
-//		for (int i = fLens.getNoOfSurfaces() - 1; i > 0; --i) {
-//			if (fLens.getConfig().isGlass(i)) {
-//				TSurface s1 = fLens.surface(i - 1);
-//				TSurface s2 = fLens.surface(i);
-//				double x1 = s1.getPosition() < s1.getEdgePosition() ? s1.getPosition() : s1.getEdgePosition();
-//				double x2 = s2.getPosition() > s2.getEdgePosition() ? s2.getPosition() : s2.getEdgePosition();
-//				/* レンズの幅に入るとき */
-//				if (x1 <= stopPos[0] && stopPos[0] <= x2) {
-//					stopPos[0] = x1;
-//					mIndex[0] = i - 1;
-//				}
-//			}
-//		}
-//	}
+	// /**
+	// * ガラスの幅に絞りが入る箇所を探し, あれば, 右端代入しをその空間番号に変更
+	// * @param stopPos 探索結果
+	// * @param mIndex 空間の番号
+	// */
+	// private final void searchLeftStopPosition(double[] stopPos, int[] mIndex) {
+	// stopPos[0] = fLens.getStopPosition();
+	// for (int i = fLens.getNoOfSurfaces() - 1; i > 0; --i) {
+	// if (fLens.getConfig().isGlass(i)) {
+	// TSurface s1 = fLens.surface(i - 1);
+	// TSurface s2 = fLens.surface(i);
+	// double x1 = s1.getPosition() < s1.getEdgePosition() ? s1.getPosition() :
+	// s1.getEdgePosition();
+	// double x2 = s2.getPosition() > s2.getEdgePosition() ? s2.getPosition() :
+	// s2.getEdgePosition();
+	// /* レンズの幅に入るとき */
+	// if (x1 <= stopPos[0] && stopPos[0] <= x2) {
+	// stopPos[0] = x1;
+	// mIndex[0] = i - 1;
+	// }
+	// }
+	// }
+	// }
 
 	/**
 	 * ガラスの幅に絞りが入る箇所を探し, あれば, 右端代入しをその空間番号に変更
+	 * 
 	 * @param stopPos 探索結果
-	 * @param mIndex 空間の番号
+	 * @param mIndex  空間の番号
 	 */
 	private final void searchLeftStopPosition(TMyPtrDouble stopPos, TMyPtrInt mIndex) {
 		stopPos.setValue(fLens.getStopPosition());
@@ -937,32 +974,35 @@ public class TChromaticLensEvaluator {
 		}
 	}
 
-//	/**
-//	 * ガラスの幅に絞りが入る箇所を探し，あれば, 左端代入しをその空間番号に変更
-//	 * @param stopPos 探索結果
-//	 * @param mIndex 空間の番号
-//	 */
-//	private final void searchRightStopPosition(double[] stopPos, int[] mIndex) {
-//		stopPos[0] = fLens.getStopPosition();
-//		for (int i = 1; i < fLens.getNoOfSurfaces(); ++i) {
-//			if (fLens.getConfig().isGlass(i)) {
-//				TSurface s1 = fLens.surface(i - 1);
-//				TSurface s2 = fLens.surface(i);
-//				double x1 = s1.getPosition() < s1.getEdgePosition() ? s1.getPosition() : s1.getEdgePosition();
-//				double x2 = s2.getPosition() > s2.getEdgePosition() ? s2.getPosition() : s2.getEdgePosition();
-//				/* レンズの幅に入るとき */
-//				if (x1 <= stopPos[0] && stopPos[0] <= x2) {
-//					stopPos[0] = x2;
-//					mIndex[0] = i + 1;
-//				}
-//			}
-//		}
-//	}
+	// /**
+	// * ガラスの幅に絞りが入る箇所を探し，あれば, 左端代入しをその空間番号に変更
+	// * @param stopPos 探索結果
+	// * @param mIndex 空間の番号
+	// */
+	// private final void searchRightStopPosition(double[] stopPos, int[] mIndex) {
+	// stopPos[0] = fLens.getStopPosition();
+	// for (int i = 1; i < fLens.getNoOfSurfaces(); ++i) {
+	// if (fLens.getConfig().isGlass(i)) {
+	// TSurface s1 = fLens.surface(i - 1);
+	// TSurface s2 = fLens.surface(i);
+	// double x1 = s1.getPosition() < s1.getEdgePosition() ? s1.getPosition() :
+	// s1.getEdgePosition();
+	// double x2 = s2.getPosition() > s2.getEdgePosition() ? s2.getPosition() :
+	// s2.getEdgePosition();
+	// /* レンズの幅に入るとき */
+	// if (x1 <= stopPos[0] && stopPos[0] <= x2) {
+	// stopPos[0] = x2;
+	// mIndex[0] = i + 1;
+	// }
+	// }
+	// }
+	// }
 
 	/**
 	 * ガラスの幅に絞りが入る箇所を探し, あれば, 左端代入しをその空間番号に変更
+	 * 
 	 * @param stopPos 探索結果
-	 * @param mIndex 空間の番号
+	 * @param mIndex  空間の番号
 	 */
 	private final void searchRightStopPosition(TMyPtrDouble stopPos, TMyPtrInt mIndex) {
 		stopPos.setValue(fLens.getStopPosition());
@@ -997,7 +1037,7 @@ public class TChromaticLensEvaluator {
 			double resolution = 0.0;
 			for (int i = 1; i < TRayConstant.NO_OF_RAYS; ++i) {
 				d.putSubtract(fSpots[TWavelength.REF_D][w].getVector2D(i),
-					            fSpots[TWavelength.REF_D][w].getVector2D(0));
+						fSpots[TWavelength.REF_D][w].getVector2D(0));
 				resolution += d.getData(0) * d.getData(0) + d.getData(1) * d.getData(1);
 			}
 			fLens.setResolution(w, resolution);
@@ -1016,7 +1056,7 @@ public class TChromaticLensEvaluator {
 				double chromaticAbberation = 0.0;
 				for (int i = 0; i < TRayConstant.NO_OF_RAYS; ++i) {
 					d.putSubtract(fSpots[TWavelength.REF_D][w].getVector2D(i),
-							          fSpots[wavelength][w].getVector2D(i));
+							fSpots[wavelength][w].getVector2D(i));
 					chromaticAbberation += (d.getData(0) * d.getData(0) + d.getData(1) * d.getData(1));
 				}
 				fLens.setChromaticAbberation(w, wavelength, chromaticAbberation);
@@ -1027,6 +1067,7 @@ public class TChromaticLensEvaluator {
 
 	/**
 	 * 色収差を考慮するか？
+	 * 
 	 * @return 考慮する：true, 考慮しない：false
 	 */
 	public boolean isChromatic() {
@@ -1035,6 +1076,7 @@ public class TChromaticLensEvaluator {
 
 	/**
 	 * 絞りの位置の強制(ガラス内にあるときの移動)を行うか？
+	 * 
 	 * @return 行う：true, 行わない：false
 	 */
 	public boolean isEnforceStopPosition() {
@@ -1043,6 +1085,7 @@ public class TChromaticLensEvaluator {
 
 	/**
 	 * オリジナルの絞りの位置を使うか？
+	 * 
 	 * @return 使う：true, 使わない：false
 	 */
 	public boolean isUseOriginalStopPosition() {
@@ -1051,6 +1094,7 @@ public class TChromaticLensEvaluator {
 
 	/**
 	 * 色収差を考慮するか？ を設定する．
+	 * 
 	 * @param b 考慮する：true, 考慮しない：false
 	 */
 	public void setChromatic(boolean b) {
@@ -1059,6 +1103,7 @@ public class TChromaticLensEvaluator {
 
 	/**
 	 * 絞りの位置の強制(ガラス内にあるときの移動)を行うか？ を設定する．
+	 * 
 	 * @param b 行う：true, 行わない：false
 	 */
 	public void setEnforceStopPosition(boolean b) {
@@ -1067,6 +1112,7 @@ public class TChromaticLensEvaluator {
 
 	/**
 	 * オリジナルの絞りの位置を使うか？ を設定する．
+	 * 
 	 * @param b 使う：true, 使わない：false
 	 */
 	public void setUseOriginalStopPosition(boolean b) {
@@ -1075,6 +1121,7 @@ public class TChromaticLensEvaluator {
 
 	/**
 	 * 光線を表示に使うかどうか？
+	 * 
 	 * @return 使う：true, 使わない：false
 	 */
 	public boolean isUseRaysForDisplay() {
@@ -1083,6 +1130,7 @@ public class TChromaticLensEvaluator {
 
 	/**
 	 * 光線を表示に使うかどうか？ を設定する．
+	 * 
 	 * @param b 使う：true, 使わない：false
 	 */
 	public void setUseRaysForDisplay(boolean b) {

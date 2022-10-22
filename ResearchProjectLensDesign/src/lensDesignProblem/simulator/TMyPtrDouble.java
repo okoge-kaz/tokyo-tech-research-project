@@ -1,7 +1,10 @@
 package lensDesignProblem.simulator;
 
-/** オブジェクト付きDouble型ポインタクラス<BR>
-    @author Kenta Hirano */
+/**
+ * オブジェクト付きDouble型ポインタクラス<BR>
+ * 
+ * @author Kenta Hirano
+ */
 public class TMyPtrDouble {
 	/** doubleの値 */
 	private double fValue;
@@ -20,21 +23,30 @@ public class TMyPtrDouble {
 		fValue = 0.0;
 	}
 
-	/** コンストラクタ
-	@param d    値     */
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param d 値
+	 */
 	private TMyPtrDouble(double d) {
 		fValue = d;
 	}
 
-	/** コピーコンストラクタ
-	@param src    コピー元     */
+	/**
+	 * コピーコンストラクタ
+	 * 
+	 * @param src コピー元
+	 */
 	private TMyPtrDouble(TMyPtrDouble src) {
 		fValue = src.fValue;
 	}
 
-	/** インスタンスを返す. (再利用できなければ新規)
-	コンストラクタの役割を果たす.
-	@return インスタンス    */
+	/**
+	 * インスタンスを返す. (再利用できなければ新規)
+	 * コンストラクタの役割を果たす.
+	 * 
+	 * @return インスタンス
+	 */
 	public static TMyPtrDouble newInstance() {
 		TMyPtrDouble p = null;
 		if (fGarbageSize == 0) {
@@ -47,10 +59,13 @@ public class TMyPtrDouble {
 		return p;
 	}
 
-	/** インスタンスを返す. (再利用できなければ新規)
-	コンストラクタの役割を果たす. 
-	@param d   値
-	@return インスタンス    */
+	/**
+	 * インスタンスを返す. (再利用できなければ新規)
+	 * コンストラクタの役割を果たす.
+	 * 
+	 * @param d 値
+	 * @return インスタンス
+	 */
 	public static TMyPtrDouble newInstance(double d) {
 		TMyPtrDouble p = null;
 		if (fGarbageSize == 0) {
@@ -63,10 +78,13 @@ public class TMyPtrDouble {
 		return p;
 	}
 
-	/** インスタンスを返す. (再利用できなければ新規)
-	コピーコンストラクタの役割を果たす. 
-	@param src コピー元
-	@return インスタンス    */
+	/**
+	 * インスタンスを返す. (再利用できなければ新規)
+	 * コピーコンストラクタの役割を果たす.
+	 * 
+	 * @param src コピー元
+	 * @return インスタンス
+	 */
 	public static TMyPtrDouble newInstance(TMyPtrDouble src) {
 		TMyPtrDouble p = null;
 		if (fGarbageSize == 0) {
@@ -91,20 +109,29 @@ public class TMyPtrDouble {
 		}
 	}
 
-	/** コピーする. 
-	@param src コピー元    */
+	/**
+	 * コピーする.
+	 * 
+	 * @param src コピー元
+	 */
 	public final void copy(final TMyPtrDouble src) {
 		this.fValue = src.fValue;
 	}
 
-	/** 値を返す. 
-	@return 値     */
+	/**
+	 * 値を返す.
+	 * 
+	 * @return 値
+	 */
 	public final double getValue() {
 		return this.fValue;
 	}
 
-	/** 代入する. 
-	@param d 代入値    */
+	/**
+	 * 代入する.
+	 * 
+	 * @param d 代入値
+	 */
 	public final void setValue(double d) {
 		this.fValue = d;
 	}

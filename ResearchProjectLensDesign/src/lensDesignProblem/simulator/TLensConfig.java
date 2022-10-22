@@ -1,30 +1,37 @@
 package lensDesignProblem.simulator;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Serializable;
+import java.util.StringTokenizer;
 
 /*
   memo int[] ではなくて String で実現できそう
   暇なとき, リファクタリングする
  */
-/** レンズ要素の並びを扱うクラス<BR>
-    @author Kenta Hirano */
+/**
+ * レンズ要素の並びを扱うクラス<BR>
+ * 
+ * @author Kenta Hirano
+ */
 public class TLensConfig implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	/** 空気を表す */
 	public static final int AIR = 0;
-	
+
 	/** ガラスを表す */
 	public static final int GLASS = 1;
-	
+
 	/** 曲面の数を表す */
 	private int fNoOfSurfaces;
-	
+
 	/** 空気とガラスの並び */
 	private int[] fArray;
-	
+
 	/** ガラス層の数 */
 	private int fNoOfGlasses;
 
@@ -35,8 +42,11 @@ public class TLensConfig implements Serializable {
 		fNoOfGlasses = 0;
 	}
 
-	/** レンズ要素の並びを作成する. (引数データ)
-	@param src コピー元     */
+	/**
+	 * レンズ要素の並びを作成する. (引数データ)
+	 * 
+	 * @param src コピー元
+	 */
 	public TLensConfig(String config) {
 		StringTokenizer st = new StringTokenizer(config, " ");
 		fArray = new int[st.countTokens()];
@@ -57,8 +67,11 @@ public class TLensConfig implements Serializable {
 		}
 	}
 
-	/** レンズ要素の並びを作成する. (コピーコンストラクタ)
-	@param src コピー元     */
+	/**
+	 * レンズ要素の並びを作成する. (コピーコンストラクタ)
+	 * 
+	 * @param src コピー元
+	 */
 	public TLensConfig(TLensConfig src) {
 		fNoOfSurfaces = src.fNoOfSurfaces;
 		fArray = new int[src.fArray.length];
@@ -69,6 +82,7 @@ public class TLensConfig implements Serializable {
 
 	/**
 	 * コピーする．
+	 * 
 	 * @param src コピー元
 	 */
 	public void copyFrom(TLensConfig src) {
@@ -79,8 +93,11 @@ public class TLensConfig implements Serializable {
 		fNoOfGlasses = src.fNoOfGlasses;
 	}
 
-	/** ファイルから読み込む. 
-	    @param file 入力ストリーム  */
+	/**
+	 * ファイルから読み込む.
+	 * 
+	 * @param file 入力ストリーム
+	 */
 	public final void readFrom(BufferedReader file) throws IOException {
 		try {
 			int noOfSurfaces;
@@ -97,7 +114,7 @@ public class TLensConfig implements Serializable {
 					++fNoOfGlasses;
 				} else {
 					System.err.println(
-						"Error: Invalid Data in TLensConfig::readFrom");
+							"Error: Invalid Data in TLensConfig::readFrom");
 					System.exit(5);
 				}
 			}
@@ -111,7 +128,7 @@ public class TLensConfig implements Serializable {
 		}
 	}
 
-	/** 標準出力に出力する.      */
+	/** 標準出力に出力する. */
 	public final void writeTo() {
 		System.out.println(fNoOfSurfaces);
 		for (int i = 0; i < fArray.length; ++i) {
@@ -122,7 +139,7 @@ public class TLensConfig implements Serializable {
 		}
 		System.out.println();
 	}
-	
+
 	@Override
 	public String toString() {
 		String result = "";
@@ -136,8 +153,11 @@ public class TLensConfig implements Serializable {
 		return result;
 	}
 
-	/** ファイルに出力する. 
-	    @param file 出力ストリーム  */
+	/**
+	 * ファイルに出力する.
+	 * 
+	 * @param file 出力ストリーム
+	 */
 	public final void writeTo(PrintWriter pw) {
 		pw.println(fNoOfSurfaces);
 		for (int i = 0; i < fArray.length; ++i) {
@@ -149,8 +169,11 @@ public class TLensConfig implements Serializable {
 		pw.println();
 	}
 
-	/** ファイルに出力する. 
-	    @param file 出力ストリーム  */
+	/**
+	 * ファイルに出力する.
+	 * 
+	 * @param file 出力ストリーム
+	 */
 	public final void writeTo(BufferedWriter file) throws IOException {
 		try {
 			file.write(fNoOfSurfaces + "\n");
@@ -187,9 +210,10 @@ public class TLensConfig implements Serializable {
 		else
 			return false;
 	}
-	
+
 	/**
 	 * ガラス層の数を返す．
+	 * 
 	 * @return ガラス層
 	 */
 	public int getNoOfGlasses() {
