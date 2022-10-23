@@ -11,7 +11,7 @@ import lensDesignProblem.evaluator.TSMonochromeLensProblem;
  * ベクトルクラス
  *
  */
-public class TVector {
+public class TVector implements Comparable<TVector> {
 
   /** 実数の配列 */
   private double[] vector;
@@ -342,8 +342,8 @@ public class TVector {
    * 
    * @return 自分自身
    */
-  public TVector Normalize() {
-    this.scalarProduct(1 / this.calculateL2Norm());
+  public TVector Normalize(TSMonochromeLensProblem problem) {
+    this.scalarProduct(1 / this.calculateL2Norm(), problem);
     return this;
   }
 
@@ -361,4 +361,14 @@ public class TVector {
     return evaluationValue;
   }
 
+  @Override
+  public int compareTo(TVector o) {
+    if (this.evaluationValue < o.evaluationValue) {
+      return -1;
+    } else if (this.evaluationValue > o.evaluationValue) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
 }
