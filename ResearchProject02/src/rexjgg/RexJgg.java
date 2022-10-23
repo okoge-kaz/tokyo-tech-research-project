@@ -140,8 +140,6 @@ public class RexJgg {
    */
   private static ArrayList<TIndividual> createChildren(ArrayList<TIndividual> parents, final int populationSize,
       final int dimension) {
-    // FIXME createChildren()の中に何かしらのバグがある
-    // なぜか回数を重ねるごとに、0周辺になってしまっている....どうして
     // 手順3, 4
     ArrayList<TIndividual> children = new ArrayList<TIndividual>();
 
