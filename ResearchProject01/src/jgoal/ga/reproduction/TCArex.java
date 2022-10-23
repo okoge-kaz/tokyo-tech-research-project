@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+
 import jgoal.solution.ICRealSolution;
 import jgoal.solution.TCSolutionFactory;
 import jgoal.solution.TCSolutionSet;
@@ -13,8 +14,8 @@ import jssf.math.TCMatrix;
 import jssf.random.ICRandom;
 
 /**
- * AREX‚ÌƒNƒ‰ƒXD
- * Ú×‚Í[H–{ 09]‚ğQÆD
+ * AREXã®ã‚¯ãƒ©ã‚¹ï¼
+ * è©³ç´°ã¯[ç§‹æœ¬ 09]ã‚’å‚ç…§ï¼
  * 
  * @author uemura, isao
  */
@@ -23,23 +24,23 @@ public class TCArex<X extends ICRealSolution> implements Serializable {
 	private class KidAndEpsilon {
 
 		double[] fEpsilon;
-		
+
 		X fKid;
-		
+
 		public KidAndEpsilon(TCSolutionFactory<X> factory, int noOfParents) {
 			fEpsilon = new double[noOfParents];
 			fKid = factory.create();
 		}
 	}
-	
+
 	private class KidAndEpsilonSet extends ArrayList<KidAndEpsilon> {
-		
+
 		private static final long serialVersionUID = 1L;
-		
+
 		TCSolutionFactory<X> fFactory;
-		
+
 		int fNoOfParents;
-		
+
 		public KidAndEpsilonSet(X template, int noOfParents) {
 			fFactory = new TCSolutionFactory<X>(template);
 			fNoOfParents = noOfParents;
@@ -48,7 +49,7 @@ public class TCArex<X extends ICRealSolution> implements Serializable {
 		public void resize(int size) {
 			assert size >= 0;
 			int diff = size - size();
-			if(diff > 0) {
+			if (diff > 0) {
 				do {
 					add(new KidAndEpsilon(fFactory, fNoOfParents));
 					diff--;
@@ -62,91 +63,91 @@ public class TCArex<X extends ICRealSolution> implements Serializable {
 			assert size == size();
 		}
 	}
-	
+
 	/** for serialization */
 	public static final long serialVersionUID = 1L;
-	
-	/** Œğ³‚É—p‚¢‚ée” */
+
+	/** äº¤å‰ã«ç”¨ã„ã‚‹è¦ªæ•° */
 	private int fMu;
-		
-	/** —”‚Ì•W€•Î· */
+
+	/** ä¹±æ•°ã®æ¨™æº–åå·® */
 	private double fSigma;
-	
-	/** Šg’£—¦ */
+
+	/** æ‹¡å¼µç‡ */
 	private double fAlpha;
-	
-	/** ŠwK—¦ */
+
+	/** å­¦ç¿’ç‡ */
 	private double fCa;
-	
-	/** —˜—p‚·‚éqŒÂ‘Ì” */
+
+	/** åˆ©ç”¨ã™ã‚‹å­å€‹ä½“æ•° */
 	private int fMuA;
-	
-	/** “à•”ƒpƒ‰ƒ[ƒ^Lcdp */
+
+	/** å†…éƒ¨ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿Lcdp */
 	private double fLcdp;
-	
-	/** “à•”ƒpƒ‰ƒ[ƒ^Lavg */
+
+	/** å†…éƒ¨ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿Lavg */
 	private double fLavg;
-	
-	/** qŒÂ‘Ì’†S~‰ºƒxƒNƒgƒ‹ */
+
+	/** å­å€‹ä½“ä¸­å¿ƒé™ä¸‹ãƒ™ã‚¯ãƒˆãƒ« */
 	private TCMatrix fDescentVector;
-	
-	/** eŒÂ‘Ì‚Ì’†SƒxƒNƒgƒ‹ */
+
+	/** è¦ªå€‹ä½“ã®ä¸­å¿ƒãƒ™ã‚¯ãƒˆãƒ« */
 	private TCMatrix fMeanOfParents;
-	
-	/** ì‹Æ—pƒxƒNƒgƒ‹ */
+
+	/** ä½œæ¥­ç”¨ãƒ™ã‚¯ãƒˆãƒ« */
 	private TCMatrix fTmp;
-	
-	/** qŒÂ‘Ì‚Æ‚»‚ÌqŒÂ‘Ì¶¬‚É—p‚¢‚½—”‚ÌƒZƒbƒg */
+
+	/** å­å€‹ä½“ã¨ãã®å­å€‹ä½“ç”Ÿæˆã«ç”¨ã„ãŸä¹±æ•°ã®ã‚»ãƒƒãƒˆ */
 	private KidAndEpsilonSet fKidAndEpsilonSet;
 
-	/** ŒÂ‘Ì”äŠrŠí */
+	/** å€‹ä½“æ¯”è¼ƒå™¨ */
 	private final ICComparator<X> fComparator;
-	
-	/** qŒÂ‘Ì+—”‚Ì”äŠrŠí */
+
+	/** å­å€‹ä½“+ä¹±æ•°ã®æ¯”è¼ƒå™¨ */
 	private Comparator<KidAndEpsilon> fKidsSetComparator;
-	
-	/** —”¶¬Ší */
+
+	/** ä¹±æ•°ç”Ÿæˆå™¨ */
 	private ICRandom fRandom;
-	
+
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-	 * „§ƒpƒ‰ƒ[ƒ^‚Å‰Šú‰»
-	 * @param dim –â‘èŸŒ³
-	 * @param comparator ŒÂ‘Ì”äŠrŠí
-	 * @param random —”¶¬Ší
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * æ¨å¥¨ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã§åˆæœŸåŒ–
+	 * 
+	 * @param dim        å•é¡Œæ¬¡å…ƒ
+	 * @param comparator å€‹ä½“æ¯”è¼ƒå™¨
+	 * @param random     ä¹±æ•°ç”Ÿæˆå™¨
 	 */
 	public TCArex(
-			@ACParam(key="SolutionTemplate") X solutionTemplate,
-			@ACParam(key="ProblemDimension") int dim,
-			@ACParam(key="Comparator", defaultValue="$Comparator") ICComparator<X> comparator,
-			@ACParam(key="Random", defaultValue="$Random") ICRandom random
-	) {
-		this(solutionTemplate, dim, dim + 1, 1.0 / (double)dim, 1.0, 1.0 / (5.0 * dim), dim + 1, comparator, random);
+			@ACParam(key = "SolutionTemplate") X solutionTemplate,
+			@ACParam(key = "ProblemDimension") int dim,
+			@ACParam(key = "Comparator", defaultValue = "$Comparator") ICComparator<X> comparator,
+			@ACParam(key = "Random", defaultValue = "$Random") ICRandom random) {
+		this(solutionTemplate, dim, dim + 1, 1.0 / (double) dim, 1.0, 1.0 / (5.0 * dim), dim + 1, comparator, random);
 	}
-	
+
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-	 * @param solutionTemplate ‰ğƒeƒ“ƒvƒŒ[ƒg
-	 * @param dim –â‘èŸŒ³
-	 * @param mu eŒÂ‘Ì”
-	 * @param variance REX‚Å—p‚¢‚é•ªU
-	 * @param initAlpha ‰ŠúŠg’£—¦
-	 * @param ca ŠwK—¦
-	 * @param muAlpha Šg’£—¦‚ÌŒvZ‚É—˜—p‚·‚éqŒÂ‘Ì”
-	 * @param comparator ŒÂ‘Ì”äŠrŠí
-	 * @param random —”¶¬Ší
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * 
+	 * @param solutionTemplate è§£ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ
+	 * @param dim              å•é¡Œæ¬¡å…ƒ
+	 * @param mu               è¦ªå€‹ä½“æ•°
+	 * @param variance         REXã§ç”¨ã„ã‚‹åˆ†æ•£
+	 * @param initAlpha        åˆæœŸæ‹¡å¼µç‡
+	 * @param ca               å­¦ç¿’ç‡
+	 * @param muAlpha          æ‹¡å¼µç‡ã®è¨ˆç®—ã«åˆ©ç”¨ã™ã‚‹å­å€‹ä½“æ•°
+	 * @param comparator       å€‹ä½“æ¯”è¼ƒå™¨
+	 * @param random           ä¹±æ•°ç”Ÿæˆå™¨
 	 */
 	public TCArex(
-			@ACParam(key="SolutionTemplate") X solutionTemplate,
-			@ACParam(key="ProblemDimension")int dim,
-			@ACParam(key="NoOfParents")int mu,
-			@ACParam(key="Variance")double variance,
-			@ACParam(key="InitialExpansionRate")double initAlpha,
-			@ACParam(key="LearningRate")double ca,
-			@ACParam(key="SelectionMass")int muAlpha,
-			@ACParam(key="Comparator", defaultValue="$Comparator") ICComparator<X> comparator,
-			@ACParam(key="Random", defaultValue="$Random")ICRandom random
-	) {
+			@ACParam(key = "SolutionTemplate") X solutionTemplate,
+			@ACParam(key = "ProblemDimension") int dim,
+			@ACParam(key = "NoOfParents") int mu,
+			@ACParam(key = "Variance") double variance,
+			@ACParam(key = "InitialExpansionRate") double initAlpha,
+			@ACParam(key = "LearningRate") double ca,
+			@ACParam(key = "SelectionMass") int muAlpha,
+			@ACParam(key = "Comparator", defaultValue = "$Comparator") ICComparator<X> comparator,
+			@ACParam(key = "Random", defaultValue = "$Random") ICRandom random) {
 		fKidAndEpsilonSet = new KidAndEpsilonSet(solutionTemplate, mu);
 		fMu = mu;
 		fSigma = Math.sqrt(variance);
@@ -168,8 +169,8 @@ public class TCArex<X extends ICRealSolution> implements Serializable {
 
 	/**
 	 * 
-	 * ‚È‚¨C[H–{ 09]‚É‚æ‚é‚ÆC
-	 * AREX+JGG‚É‚¨‚¯‚é¶¬qŒÂ‘Ì”‚Ì„§’l‚ÍŸŒ³ <i>n</i> ‚É‘Î‚µ‚Ä <tt>noOfKids</tt> = <i>4n</i> ‚Å‚ ‚éD
+	 * ãªãŠï¼Œ[ç§‹æœ¬ 09]ã«ã‚ˆã‚‹ã¨ï¼Œ
+	 * AREX+JGGã«ãŠã‘ã‚‹ç”Ÿæˆå­å€‹ä½“æ•°ã®æ¨å¥¨å€¤ã¯æ¬¡å…ƒ <i>n</i> ã«å¯¾ã—ã¦ <tt>noOfKids</tt> = <i>4n</i> ã§ã‚ã‚‹ï¼
 	 */
 	public void makeOffspring(TCSolutionSet<X> parents, int noOfkids, TCSolutionSet<X> kids) {
 		assert parents.size() == fMu;
@@ -178,18 +179,18 @@ public class TCArex<X extends ICRealSolution> implements Serializable {
 		fKidAndEpsilonSet.resize(noOfkids);
 		generateKids(parents);
 		kids.clear();
-		for(KidAndEpsilon ke : fKidAndEpsilonSet) {
+		for (KidAndEpsilon ke : fKidAndEpsilonSet) {
 			kids.add(ke.fKid);
 		}
 	}
 
 	/**
-	 * Šg’£—¦“K‰‚ğÀs‚·‚éD
-	 * doIt‚ğŒÄ‚ñ‚ÅCkids‚ğ¶¬‚µ‚ÄCkids‚ğ•]‰¿‚µ‚½Œã‚ÉŒÄ‚Ño‚·‚±‚ÆD
+	 * æ‹¡å¼µç‡é©å¿œã‚’å®Ÿè¡Œã™ã‚‹ï¼
+	 * doItã‚’å‘¼ã‚“ã§ï¼Œkidsã‚’ç”Ÿæˆã—ã¦ï¼Œkidsã‚’è©•ä¾¡ã—ãŸå¾Œã«å‘¼ã³å‡ºã™ã“ã¨ï¼
 	 */
 	public void updateExpansionRate() {
 		Collections.sort(fKidAndEpsilonSet, fKidsSetComparator);
-		calcExpansionRate();				
+		calcExpansionRate();
 	}
 
 	public int getNoOfParents() {
@@ -197,45 +198,47 @@ public class TCArex<X extends ICRealSolution> implements Serializable {
 	}
 
 	/**
-	 * Šg’£—¦‚ğŒvZ
+	 * æ‹¡å¼µç‡ã‚’è¨ˆç®—
 	 */
 	private void calcExpansionRate() {
-		if(fKidAndEpsilonSet.size() == 0) return;
+		if (fKidAndEpsilonSet.size() == 0)
+			return;
 		calcLavg();
 		calcLcdp();
 		fAlpha *= Math.sqrt((1.0 - fCa) + fCa * fLcdp / fLavg);
 		fAlpha = Math.max(fAlpha, 1.0);
 	}
-	
+
 	/**
-	 * “à•”ƒpƒ‰ƒ[ƒ^Lavg‚ğŒvZ
+	 * å†…éƒ¨ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿Lavgã‚’è¨ˆç®—
 	 */
 	private void calcLavg() {
 		fLavg = fAlpha * fSigma * (fMu - 1.0);
-		fLavg = fLavg * fLavg / (double)fMuA;
+		fLavg = fLavg * fLavg / (double) fMuA;
 	}
 
 	/**
-	 * “à•”ƒpƒ‰ƒ[ƒ^Lcdp‚ğŒvZ
+	 * å†…éƒ¨ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿Lcdpã‚’è¨ˆç®—
 	 */
-	private void calcLcdp(){
+	private void calcLcdp() {
 		fLcdp = fAlpha * fAlpha * (fMu - 1.0);
 		double e1 = 0.0;
 		double e2 = 0.0;
-		for(int j=0; j<fMu; j++) {
+		for (int j = 0; j < fMu; j++) {
 			double ej = 0.0;
-			for(int i=0; i<fMuA; i++) {
+			for (int i = 0; i < fMuA; i++) {
 				ej += fKidAndEpsilonSet.get(i).fEpsilon[j];
 			}
-			ej /= (double)fMuA;
-			e1 += ej*ej;
+			ej /= (double) fMuA;
+			e1 += ej * ej;
 			e2 += ej;
 		}
-		fLcdp *= (e1 - e2 * e2 / (double)fMu);
+		fLcdp *= (e1 - e2 * e2 / (double) fMu);
 	}
-	
+
 	/**
-	 * ’†S~‰ºƒxƒNƒgƒ‹‚¨‚æ‚ÑeŒÂ‘Ì‚Ì’†SƒxƒNƒgƒ‹‚ğŒvZ
+	 * ä¸­å¿ƒé™ä¸‹ãƒ™ã‚¯ãƒˆãƒ«ãŠã‚ˆã³è¦ªå€‹ä½“ã®ä¸­å¿ƒãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—
+	 * 
 	 * @param parents
 	 */
 	private void calcDecentDirectionAndMean(TCSolutionSet<X> parents) {
@@ -243,27 +246,28 @@ public class TCArex<X extends ICRealSolution> implements Serializable {
 		Collections.sort(parents, fComparator);
 		fDescentVector.fill(0.0);
 		fMeanOfParents.fill(0.0);
-		
+
 		double w = 0.0;
-		for(int j=0; j<fMu; j++) {
-			w = 2.0 * (fMu + 1.0 - (j + 1.0)) / (double)(fMu * (fMu + 1.0));
+		for (int j = 0; j < fMu; j++) {
+			w = 2.0 * (fMu + 1.0 - (j + 1.0)) / (double) (fMu * (fMu + 1.0));
 			fTmp.copyFrom(parents.get(j).getVector());
 			fMeanOfParents.add(fTmp);
 			fTmp.times(w);
 			fDescentVector.add(fTmp);
 		}
-		fMeanOfParents.times(1.0 / (double)fMu);
+		fMeanOfParents.times(1.0 / (double) fMu);
 	}
-	
+
 	/**
-	 * qŒÂ‘Ì‚Ì¶¬‚Æ‚»‚Ì•]‰¿
-	 * @param parents eW’c
+	 * å­å€‹ä½“ã®ç”Ÿæˆã¨ãã®è©•ä¾¡
+	 * 
+	 * @param parents è¦ªé›†å›£
 	 */
 	private void generateKids(TCSolutionSet<X> parents) {
-		for(KidAndEpsilon ke : fKidAndEpsilonSet) {
+		for (KidAndEpsilon ke : fKidAndEpsilonSet) {
 			TCMatrix x = ke.fKid.getVector();
 			x.copyFrom(fDescentVector);
-			for(int j=0; j<fMu; j++) {
+			for (int j = 0; j < fMu; j++) {
 				fTmp.copyFrom(parents.get(j).getVector());
 				fTmp.sub(fMeanOfParents);
 				double ep = fRandom.nextGaussian(0.0, fSigma);
@@ -273,5 +277,5 @@ public class TCArex<X extends ICRealSolution> implements Serializable {
 			}
 		}
 	}
-	
+
 }

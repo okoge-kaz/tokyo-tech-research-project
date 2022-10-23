@@ -2,6 +2,7 @@ package jgoal.ga;
 
 import java.io.Serializable;
 import java.util.Collections;
+
 import jgoal.ga.reproduction.TCArex;
 import jgoal.ga.reproductionSelection.ICReproductionSelection;
 import jgoal.ga.reproductionSelection.TCRandomSelectionWithoutReplacement;
@@ -23,59 +24,59 @@ import jssf.random.ICRandom;
 public class TSArexJgg implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	/** ŸŒ³” */
+
+	/** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 	private int fDimension;
-	
-	/** W’c */
+
+	/** ï¿½Wï¿½c */
 	private TCSolutionSet<TSRealSolution> fPopulation;
-	
-	/** W’cƒTƒCƒY */
+
+	/** ï¿½Wï¿½cï¿½Tï¿½Cï¿½Y */
 	private int fPopulationSize;
-	
-	/** eŒÂ‘ÌW‡ */
+
+	/** ï¿½eï¿½Â‘ÌWï¿½ï¿½ */
 	private TCSolutionSet<TSRealSolution> fParents;
-	
-	/** qŒÂ‘ÌW‡ */
+
+	/** ï¿½qï¿½Â‘ÌWï¿½ï¿½ */
 	private TCSolutionSet<TSRealSolution> fKids;
-	
-	/** ¶¬qŒÂ‘Ì” */
+
+	/** ï¿½ï¿½ï¿½ï¿½ï¿½qï¿½Â‘Ìï¿½ */
 	private int fNoOfKids;
 
-	/** •¡»‘I‘ğŠí */
+	/** ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ */
 	private ICReproductionSelection<TSRealSolution> fReproductionSelection;
 
-	/** qŒÂ‘Ì¶¬ŠíiŒğ³j */
+	/** ï¿½qï¿½Â‘Ìï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½j */
 	private TCArex<TSRealSolution> fArex;
-	
-	/** ¶‘¶‘I‘ğŠí */
+
+	/** ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ */
 	private ICSurvivalSelection<TSRealSolution> fSurvivalSelection;
-	
-	/** —””­¶Ší */
+
+	/** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 	private ICRandom fRandom;
-	
-	/** ŒÂ‘Ì”äŠrŠí */
+
+	/** ï¿½Â‘Ì”ï¿½rï¿½ï¿½ */
 	private ICComparator<TSRealSolution> fComparator;
-	
-	/** ŒÂ‘Ìƒeƒ“ƒvƒŒ[ƒg */
+
+	/** ï¿½Â‘Ìƒeï¿½ï¿½ï¿½vï¿½ï¿½ï¿½[ï¿½g */
 	private TSRealSolution fSolutionTemplate;
-	
+
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^D
-	 * @param solution ‰ğ‚Ìƒeƒ“ƒvƒŒ[ƒg
-	 * @param noOfParents eŒÂ‘Ì”
-	 * @param noOfKids ¶¬qŒÂ‘Ì”
-	 * @param reproductionSelection •¡»‘I‘ğŠí
-	 * @param reproduction qŒÂ‘Ì¶¬ŠíiŒğ³j
-	 * @param survivalSelection ¶‘¶‘I‘ğŠí
+	 * ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½D
+	 * 
+	 * @param solution              ï¿½ï¿½ï¿½Ìƒeï¿½ï¿½ï¿½vï¿½ï¿½ï¿½[ï¿½g
+	 * @param noOfParents           ï¿½eï¿½Â‘Ìï¿½
+	 * @param noOfKids              ï¿½ï¿½ï¿½ï¿½ï¿½qï¿½Â‘Ìï¿½
+	 * @param reproductionSelection ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½
+	 * @param reproduction          ï¿½qï¿½Â‘Ìï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½j
+	 * @param survivalSelection     ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½
 	 */
 	public TSArexJgg(
-			@ACParam(key="Minimization") boolean minimization,
-			@ACParam(key="Dimension") int dimension,
-			@ACParam(key="PopulationSize") int populationSize,
-			@ACParam(key="NoOfKids") int noOfKids,
-			@ACParam(key="random") ICRandom random
-	) {
+			@ACParam(key = "Minimization") boolean minimization,
+			@ACParam(key = "Dimension") int dimension,
+			@ACParam(key = "PopulationSize") int populationSize,
+			@ACParam(key = "NoOfKids") int noOfKids,
+			@ACParam(key = "random") ICRandom random) {
 		fDimension = dimension;
 		fPopulationSize = populationSize;
 		fRandom = random;
@@ -85,8 +86,9 @@ public class TSArexJgg implements Serializable {
 	}
 
 	/**
-	 * ‰Šú‰»‚·‚éD
-	 * @return ‰ŠúW’c
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½D
+	 * 
+	 * @return ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½c
 	 */
 	public TCSolutionSet<TSRealSolution> initialize() {
 		fParents = new TCSolutionSet<TSRealSolution>(fSolutionTemplate);
@@ -98,50 +100,54 @@ public class TSArexJgg implements Serializable {
 		fPopulation.resize(fPopulationSize);
 		return fPopulation;
 	}
-	
+
 	/**
-	 * W’c‚ğ•Ô‚·D
-	 * @return W’c
+	 * ï¿½Wï¿½cï¿½ï¿½Ô‚ï¿½ï¿½D
+	 * 
+	 * @return ï¿½Wï¿½c
 	 */
 	public TCSolutionSet<TSRealSolution> getPopulation() {
 		return fPopulation;
 	}
-	
+
 	/**
-	 * qŒÂ‘ÌW‡‚ğ¶¬‚µ‚Ä•Ô‚·D
-	 * @return qŒÂ‘ÌW‡
+	 * ï¿½qï¿½Â‘ÌWï¿½ï¿½ï¿½ğ¶ï¿½ï¿½ï¿½ï¿½Ä•Ô‚ï¿½ï¿½D
+	 * 
+	 * @return ï¿½qï¿½Â‘ÌWï¿½ï¿½
 	 */
 	public TCSolutionSet<TSRealSolution> makeOffspring() {
-		fParents.clear(); //eŒÂ‘ÌW‡‚ğƒNƒŠƒA‚·‚éD
-		fKids.clear(); //qŒÂ‘ÌW‡‚ğƒNƒŠƒA‚·‚éD
-		fReproductionSelection.doIt(fPopulation, fArex.getNoOfParents(), fParents); //¶‘¶‘I‘ğ‚ğs‚¤D
-		fArex.makeOffspring(fParents, fNoOfKids, fKids); //AREX‚É‚æ‚èqŒÂ‘ÌW‡‚ğ¶¬‚·‚éD
+		fParents.clear(); // ï¿½eï¿½Â‘ÌWï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½D
+		fKids.clear(); // ï¿½qï¿½Â‘ÌWï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½D
+		fReproductionSelection.doIt(fPopulation, fArex.getNoOfParents(), fParents); // ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½D
+		fArex.makeOffspring(fParents, fNoOfKids, fKids); // AREXï¿½É‚ï¿½ï¿½qï¿½Â‘ÌWï¿½ï¿½ï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½D
 		return fKids;
 	}
-	
+
 	/**
-	 * ¢‘ã‚ği‚ß‚éD
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ß‚ï¿½D
 	 */
 	public void nextGeneration() {
-		fArex.updateExpansionRate(); //AREX‚ÌŠg’£—¦“K‰‚ğÀs‚·‚éD
-		fSurvivalSelection.doIt(fPopulation, fParents, fKids); //¶‘¶‘I‘ğ‚ğs‚¤D
+		fArex.updateExpansionRate(); // AREXï¿½ÌŠgï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½D
+		fSurvivalSelection.doIt(fPopulation, fParents, fKids); // ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½D
 	}
-	
+
 	/**
-	 * W’c’†‚ÌÅ—ÇŒÂ‘Ì‚ğ•Ô‚·D
-	 * @return W’c’†‚ÌÅ—ÇŒÂ‘Ì
+	 * ï¿½Wï¿½cï¿½ï¿½ï¿½ÌÅ—ÇŒÂ‘Ì‚ï¿½Ô‚ï¿½ï¿½D
+	 * 
+	 * @return ï¿½Wï¿½cï¿½ï¿½ï¿½ÌÅ—ÇŒÂ‘ï¿½
 	 */
 	public TSRealSolution getBestIndividual() {
 		Collections.sort(fPopulation, fComparator);
 		return fPopulation.get(0);
 	}
-	
+
 	/**
-	 * W’c’†‚ÌÅ—ÇŒÂ‘Ì‚Ì•]‰¿’l‚ğ•Ô‚·D
-	 * @return W’c’†‚ÌÅ—ÇŒÂ‘Ì‚Ì•]‰¿’l
+	 * ï¿½Wï¿½cï¿½ï¿½ï¿½ÌÅ—ÇŒÂ‘Ì‚Ì•]ï¿½ï¿½ï¿½lï¿½ï¿½Ô‚ï¿½ï¿½D
+	 * 
+	 * @return ï¿½Wï¿½cï¿½ï¿½ï¿½ÌÅ—ÇŒÂ‘Ì‚Ì•]ï¿½ï¿½ï¿½l
 	 */
 	public double getBestEvaluationValue() {
 		return getBestIndividual().getEvaluationValue();
 	}
-	
+
 }

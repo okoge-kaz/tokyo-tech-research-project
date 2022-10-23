@@ -1,21 +1,18 @@
 package jgoal.ga.reproductionSelection;
 
-
 import jgoal.solution.ICSolution;
 import jgoal.solution.TCSolutionSet;
 import jssf.di.ACParam;
 import jssf.random.ICRandom;
 
 /**
- * W’c‚©‚çƒ‰ƒ“ƒ_ƒ€‚ÉeŒÂ‘Ì‚ğ”ñ•œŒ³’Šo‚·‚éD
+ * é›†å›£ã‹ã‚‰ãƒ©ãƒ³ãƒ€ãƒ ã«è¦ªå€‹ä½“ã‚’éå¾©å…ƒæŠ½å‡ºã™ã‚‹ï¼
  * 
  * @author uemura
  *
  * @param <X>
  */
-public class TCRandomSelectionWithoutReplacement<
-	X extends ICSolution
-> implements ICReproductionSelection<X> {
+public class TCRandomSelectionWithoutReplacement<X extends ICSolution> implements ICReproductionSelection<X> {
 
 	/** For serialization */
 	private static final long serialVersionUID = 1L;
@@ -23,21 +20,23 @@ public class TCRandomSelectionWithoutReplacement<
 	private ICRandom fRandom;
 
 	public TCRandomSelectionWithoutReplacement(
-			@ACParam(key="Random",defaultValue="$Random") ICRandom random
-	) {
+			@ACParam(key = "Random", defaultValue = "$Random") ICRandom random) {
 		fRandom = random;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see jgoal.ga.reproductionSelection.ICReproductionSelection#doIt(jgoal.solution.TCSolutionSet, int, jgoal.solution.TCSolutionSet)
+	 * 
+	 * @see
+	 * jgoal.ga.reproductionSelection.ICReproductionSelection#doIt(jgoal.solution.
+	 * TCSolutionSet, int, jgoal.solution.TCSolutionSet)
 	 */
 	@Override
 	public void doIt(TCSolutionSet<X> pop, int noOfParents, TCSolutionSet<X> parents) {
 		parents.clear();
-		//eŒÂ‘Ì‚ğW’c‚©‚çƒ‰ƒ“ƒ_ƒ€‚ÉnoOfParentsŒÂ‘Ì”‚¾‚¯”ñ•œŒ³’Šo‚·‚éD
-		for(int i=0; i<noOfParents; i++) {
-			int index = fRandom.nextInt(0, pop.size()-1);
+		// è¦ªå€‹ä½“ã‚’é›†å›£ã‹ã‚‰ãƒ©ãƒ³ãƒ€ãƒ ã«noOfParentså€‹ä½“æ•°ã ã‘éå¾©å…ƒæŠ½å‡ºã™ã‚‹ï¼
+		for (int i = 0; i < noOfParents; i++) {
+			int index = fRandom.nextInt(0, pop.size() - 1);
 			parents.add(pop.remove(index));
 		}
 	}

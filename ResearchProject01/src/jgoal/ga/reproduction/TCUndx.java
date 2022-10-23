@@ -23,10 +23,16 @@ public class TCUndx<X extends ICRealSolution> implements Serializable {
 	/** A random number generator */
 	private ICRandom fRandom;
 
-	/** The parameter alpha that controls the expansion rate of the primary search component */
+	/**
+	 * The parameter alpha that controls the expansion rate of the primary search
+	 * component
+	 */
 	private double fAlpha;
 
-	/** The parameter beta that controls the expansion rate of the secondary search component */
+	/**
+	 * The parameter beta that controls the expansion rate of the secondary search
+	 * component
+	 */
 	private double fBeta;
 
 	/** The variance according to the primary search component */
@@ -50,24 +56,22 @@ public class TCUndx<X extends ICRealSolution> implements Serializable {
 	 * @since 2 hmkz
 	 */
 	public TCUndx(
-		@ACParam(key="Random") ICRandom random
-	) {
-		this(0.5, 0.35, random); //alpha=0.5 and beta=0.35 are the recommended values, respectively.
+			@ACParam(key = "Random") ICRandom random) {
+		this(0.5, 0.35, random); // alpha=0.5 and beta=0.35 are the recommended values, respectively.
 	}
 
 	/**
 	 * Creates an UNDX with the specified parameters.
 	 *
-	 * @param alpha the expansion rate of the primary search component
-	 * @param beta the expansion rate of the secondary search component
+	 * @param alpha  the expansion rate of the primary search component
+	 * @param beta   the expansion rate of the secondary search component
 	 * @param random the random object
 	 * @since 2 hmkz
 	 */
 	public TCUndx(
-		@ACParam(key = "Alpha") double alpha,
-		@ACParam(key = "Beta") double beta,
-		@ACParam(key="Random") ICRandom random
-	) {
+			@ACParam(key = "Alpha") double alpha,
+			@ACParam(key = "Beta") double beta,
+			@ACParam(key = "Random") ICRandom random) {
 		fAlpha = alpha;
 		fBeta = beta;
 		fRandom = random;
@@ -76,7 +80,8 @@ public class TCUndx<X extends ICRealSolution> implements Serializable {
 	}
 
 	/**
-	 * Sets the parameter <i>alpha</i>, the expansion rate of the primary search component.
+	 * Sets the parameter <i>alpha</i>, the expansion rate of the primary search
+	 * component.
 	 *
 	 * @param alpha the expansion rate of the primary search component
 	 * @since 2 hmkz
@@ -86,7 +91,8 @@ public class TCUndx<X extends ICRealSolution> implements Serializable {
 	}
 
 	/**
-	 * Returns the parameter <i>alpha</i>, the expansion rate of the primary search component.
+	 * Returns the parameter <i>alpha</i>, the expansion rate of the primary search
+	 * component.
 	 *
 	 * @return the parameter <i>alpha</i>
 	 * @since 2 hmkz
@@ -96,7 +102,8 @@ public class TCUndx<X extends ICRealSolution> implements Serializable {
 	}
 
 	/**
-	 * Sets the parameter <i>beta</i>, the expansion rate of the secondary search component.
+	 * Sets the parameter <i>beta</i>, the expansion rate of the secondary search
+	 * component.
 	 *
 	 * @param beta the expansion rate of the secondary search component
 	 * @since 2 hmkz
@@ -106,7 +113,8 @@ public class TCUndx<X extends ICRealSolution> implements Serializable {
 	}
 
 	/**
-	 * Returns the parameter <i>beta</i>, the expansion rate of the secondary search component.
+	 * Returns the parameter <i>beta</i>, the expansion rate of the secondary search
+	 * component.
 	 *
 	 * @return the parameter <i>beta</i>
 	 * @since 2 hmkz
@@ -118,9 +126,9 @@ public class TCUndx<X extends ICRealSolution> implements Serializable {
 	/**
 	 * Generates offspring from the specified parents.
 	 *
-	 * @param parents a set of parents to generate offspring
+	 * @param parents  a set of parents to generate offspring
 	 * @param noOfKids a number of kids
-	 * @param kids a buffer for offspring to be generated
+	 * @param kids     a buffer for offspring to be generated
 	 * @since 2 hmkz
 	 */
 	public void makeOffspring(TCSolutionSet<X> parents, int noOfKids, TCSolutionSet<X> kids) {
@@ -129,7 +137,8 @@ public class TCUndx<X extends ICRealSolution> implements Serializable {
 		TCMatrix p2 = parents.get(1).getVector();
 		TCMatrix p3 = parents.get(2).getVector();
 		int dimension = p1.getDimension();
-		assert dimension == p2.getRowDimension() && dimension == p3.getRowDimension() && p2.getRowDimension() == p3.getRowDimension() : "The dimensions of parents should be the same.";
+		assert dimension == p2.getRowDimension() && dimension == p3.getRowDimension()
+				&& p2.getRowDimension() == p3.getRowDimension() : "The dimensions of parents should be the same.";
 
 		calcMean(p1, p2);
 		calcUnitVectorAndStandardDeviationForPrimaryComponent(p1, p2);
@@ -164,6 +173,7 @@ public class TCUndx<X extends ICRealSolution> implements Serializable {
 
 	/**
 	 * Returns the number of necessary parents.
+	 * 
 	 * @return the number of parents
 	 */
 	public int getNoOfParents() {
@@ -184,7 +194,8 @@ public class TCUndx<X extends ICRealSolution> implements Serializable {
 	}
 
 	/**
-	 * Calculates the normalized vector of the primary search component which is a line from the parent 1 to 2
+	 * Calculates the normalized vector of the primary search component which is a
+	 * line from the parent 1 to 2
 	 * and the standard deviation of them.
 	 *
 	 * @param v1 the first parent
@@ -196,7 +207,7 @@ public class TCUndx<X extends ICRealSolution> implements Serializable {
 		fEVector.sub(v1);
 		double d1 = fEVector.normF(); // the distance from the first parent to the second one
 		fSigma1 = fAlpha * d1; // the standard deviation of two parents on the primary component
-//		if (TCComparator.equals(d1, 0.0))
+		// if (TCComparator.equals(d1, 0.0))
 		if (isEquals(d1, 0.0))
 			isParent1EqualToParent2 = true;
 		else
@@ -205,7 +216,8 @@ public class TCUndx<X extends ICRealSolution> implements Serializable {
 	}
 
 	/**
-	 * Calculates the normalized vector of the secondary search component which is a line from
+	 * Calculates the normalized vector of the secondary search component which is a
+	 * line from
 	 * the primary component to the third parent and the standard deviation of them.
 	 *
 	 * @param v1 the first parent
@@ -217,16 +229,18 @@ public class TCUndx<X extends ICRealSolution> implements Serializable {
 		v1v3.sub(v1);
 		TCMatrix tmp = new TCMatrix(fEVector);
 		tmp.times(TCMatrixUtility.innerProduct(fEVector, v1v3));
-//		tmp.scalarProduct(fEVector.innerProduct(v1v3)); //TODO ‚Ç‚¤‚â‚Á‚Äs—ñ‰‰Z‚Å“àÏ‚ğ‘‚­‚©... uemura
+		// tmp.scalarProduct(fEVector.innerProduct(v1v3)); //TODO ã©ã†ã‚„ã£ã¦è¡Œåˆ—æ¼”ç®—ã§å†…ç©ã‚’æ›¸ãã‹...
+		// uemura
 		TCMatrix perpendicular = new TCMatrix(v1v3); // the perpendicular vector from v3 to the primary component
 		perpendicular.sub(tmp);
 		double d2 = perpendicular.normF();
-		fSigma2 = fBeta * d2 / Math.sqrt((double)v1.getRowDimension()); // the normalized vector of the secondary component
+		fSigma2 = fBeta * d2 / Math.sqrt((double) v1.getRowDimension()); // the normalized vector of the secondary component
 	}
-	
+
 	/**
-	 * Œë·‚ğl—¶‚µ‚Ä”äŠr
-	 * 20110707 jgoal2010‚ÌTCComparator‚ÉÀ‘•‚³‚ê‚Ä‚¢‚é‚ªCˆÚA‚·‚é‚©•s–¾‚Ì‚½‚ß‚±‚±‚Éì¬D
+	 * èª¤å·®ã‚’è€ƒæ…®ã—ã¦æ¯”è¼ƒ
+	 * 20110707 jgoal2010ã®TCComparatorã«å®Ÿè£…ã•ã‚Œã¦ã„ã‚‹ãŒï¼Œç§»æ¤ã™ã‚‹ã‹ä¸æ˜ã®ãŸã‚ã“ã“ã«ä½œæˆï¼
+	 * 
 	 * @author uemura
 	 * @param d1
 	 * @param d2
@@ -235,6 +249,5 @@ public class TCUndx<X extends ICRealSolution> implements Serializable {
 	private boolean isEquals(double d1, double d2) {
 		return Math.abs(d1 - d2) <= 1e-15;
 	}
-	
-	
+
 }

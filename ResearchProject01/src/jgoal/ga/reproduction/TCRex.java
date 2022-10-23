@@ -1,6 +1,7 @@
 package jgoal.ga.reproduction;
 
 import java.io.Serializable;
+
 import jgoal.solution.ICRealSolution;
 import jgoal.solution.TCSolutionSet;
 import jssf.di.ACParam;
@@ -8,7 +9,8 @@ import jssf.math.TCMatrix;
 import jssf.random.ICRandom;
 
 /**
- * Œğ³Rex
+ * äº¤å‰Rex
+ * 
  * @author uemura, isao
  *
  * @param <X>
@@ -16,67 +18,66 @@ import jssf.random.ICRandom;
 public class TCRex<X extends ICRealSolution> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	/** —˜—p‚·‚éŠm—¦•ª•z‚ÌŒ`ó */
+
+	/** åˆ©ç”¨ã™ã‚‹ç¢ºç‡åˆ†å¸ƒã®å½¢çŠ¶ */
 	public enum ProbabilityDistribution {
 		NORMAL,
 		UNIFORM,
 	}
-	
+
 	private ProbabilityDistribution fProbabilityDistribution;
-	
-	/** —˜—p‚·‚éŠm—¦•ª•z‚ÌŠg’£—¦D“Œv—Êˆâ“`‚ğ–‚½‚·‚æ‚¤‚Éİ’è‚³‚ê‚éD */
+
+	/** åˆ©ç”¨ã™ã‚‹ç¢ºç‡åˆ†å¸ƒã®æ‹¡å¼µç‡ï¼çµ±è¨ˆé‡éºä¼ã‚’æº€ãŸã™ã‚ˆã†ã«è¨­å®šã•ã‚Œã‚‹ï¼ */
 	private double fExpansionRatio;
-	
-	/** eŒÂ‘Ì‚ÌdSƒxƒNƒgƒ‹ */
+
+	/** è¦ªå€‹ä½“ã®é‡å¿ƒãƒ™ã‚¯ãƒˆãƒ« */
 	private TCMatrix fXg;
-	
+
 	private TCMatrix fWork;
-	
+
 	private int fNoOfParents;
 
 	private ICRandom fRandom;
-	
+
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-	 * @param dim –â‘è‚ÌŸŒ³”
-	 * @param noOfParents eŒÂ‘Ì”
-	 * @param pd —˜—p‚·‚éŠm—¦•ª•zDNORMAL‚à‚µ‚­‚ÍUNIFORM‚ğ‘I‘ğD
-	 * @param random —”¶¬Ší
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * 
+	 * @param dim         å•é¡Œã®æ¬¡å…ƒæ•°
+	 * @param noOfParents è¦ªå€‹ä½“æ•°
+	 * @param pd          åˆ©ç”¨ã™ã‚‹ç¢ºç‡åˆ†å¸ƒï¼NORMALã‚‚ã—ãã¯UNIFORMã‚’é¸æŠï¼
+	 * @param random      ä¹±æ•°ç”Ÿæˆå™¨
 	 */
 	public TCRex(
-			@ACParam(key="ProblemDimension") int dim,
-			@ACParam(key="NoOfParents") int noOfParents,
-			@ACParam(key="ProbabilityDistribution") ProbabilityDistribution pd,
-			@ACParam(key="Random", defaultValue="$Random") ICRandom random
-	) {
+			@ACParam(key = "ProblemDimension") int dim,
+			@ACParam(key = "NoOfParents") int noOfParents,
+			@ACParam(key = "ProbabilityDistribution") ProbabilityDistribution pd,
+			@ACParam(key = "Random", defaultValue = "$Random") ICRandom random) {
 		fNoOfParents = noOfParents;
 		fProbabilityDistribution = pd;
 		fRandom = random;
-		switch(fProbabilityDistribution) {
-		case NORMAL:
-			fExpansionRatio = Math.sqrt(1.0 / (double)fNoOfParents);
-			break;
-		case UNIFORM:
-			fExpansionRatio = Math.sqrt(3.0 / (double)fNoOfParents);
-			break;
+		switch (fProbabilityDistribution) {
+			case NORMAL:
+				fExpansionRatio = Math.sqrt(1.0 / (double) fNoOfParents);
+				break;
+			case UNIFORM:
+				fExpansionRatio = Math.sqrt(3.0 / (double) fNoOfParents);
+				break;
 		}
 		fXg = new TCMatrix(dim, 1);
 		fWork = new TCMatrix(dim, 1);
 	}
-	
+
 	/**
-	 * eŒÂ‘Ì”‚ğ(n+1)‚Å‰Šú‰»D
+	 * è¦ªå€‹ä½“æ•°ã‚’(n+1)ã§åˆæœŸåŒ–ï¼
 	 * 
-	 * @param dim –â‘è‚ÌŸŒ³”
-	 * @param pd —˜—p‚·‚éŠm—¦•ª•zDNORMAL‚à‚µ‚­‚ÍUNIFORM‚ğ‘I‘ğD
-	 * @param random —”¶¬Ší
+	 * @param dim    å•é¡Œã®æ¬¡å…ƒæ•°
+	 * @param pd     åˆ©ç”¨ã™ã‚‹ç¢ºç‡åˆ†å¸ƒï¼NORMALã‚‚ã—ãã¯UNIFORMã‚’é¸æŠï¼
+	 * @param random ä¹±æ•°ç”Ÿæˆå™¨
 	 */
 	public TCRex(
-			@ACParam(key="ProblemDimension") int dim,
-			@ACParam(key="ProbabilityDistribution") ProbabilityDistribution pd,
-			@ACParam(key="Random", defaultValue="$Random") ICRandom random
-	) {
+			@ACParam(key = "ProblemDimension") int dim,
+			@ACParam(key = "ProbabilityDistribution") ProbabilityDistribution pd,
+			@ACParam(key = "Random", defaultValue = "$Random") ICRandom random) {
 		this(dim, dim + 1, pd, random);
 	}
 
@@ -85,43 +86,43 @@ public class TCRex<X extends ICRealSolution> implements Serializable {
 	}
 
 	public void makeOffspring(TCSolutionSet<X> parents, int noOfKids, TCSolutionSet<X> kids) {
-		assert parents.size()  == fNoOfParents;
+		assert parents.size() == fNoOfParents;
 		calcXg(parents);
 		kids.clear();
 		kids.resize(noOfKids);
-		for(X kid : kids) {
+		for (X kid : kids) {
 			TCMatrix kVec = kid.getVector();
-			kVec.copyFrom(fXg); //dSƒxƒNƒgƒ‹‚ğƒRƒs[
-			for(X parent : parents) {
+			kVec.copyFrom(fXg); // é‡å¿ƒãƒ™ã‚¯ãƒˆãƒ«ã‚’ã‚³ãƒ”ãƒ¼
+			for (X parent : parents) {
 				fWork.copyFrom(parent.getVector());
 				fWork.sub(fXg);
 				double r = 0;
 				switch (fProbabilityDistribution) {
-				case UNIFORM:
-					r = fRandom.nextDouble(-fExpansionRatio, fExpansionRatio);
-					break;
-				case NORMAL:
-					r = fRandom.nextGaussian(0.0, fExpansionRatio);
-					break;
+					case UNIFORM:
+						r = fRandom.nextDouble(-fExpansionRatio, fExpansionRatio);
+						break;
+					case NORMAL:
+						r = fRandom.nextGaussian(0.0, fExpansionRatio);
+						break;
 				}
 				fWork.times(r);
 				kVec.add(fWork);
 			}
 		}
 	}
-	
+
 	/**
-	 * eŒÂ‘Ì‚ÌdS‚ÌŒvZD
+	 * è¦ªå€‹ä½“ã®é‡å¿ƒã®è¨ˆç®—ï¼
+	 * 
 	 * @param parents
 	 */
 	private void calcXg(TCSolutionSet<X> parents) {
 		fXg.setDimensions(parents.get(0).getVector().getRowDimension(), 1);
 		fXg.fill(0.0);
-		for(X parent : parents) {
+		for (X parent : parents) {
 			fXg.add(parent.getVector());
 		}
-		fXg.times(1.0 / (double)parents.size());
+		fXg.times(1.0 / (double) parents.size());
 	}
-	
 
 }
