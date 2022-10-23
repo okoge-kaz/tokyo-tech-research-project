@@ -1,8 +1,11 @@
 package rexjgg;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+
+import jssf.log.TCTable;
 
 public class RexJgg {
 
@@ -163,10 +166,7 @@ public class RexJgg {
     return children;
   }
 
-  /*
-   * best evaluation value <= 1.0 * 10^(-7)
-   */
-  private static boolean isTerminated(ArrayList<TIndividual> population, int evaluationCount) {
+  private static double getBestEvaluationValue(ArrayList<TIndividual> population) {
     // deep copy
     ArrayList<TIndividual> sortedPopulation = new ArrayList<TIndividual>();
     for (TIndividual individual : population) {
@@ -178,6 +178,14 @@ public class RexJgg {
     // 評価値順になっているならばこれでよい
     double bestEvaluationValue = sortedPopulation.get(0).getEvaluationValue();
 
+    return bestEvaluationValue;
+  }
+
+  /*
+   * best evaluation value <= 1.0 * 10^(-7)
+   */
+  private static boolean isTerminated(ArrayList<TIndividual> population, int evaluationCount) {
+    double bestEvaluationValue = getBestEvaluationValue(population);
     // for debug
     if (evaluationCount % 10000 == 0) {
       System.out.println("Number Of Evaluation:" + evaluationCount + ", Best:" + bestEvaluationValue); // 画面に評価回数，最良評価値を表示．
@@ -189,11 +197,39 @@ public class RexJgg {
     return false;
   }
 
-  public static void main(String[] args) {
-    // step 1
-    final int n = 20;
-    final int populationSize = 14 * n;// 14n
+  /**
+   * 最良評価値をログテーブルに記録する．
+   * 
+   * @param log
+   *                              ログテーブル
+   * @param trialName
+   *                              試行名．ログテーブルのラベルに使われる．
+   * @param trialNo
+   *                              試行番号．ログテーブルのラベルに使われる．
+   * @param index
+   *                              行数の添字
+   * @param noOfEvals
+   *                              評価回数
+   * @param bestEvaluationValue
+   *                              最良評価値
+   */
+  private static void putLogData(TCTable log, String trialName, int trialNo, int index, long noOfEvals,
+      double bestEvaluationValue) {
+    log.putData(index, "NoOfEvals", noOfEvals);
+    log.putData(index, trialName + "_" + trialNo, bestEvaluationValue);
+  }
+
+  private static void executeOneTrial(final int populationSize, final int n, TCTable log, String trialName,
+      int trialNo) {
     ArrayList<TIndividual> population = createInitialPopulation(populationSize, n);
+
+    // log
+    int logIndex = 0;
+    long noOfEvals = 0; // 評価回数を初期化
+    double bestEvaluationValue = getBestEvaluationValue(population);
+
+    putLogData(log, trialName, trialNo, logIndex, noOfEvals, bestEvaluationValue);
+    logIndex++;
 
     for (int evaluationCount = 0; evaluationCount < 4 * n * 10000; evaluationCount += 5 * n) {
       // step 2
@@ -209,12 +245,38 @@ public class RexJgg {
         population.set(i, children.get(i));
       }
 
+      // log
+      if (evaluationCount % (10 * 5 * n) == 0) {
+        noOfEvals = evaluationCount;
+        bestEvaluationValue = getBestEvaluationValue(population);
+        putLogData(log, trialName, trialNo, logIndex, noOfEvals, bestEvaluationValue);
+        logIndex++;
+      }
+
       // step 6
       if (isTerminated(population, evaluationCount)) {
         System.out.println(evaluationCount + "回の評価で終了");
         break;
       }
     }
+  }
 
+  public static void main(String[] args) throws IOException {
+    // step 1
+    final int n = 20;
+    final int populationSize = 14 * n;// 14n
+    final int maxTrial = 3;
+    final String trialName = "RexJggKTabletP14K5"; // 試行名
+    final String logFileName = "data/" + trialName + ".csv"; // ログファイル名
+
+    // log
+    TCTable log = new TCTable(); // ログテーブル
+
+    for (int trial = 0; trial < maxTrial; ++trial) {
+      System.out.println("Trial:" + trial);
+      executeOneTrial(populationSize, n, log, trialName, trial);
+    }
+
+    log.writeTo(logFileName); // 3試行分のログをファイルに出力．
   }
 }
