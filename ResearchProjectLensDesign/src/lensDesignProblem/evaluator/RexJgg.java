@@ -1,12 +1,13 @@
-package lensDesignProblem;
+package lensDesignProblem.evaluator;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-import lensDesignProblem.evaluator.TSMonochromeLensProblem;
+import lensDesignProblem.TVector;
 
-public class RexJgg {
+public class RexJgg implements Cloneable, Serializable {
   /*
    * レンズ系設計問題を REX/JGG で解く
    * ResearchProject02 のコードを参考にしている。
@@ -140,12 +141,67 @@ public class RexJgg {
     return children;
   }
 
+  /*
+   * 集団を更新するメソッド
+   */
+  private static void updatePopulation(ArrayList<TVector> population, ArrayList<TVector> children,
+      TSMonochromeLensProblem problem) {
+    // [0, n+1) が親個体である
+    // 親 -> 子供 に更新する
+
+    // 子供個体を今後使用することはないので破壊的にsortする
+    Collections.sort(children);
+
+    for (int i = 0; i < problem.getDimension() + 1; i++) {// 上位 n+1 個体で更新
+      population.set(i, children.get(i).clone());
+    }
+  }
+
+  /*
+   * 集団の中で最良の個体を返すメソッド
+   */
+  private static TVector getBestIndividual(ArrayList<TVector> population) {
+    TVector bestIndividual = population.get(0);
+    for (TVector individual : population) {
+      if (individual.compareTo(bestIndividual) < 0) {
+        bestIndividual = individual;
+      }
+    }
+    return bestIndividual;
+  }
+
   public static void main(String[] args) {
     // レンズ系設計問題のインスタンスを生成する
-    TSMonochromeLensProblem problem = source.clone();
-    // レンズ系設計問題を解く
-    problem.solve();
-    // レンズ系設計問題の解を表示する
-    problem.showSolution();
+    TSMonochromeLensProblem problem = new TSMonochromeLensProblem("a g a g a g a", 3.0, 100.0, 19.0,
+        0.0, 5.0, 0.0, 20.0, 10.0, 1000.0,
+        1.0, 1.0); // 固定焦点単色レンズ設計問題を生成している．
+
+    final int n = problem.getDimension(); // 次元数
+    final int populationSizeCandidates[] = { 7 * n, 10 * n, 15 * n, 20 * n, 30 * n, 50 * n, 100 * n };
+    final int childrenSizeCandidates[] = { 1 * n, 2 * n, 3 * n, 4 * n, 5 * n, 6 * n, 7 * n, 8 * n, 9 * n, 10 * n,
+        15 * n, 20 * n, 30 * n };
+    final int maxGeneration = 10000; // 最大世代数
+
+    for (int populationSize : populationSizeCandidates) {
+      for (int childSize : childrenSizeCandidates) {
+        if (childSize > populationSize) {
+          continue;
+        }
+        // 初期集団を生成する
+        ArrayList<TVector> population = generateInitialPopulation(populationSize, problem);
+        int generationCount = 0;
+        for (; generationCount < maxGeneration; generationCount++) {
+          // 集団から親を抽出する
+          ArrayList<TVector> parents = selectParents(population, problem);
+          // 親から子を生成する
+          ArrayList<TVector> children = generateChildren(parents, problem, childSize);
+          // 集団を更新する
+          updatePopulation(population, children, problem);
+          // 実行ログ
+          System.out.println(
+              "generation: " + generationCount + ", best: " + getBestIndividual(population).getEvaluationValue());
+        }
+      }
+    }
   }
 }
