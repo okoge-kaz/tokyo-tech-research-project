@@ -140,7 +140,7 @@ public class TSUndxMggM {
 		long maxEvals = (long) (4 * dimension * 1e4); // 打ち切り評価回数
 		int maxTrials = 3; // 試行数
 		String trialName = "UndxMggKTabletP14K5"; // 試行名
-		String logFilename = trialName + ".csv"; // ログファイル名
+		String logFilename = "data/report3" + trialName + ".csv"; // ログファイル名
 
 		ICRandom random = new TCJava48BitLcg(); // 乱数生成器
 		TSUndxMgg ga = new TSUndxMgg(minimization, dimension, populationSize, noOfKids, random); // UNDX+MGG

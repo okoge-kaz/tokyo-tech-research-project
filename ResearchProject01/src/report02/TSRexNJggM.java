@@ -140,7 +140,7 @@ public class TSRexNJggM {
 		long maxEvals = (long) (4 * dimension * 1e4); // 打ち切り評価回数
 		int maxTrials = 3; // 試行数
 		String trialName = "RexJggKTabletP14K5"; // 試行名
-		String logFilename = trialName + ".csv"; // ログファイル名
+		String logFilename = "data/report2/" + trialName + ".csv"; // ログファイル名
 
 		ICRandom random = new TCJava48BitLcg(); // 乱数生成器
 		TSRexNJgg ga = new TSRexNJgg(minimization, dimension, populationSize, noOfKids, random); // REX/JGG
