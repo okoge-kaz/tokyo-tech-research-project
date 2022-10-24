@@ -89,7 +89,7 @@ public class RexJgg {
         break;
       }
     }
-    assert (population.size() == populationSize);
+    assert (population.size() == populationSize);// check
 
     return population;
   }
