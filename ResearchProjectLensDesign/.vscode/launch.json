@@ -1,0 +1,119 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Launch Current File",
+      "request": "launch",
+      "mainClass": "${file}"
+    },
+    {
+      "type": "java",
+      "name": "Launch RexJgg",
+      "request": "launch",
+      "mainClass": "lensDesignProblem.RexJgg",
+      "projectName": "ResearchProjectLensDesign"
+    },
+    {
+      "type": "java",
+      "name": "Launch TCArrayMonochromeLensConverter",
+      "request": "launch",
+      "mainClass": "lensDesignProblem.evaluator.TCArrayMonochromeLensConverter",
+      "projectName": "ResearchProjectLensDesign"
+    },
+    {
+      "type": "java",
+      "name": "Launch TSMonochromeLensProblem",
+      "request": "launch",
+      "mainClass": "lensDesignProblem.evaluator.TSMonochromeLensProblem",
+      "projectName": "ResearchProjectLensDesign"
+    },
+    {
+      "type": "java",
+      "name": "Launch TLensEpsPlot",
+      "request": "launch",
+      "mainClass": "lensDesignProblem.plot.TLensEpsPlot",
+      "projectName": "ResearchProjectLensDesign"
+    },
+    {
+      "type": "java",
+      "name": "Launch TLensPlot",
+      "request": "launch",
+      "mainClass": "lensDesignProblem.plot.TLensPlot",
+      "projectName": "ResearchProjectLensDesign"
+    },
+    {
+      "type": "java",
+      "name": "Launch TEPSConstants",
+      "request": "launch",
+      "mainClass": "lensDesignProblem.plot.epsMaker.TEPSConstants",
+      "projectName": "ResearchProjectLensDesign"
+    },
+    {
+      "type": "java",
+      "name": "Launch TEPSMaker",
+      "request": "launch",
+      "mainClass": "lensDesignProblem.plot.epsMaker.TEPSMaker",
+      "projectName": "ResearchProjectLensDesign"
+    },
+    {
+      "type": "java",
+      "name": "Launch TRandom4LensSystemGeneratorEps",
+      "request": "launch",
+      "mainClass": "lensDesignProblem.sample.TRandom4LensSystemGeneratorEps",
+      "projectName": "ResearchProjectLensDesign"
+    },
+    {
+      "type": "java",
+      "name": "Launch TRandom4LensSystemGeneratorViewer",
+      "request": "launch",
+      "mainClass": "lensDesignProblem.sample.TRandom4LensSystemGeneratorViewer",
+      "projectName": "ResearchProjectLensDesign"
+    },
+    {
+      "type": "java",
+      "name": "Launch TChromaticLensMain",
+      "request": "launch",
+      "mainClass": "lensDesignProblem.simulator.TChromaticLensMain",
+      "projectName": "ResearchProjectLensDesign"
+    },
+    {
+      "type": "java",
+      "name": "Launch TEnforcementOperator",
+      "request": "launch",
+      "mainClass": "lensDesignProblem.simulator.TEnforcementOperator",
+      "projectName": "ResearchProjectLensDesign"
+    },
+    {
+      "type": "java",
+      "name": "Launch TGlassDatabase",
+      "request": "launch",
+      "mainClass": "lensDesignProblem.simulator.TGlassDatabase",
+      "projectName": "ResearchProjectLensDesign"
+    },
+    {
+      "type": "java",
+      "name": "Launch TLens",
+      "request": "launch",
+      "mainClass": "lensDesignProblem.simulator.TLens",
+      "projectName": "ResearchProjectLensDesign"
+    },
+    {
+      "type": "java",
+      "name": "Launch TMonochromeLensMain",
+      "request": "launch",
+      "mainClass": "lensDesignProblem.simulator.TMonochromeLensMain",
+      "projectName": "ResearchProjectLensDesign"
+    },
+    {
+      "type": "java",
+      "name": "Launch TTransformer",
+      "request": "launch",
+      "mainClass": "lensDesignProblem.simulator.TTransformer",
+      "projectName": "ResearchProjectLensDesign"
+    }
+  ]
+}
