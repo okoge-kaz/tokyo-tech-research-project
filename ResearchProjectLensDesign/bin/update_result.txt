@@ -1,0 +1,8 @@
+PopulationSize: 100 ChildSize: 20 Generation: 10000 Best Evaluation Score: 3.5466221435992
+PopulationSize: 100 ChildSize: 30 Generation: 10000 Best Evaluation Score: 1.948520163675324
+PopulationSize: 100 ChildSize: 40 Generation: 10000 Best Evaluation Score: 2.5822781758160116
+PopulationSize: 100 ChildSize: 50 Generation: 10000 Best Evaluation Score: 1.3203344433107915
+PopulationSize: 100 ChildSize: 60 Generation: 10000 Best Evaluation Score: 2.061733585845887
+PopulationSize: 100 ChildSize: 70 Generation: 10000 Best Evaluation Score: 2.5823404777232697
+PopulationSize: 100 ChildSize: 80 Generation: 10000 Best Evaluation Score: 1.4808918888069234
+PopulationSize: 100 ChildSize: 90 Generation: 10000 Best Evaluation Score: 1.4495342149096953

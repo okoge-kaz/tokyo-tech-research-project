@@ -40,3 +40,8 @@ PopulationSize: 300 ChildSize: 20 Generation: 10000 Best Evaluation Score: 19.15
 PopulationSize: 300 ChildSize: 30 Generation: 10000 Best Evaluation Score: 19.183699032395975
 PopulationSize: 300 ChildSize: 40 Generation: 10000 Best Evaluation Score: 19.183699032395975
 PopulationSize: 300 ChildSize: 50 Generation: 10000 Best Evaluation Score: 19.2195910848973
+PopulationSize: 300 ChildSize: 60 Generation: 10000 Best Evaluation Score: 19.159082568033885
+PopulationSize: 300 ChildSize: 70 Generation: 10000 Best Evaluation Score: 19.188247728728303
+PopulationSize: 300 ChildSize: 80 Generation: 10000 Best Evaluation Score: 19.188247728728303
+PopulationSize: 300 ChildSize: 90 Generation: 10000 Best Evaluation Score: 19.1774784224756
+PopulationSize: 300 ChildSize: 100 Generation: 10000 Best Evaluation Score: 19.1774784224756
