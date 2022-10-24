@@ -1,13 +1,12 @@
-package lensDesignProblem.evaluator;
+package lensDesignProblem;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-import lensDesignProblem.TVector;
+import lensDesignProblem.evaluator.TSMonochromeLensProblem;
 
-public class RexJgg implements Cloneable, Serializable {
+public class RexJgg {
   /*
    * レンズ系設計問題を REX/JGG で解く
    * ResearchProject02 のコードを参考にしている。
