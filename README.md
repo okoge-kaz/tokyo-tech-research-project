@@ -99,3 +99,45 @@ tokyo-tech-research-project/
   [参考記事](https://qiita.com/KuwaK/items/255de3454ea3327211d3)
 
   [ArrayList deepcopy](https://codechacha.com/ja/java-arraylist-deep-copy/)
+
+## Java コンパイル
+
+[Visual Studio Code Run and Debug Configurations](https://code.visualstudio.com/docs/java/java-debugging#_configuration-options)
+
+### `java.lang.ClassNotFoundException`
+
+このエラーは、`bin/`ディレクトリに`.class`ファイルが生成されていないことで発生するエラーである。
+
+以下のようすることで、エラーが解決できた。
+
+```zsh
+cd ResearchProjectLensDesign/src
+javac lensDesignProblem/RexJgg.java -d ../bin/
+```
+
+`-d ../bin/`により、bin/ に class ファイルを生成することができる。
+
+このオプションを渡さずに`javac`コマンドを安易に叩くと、src/ に class ファイルが生成されてしまう。
+また、このままでは Visual Studio Code の Debug の際に十分な情報が得られない。デバッグ情報を付加するには、以下のようにする
+
+```zsh
+javac lensDesignProblem/RexJgg.java -g -d ../bin/
+```
+
+詳しい Java Compile Optionについては、以下を参照
+
+[javac - Java](https://docs.oracle.com/javase/jp/1.5.0/tooldocs/windows/javac.html#:~:text=javac%20%E3%81%A7%E3%81%AF%E5%87%BA%E5%8A%9B%E5%85%88%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%88%E3%83%AA,%E3%82%AF%E3%83%A9%E3%82%B9%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E7%BD%AE%E3%81%8D%E3%81%BE%E3%81%99%E3%80%82)
+
+
+主なオプション
+
+- `-g`
+
+  局所変数を含むすべてのデバッグ情報を生成します。デフォルトでは、行番号およびソースファイル情報だけが生成されます。
+
+- `-d directory`
+
+  クラスファイルの出力先ディレクトリを設定します。出力先ディレクトリはあらかじめ用意されている必要があります。`javac` では出力先ディレクトリは作成されません。クラスがパッケージの一部である場合、`javac` は、必要に応じてディレクトリを作成し、パッケージ名を反映したサブディレクトリにクラスファイルを置きます。たとえば、-d c:\myclasses と指定した場合、クラスの名前が com.mypackage.MyClass であると、クラスファイルは c:\myclasses\com\mypackage\MyClass.class になります。
+  -d が指定されていない場合、javac は、ソースファイルと同じディレクトリにクラスファイルを置きます。
+
+  注: -d で指定したディレクトリはユーザクラスパスに自動的には追加されません。
