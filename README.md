@@ -8,18 +8,18 @@ Genetic Algorithm for non-linear optimization
 
 ## 実行環境 (Running Environment)
 
-研究プロジェクトでは、Eclipse を用いることが推奨されている。
+研究プロジェクトではEclipse を用いることが推奨されている。
 
-だが、Eclipse のショートカットと Visual Studio Code のショートカットが異なっており開発体験が悪いため、Visual Studio Code を用いることにした。
+だがEclipse のショートカットと Visual Studio Code のショートカットが異なっており開発体験が悪いため、Visual Studio Code を用いることにした。
 
 以下では、Visual Studio Code を用いた開発環境の構築方法を記す。
 
-まず、小野先生も指摘していたが、Visual Studio Code では複数プロジェクトを同時に開くことができない。（原則）
-そのため、ResearchProject01, ResearchProject02, ... のようにプロジェクトごとに別々の Visual Studio Code ワークスペースで開いて開発していた。
+まず小野先生も指摘していたが、Visual Studio Code では複数プロジェクトを同時に開くことができない。（原則）
+そのため、ResearchProject01, ResearchProject02, ... のようにプロジェクトごとに別々の Visual Studio Code ワークスペースで開いて開発を行う。
 
 上記のように、1-Java Project, 1-VSCode Workspace という構成にすれば、簡単に実行環境を用意することが可能である。
 
-私が導入して Java 関連のプラグインは以下の通りである。
+私が導入した Java 関連のプラグインは以下の通りである。
 
 ![](public/vscode-extensions.png)
 
