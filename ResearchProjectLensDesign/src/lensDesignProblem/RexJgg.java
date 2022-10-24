@@ -152,7 +152,7 @@ public class RexJgg {
     Collections.sort(children);
 
     for (int i = 0; i < problem.getDimension() + 1; i++) {// 上位 n+1 個体で更新
-      population.set(i, children.get(i).clone());
+      population.set(i, children.get(i).clone());// cloneしなくてもよい
     }
   }
 
@@ -175,10 +175,11 @@ public class RexJgg {
         0.0, 5.0, 0.0, 20.0, 10.0, 1000.0,
         1.0, 1.0); // 固定焦点単色レンズ設計問題を生成している．
 
+    System.err.println("Dimension: " + problem.getDimension());
+
     final int n = problem.getDimension(); // 次元数
-    final int populationSizeCandidates[] = { 7 * n, 10 * n, 15 * n, 20 * n, 30 * n, 50 * n, 100 * n };
-    final int childrenSizeCandidates[] = { 1 * n, 2 * n, 3 * n, 4 * n, 5 * n, 6 * n, 7 * n, 8 * n, 9 * n, 10 * n,
-        15 * n, 20 * n, 30 * n };
+    final int populationSizeCandidates[] = { 10 * n, 14 * n, 15 * n, 20 * n, 30 * n };
+    final int childrenSizeCandidates[] = { 2 * n, 3 * n, 4 * n, 5 * n, 6 * n, 7 * n, 8 * n, 9 * n, 10 * n, 15 * n };
     final int maxGeneration = 10000; // 最大世代数
 
     for (int populationSize : populationSizeCandidates) {
@@ -197,9 +198,13 @@ public class RexJgg {
           // 集団を更新する
           updatePopulation(population, children, problem);
           // 実行ログ
-          System.out.println(
-              "generation: " + generationCount + ", best: " + getBestIndividual(population).getEvaluationValue());
+          if (generationCount % 100 == 0) {
+            System.err.println(
+                "Generation: " + generationCount + " Best : " + getBestIndividual(population).getEvaluationValue());
+          }
         }
+        System.out.println("PopulationSize: " + populationSize + " ChildSize: " + childSize + " Generation: "
+            + generationCount + " Best Evaluation Score: " + getBestIndividual(population).getEvaluationValue());
       }
     }
   }
