@@ -141,3 +141,35 @@ javac lensDesignProblem/RexJgg.java -g -d ../bin/
   -d が指定されていない場合、javac は、ソースファイルと同じディレクトリにクラスファイルを置きます。
 
   注: -d で指定したディレクトリはユーザクラスパスに自動的には追加されません。
+
+
+## Java Utils
+
+### `java.util.ArrayList`
+
+`ArrayList`の要素が参照型の場合、意図せぬ参照が発生することがある。要素の型に`.clone()`メソッドがある場合は、それを用いることで、意図せぬ参照を防ぐことができる。
+
+```java
+List<Student> deepCopyList = new ArrayList<>();
+for (Student student : origList) {
+    deepCopyList.add((Student) student.clone());
+}
+```
+のように、要素１つ１つに対して`.clone()`を用いる方法が最も確実である。
+
+
+[参考Link](https://codechacha.com/ja/java-arraylist-deep-copy/)に詳しい挙動があるが、shallow copyになっていると予期せぬ変更が行われる。デバッガを用いないと特定が困難なものが多いため、注意が必要である。
+
+### `compareTo` method
+
+[参考 記事](https://camp.trainocate.co.jp/magazine/java-compareto-date-text/)
+
+
+
+### `java.random`
+
+[参考 oracle](https://docs.oracle.com/javase/jp/6/api/java/util/Random.html)
+
+今回のプロジェクトでは、一様乱数 (random.nextDouble()) や、正規分布乱数 (random.nextGaussian()) を用いた。
+
+
