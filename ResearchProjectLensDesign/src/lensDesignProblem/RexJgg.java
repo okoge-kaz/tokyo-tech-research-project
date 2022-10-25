@@ -27,9 +27,11 @@ public class RexJgg {
 
     assert (evaluationValue == individual.getEvaluationValue());
 
-    if (evaluationValue == Double.MAX_VALUE) {
-      return false;
+    if (evaluationValue < Double.MAX_VALUE) {// 実行可能解ではないときは Double>MAX_VALUE が返ることより
+      return true;
     }
+    return false;
+  }
     return true;
   }
 
