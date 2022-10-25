@@ -34,3 +34,4 @@ PopulationSize: 200 ChildSize: 60 Generation: 10000 Best Evaluation Score: 1.449
 PopulationSize: 200 ChildSize: 70 Generation: 10000 Best Evaluation Score: 1.3156019631959033
 PopulationSize: 200 ChildSize: 80 Generation: 10000 Best Evaluation Score: 1.3155973460742099
 PopulationSize: 200 ChildSize: 90 Generation: 10000 Best Evaluation Score: 2.582270310490859
+PopulationSize: 200 ChildSize: 100 Generation: 10000 Best Evaluation Score: 1.320061303349267
