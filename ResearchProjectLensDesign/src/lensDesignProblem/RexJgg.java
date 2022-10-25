@@ -39,7 +39,7 @@ public class RexJgg {
    * <y> = (1/n) * Σy
    */
   private static double[] calcAverageVector(final ArrayList<TVector> parents) {
-    final int dimension = parents.get(0).getVector().length;
+    final int dimension = parents.get(0).getVector().length;// 値を取得していないので参照型の問題は起きない
     double[] averageVector = new double[dimension];
 
     for (TVector individual : parents) {
