@@ -16,7 +16,7 @@ public class RexJgg {
    * 実行可能な TSMonochromeLensProblem が 所定の個数存在するか判定する
    */
   private static boolean isEnoughSize(ArrayList<TVector> population, int size) {
-    assert(population.size() <= size);// 所定の個数より多い場合はエラー
+    assert (population.size() <= size);// 所定の個数より多い場合はエラー
     return population.size() >= size;
   }
 
