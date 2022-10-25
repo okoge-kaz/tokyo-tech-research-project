@@ -32,8 +32,6 @@ public class RexJgg {
     }
     return false;
   }
-    return true;
-  }
 
   /*
    * 平均ベクトルを計算する
