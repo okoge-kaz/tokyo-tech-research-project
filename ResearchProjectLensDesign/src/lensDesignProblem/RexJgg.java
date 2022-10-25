@@ -172,10 +172,10 @@ public class RexJgg {
    * 集団の中で最良の個体を返すメソッド
    */
   private static TVector getBestIndividual(ArrayList<TVector> population) {
-    TVector bestIndividual = population.get(0);
+    TVector bestIndividual = population.get(0).clone();
     for (TVector individual : population) {
       if (individual.compareTo(bestIndividual) < 0) {
-        bestIndividual = individual;
+        bestIndividual = individual.clone();
       }
     }
     return bestIndividual;
