@@ -43,7 +43,7 @@ public class RexJgg {
 
     for (TVector individual : parents) {
       for (int i = 0; i < dimension; i++) {
-        averageVector[i] += individual.getElement(i);
+        averageVector[i] += individual.getElement(i);// double なので参照の恐れはない
       }
     }
     for (int i = 0; i < dimension; i++) {
