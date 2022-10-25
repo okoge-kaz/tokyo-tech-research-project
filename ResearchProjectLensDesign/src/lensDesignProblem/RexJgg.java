@@ -123,25 +123,32 @@ public class RexJgg {
     // そのため、実行可能な解が生成されるまでループする
 
     ArrayList<TVector> children = new ArrayList<TVector>();
-    for (int i = 0; i < childrenSize; i++) {
+    while (true) {
       TVector child = new TVector(n);
       // 計算処理 start
       double[] averageVector = calcAverageVector(parents);
       child.add(averageVector, problem);// <y>
+
       for (int j = 0; j < n + 1; j++) {
         double sigma = random.nextGaussian() * Math.sqrt(1.0 / n);
-        child = child.add((parents.get(j).subtract(averageVector, problem)).scalarProduct(sigma, problem), problem);
+        child.add((parents.get(j).clone().subtract(averageVector, problem)).scalarProduct(sigma, problem), problem);
         // <y> + (Σ(y - <y>) * sigma)
-
-        // assert check
-        assert (child.getDimension() == n);
-        assert (child.getVector().length == n);
-        assert (child.getEvaluationValue() == problem.evaluate(child.getVector()));
       }
-      // end
-      children.add(child);
+
+      child.setEvaluationValue(problem.evaluate(child.getVector()));
+
+      // 実行可能かどうかを判定
+      if (isRunnable(problem, child)) {
+        // 実行可能ならば children に追加
+        children.add(child);
+      }
+      // 終了判定
+      if (isEnoughSize(children, childrenSize)) {
+        break;
+      }
     }
-    assert (children.size() == childrenSize);
+    assert (children.size() == childrenSize);// check
+
     return children;
   }
 
