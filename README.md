@@ -142,6 +142,11 @@ javac lensDesignProblem/RexJgg.java -g -d ../bin/
 
   注: -d で指定したディレクトリはユーザクラスパスに自動的には追加されません。
 
+### Java の package と import について
+
+[参考記事: いまさら聞けないjavaのpackageとimport](https://yamshing.hatenablog.com/entry/2016/09/14/211521)
+
+
 
 ## Java Utils
 
