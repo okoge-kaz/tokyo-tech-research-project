@@ -118,6 +118,9 @@ public class RexJgg {
     Random random = new Random();
     final int n = problem.getDimension();
 
+    // 通常のベクトル演算だと実行不可能な解が生成されうる
+    // そのため、実行可能な解が生成されるまでループする
+
     ArrayList<TVector> children = new ArrayList<TVector>();
     for (int i = 0; i < childrenSize; i++) {
       TVector child = new TVector(n);
