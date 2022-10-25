@@ -20,3 +20,4 @@ PopulationSize: 150 ChildSize: 20 Generation: 10000 Best Evaluation Score: 3.219
 PopulationSize: 150 ChildSize: 30 Generation: 10000 Best Evaluation Score: 1.3496655068745178
 PopulationSize: 150 ChildSize: 40 Generation: 10000 Best Evaluation Score: 1.3156042650426039
 PopulationSize: 150 ChildSize: 50 Generation: 10000 Best Evaluation Score: 1.8945480667843357
+PopulationSize: 150 ChildSize: 60 Generation: 10000 Best Evaluation Score: 1.449697234864223
