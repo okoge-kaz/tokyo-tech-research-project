@@ -210,7 +210,7 @@ public class RexJgg {
           // 集団を更新する
           updatePopulation(population, children, problem);
           // 実行ログ
-          if (generationCount % 100 == 0) {
+          if (generationCount % 10 == 0) {
             System.err.println(
                 "Generation: " + generationCount + " Best : " + getBestIndividual(population).getEvaluationValue());
           }
