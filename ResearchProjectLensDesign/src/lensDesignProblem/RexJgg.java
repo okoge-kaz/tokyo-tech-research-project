@@ -196,9 +196,6 @@ public class RexJgg {
 
     for (int populationSize : populationSizeCandidates) {
       for (int childSize : childrenSizeCandidates) {
-        if (childSize > populationSize) {
-          continue;
-        }
         // 初期集団を生成する
         ArrayList<TVector> population = generateInitialPopulation(populationSize, problem);
         int generationCount = 0;
