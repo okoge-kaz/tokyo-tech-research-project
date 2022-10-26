@@ -211,7 +211,7 @@ public class TSMonochromeLensProblem implements Cloneable, Serializable {
 			}
 		}
 		// 以下，レンズ系の表示．
-		TLensPlot plot = new TLensPlot(problem.getLens(), "Eval:" + eval);
+		TLensPlot plot = new TLensPlot(problem.getLens(), "Eval:" + 1.3155973460742414);
 		JFrame frame = new JFrame("TGSample Test");
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setSize(500, 300);

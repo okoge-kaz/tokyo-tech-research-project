@@ -190,8 +190,8 @@ public class RexJgg {
     System.err.println("Dimension: " + problem.getDimension());
 
     final int n = problem.getDimension(); // 次元数
-    final int populationSizeCandidates[] = { 10 * n, 14 * n, 15 * n, 20 * n, 30 * n };
-    final int childrenSizeCandidates[] = { 2 * n, 3 * n, 4 * n, 5 * n, 6 * n, 7 * n, 8 * n, 9 * n, 10 * n, 15 * n };
+    final int populationSizeCandidates[] = { 28 * n, 30 * n };
+    final int childrenSizeCandidates[] = { 20 * n, 30 * n, 40 * n, 50 * n, 60 * n, 70 * n, 80 * n, 90 * n, 100 * n };
     final int maxGeneration = 10000; // 最大世代数
 
     for (int populationSize : populationSizeCandidates) {
