@@ -1,0 +1,10 @@
+PopulationSize: 150 ChildSize: 50 Generation: 10000 Best Evaluation Score: 1.8945491321678865
+PopulationSize: 150 ChildSize: 60 Generation: 10000 Best Evaluation Score: 1.4809316823123873
+PopulationSize: 150 ChildSize: 70 Generation: 10000 Best Evaluation Score: 1.315722871773044
+PopulationSize: 150 ChildSize: 80 Generation: 10000 Best Evaluation Score: 2.0379481528617815
+PopulationSize: 150 ChildSize: 90 Generation: 10000 Best Evaluation Score: 1.4495328188209262
+PopulationSize: 150 ChildSize: 100 Generation: 10000 Best Evaluation Score: 1.480878142729218
+PopulationSize: 150 ChildSize: 150 Generation: 10000 Best Evaluation Score: 1.3203778797006245
+PopulationSize: 150 ChildSize: 200 Generation: 10000 Best Evaluation Score: 1.3156227093123742
+PopulationSize: 150 ChildSize: 230 Generation: 10000 Best Evaluation Score: 1.315597346074197
+PopulationSize: 150 ChildSize: 260 Generation: 10000 Best Evaluation Score: 1.4495305378477275

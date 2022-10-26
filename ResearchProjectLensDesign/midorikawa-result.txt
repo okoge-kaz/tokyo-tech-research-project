@@ -1,0 +1,4 @@
+PopulationSize: 280 ChildSize: 200 Generation: 10000 Best Evaluation Score: 1.6952399988714515
+PopulationSize: 280 ChildSize: 300 Generation: 10000 Best Evaluation Score: 1.3156019631958915
+PopulationSize: 280 ChildSize: 400 Generation: 10000 Best Evaluation Score: 1.4412037955499901
+PopulationSize: 280 ChildSize: 500 Generation: 10000 Best Evaluation Score: 1.315597346074187

@@ -21,3 +21,19 @@ PopulationSize: 150 ChildSize: 30 Generation: 10000 Best Evaluation Score: 1.349
 PopulationSize: 150 ChildSize: 40 Generation: 10000 Best Evaluation Score: 1.3156042650426039
 PopulationSize: 150 ChildSize: 50 Generation: 10000 Best Evaluation Score: 1.8945480667843357
 PopulationSize: 150 ChildSize: 60 Generation: 10000 Best Evaluation Score: 1.449697234864223
+PopulationSize: 100 ChildSize: 20 Generation: 10000 Best Evaluation Score: 4.654082992420001
+PopulationSize: 100 ChildSize: 30 Generation: 10000 Best Evaluation Score: 1.4920560849554274
+
+PopulationSize: 150 ChildSize: 20 Generation: 10000 Best Evaluation Score: 3.0674086753862535
+PopulationSize: 150 ChildSize: 30 Generation: 10000 Best Evaluation Score: 1.4496270401485134
+PopulationSize: 150 ChildSize: 40 Generation: 10000 Best Evaluation Score: 2.5823066562506822
+PopulationSize: 150 ChildSize: 50 Generation: 10000 Best Evaluation Score: 2.582289668985414
+PopulationSize: 150 ChildSize: 60 Generation: 10000 Best Evaluation Score: 1.3193819928161767
+PopulationSize: 150 ChildSize: 70 Generation: 10000 Best Evaluation Score: 1.6952469710577516
+PopulationSize: 150 ChildSize: 80 Generation: 10000 Best Evaluation Score: 1.3156956888728333
+PopulationSize: 150 ChildSize: 90 Generation: 10000 Best Evaluation Score: 1.4495442670197562
+PopulationSize: 150 ChildSize: 100 Generation: 10000 Best Evaluation Score: 1.449529426304193
+PopulationSize: 150 ChildSize: 150 Generation: 10000 Best Evaluation Score: 1.480865903863592
+PopulationSize: 150 ChildSize: 200 Generation: 10000 Best Evaluation Score: 1.480869869020031
+PopulationSize: 150 ChildSize: 230 Generation: 10000 Best Evaluation Score: 1.3155973460741919
+PopulationSize: 150 ChildSize: 260 Generation: 10000 Best Evaluation Score: 1.4808801048868765
